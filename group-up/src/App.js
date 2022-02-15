@@ -4,7 +4,7 @@ import { Routes ,Route } from 'react-router-dom'
 //import { Switch } from 'react-router-dom'
 
 import './App.css';
-import login1 from './pages/login/login.jsx';
+import login from './pages/login/login.jsx';
 
 
 const loginPage = () => (
@@ -25,7 +25,7 @@ class App extends React.Component {
     <div className="App">
       <Routes> 
       <Route exact path='/pants' element={PantsPage} />
-      <Route path='/' element={login1} />
+      <Route path='/' element={login} />
       </Routes>
     </div>
   );
