@@ -1,7 +1,6 @@
 import React from 'react';
 import { Routes ,Route,  BrowserRouter } from 'react-router-dom';
 import history from './components/history.js';
-import { Button } from 'react-bootstrap';
 
 
 
@@ -17,12 +16,6 @@ import './App.css';
 
 function App() {
   return (
-    <><div className="Home-main">
-      <h1>Link to Home Page</h1>
-      <button onClick={() => history.push('/')}
-        className="Home-button">View home</button>
-    </div><div className="App">
-
         <BrowserRouter>
           <Routes>
             <Route exact path="/login" element={<Login />} />
@@ -33,7 +26,6 @@ function App() {
             <Route path="/matches" element={<Matches />} />
           </Routes>
         </BrowserRouter>
-      </div></>
   );
 }
   
