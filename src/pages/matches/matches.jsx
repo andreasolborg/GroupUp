@@ -11,16 +11,6 @@ import PersonPinIcon from '@mui/icons-material/PersonPin';
 import './matches.css';
 //import Directory from '../../components/directory/directory.component';
 
-/*const Matches = () => {
-    return (
-<div className='matches'>
-<h1>HEI HEI MATCHES </h1>
-</div>
-)};
-console.log("SUIII");
-export default Matches;*/
-
-
 
 export default function IconTabs() {
   const [value, setValue] = React.useState(0);

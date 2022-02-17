@@ -2,11 +2,7 @@ import React from "react";
 
 import "./user.css";
 import Button from "@mui/material/Button";
-import stringAvatar from "@material-ui/core/Avatar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { Avatar } from "@mui/material";
-import { Link } from "react-router-dom";
-import TextField from "@material-ui/core/TextField";
 
 const User = () => {
     return (
