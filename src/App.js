@@ -7,9 +7,9 @@ import Login from './pages/login/login';
 import User from './pages/user/user';
 import Homepage from './pages/homepage/homepage';
 import Chat from './pages/chat/chat';
-import Register from './pages/register/register';
 import Matches from './pages/matches/matches';
 import Navbar from './components/navbar.jsx';
+import SignUp from './pages/signUp/signUp';
 
 
 
@@ -22,9 +22,9 @@ function App() {
             <Route path="/user" element={<User />} />
             <Route path="/home" element={<Homepage />} />
             <Route path="/chat" element={<Chat />} />
-            <Route path="/register" element={<Register />} />
             <Route path="/matches" element={<Matches />} />
             <Route path="/navbar" element={<Navbar />} />
+            <Route path="/signUp" element={<SignUp />} />
           </Routes>
         </BrowserRouter>
   );
