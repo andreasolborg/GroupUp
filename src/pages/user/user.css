@@ -1,0 +1,57 @@
+body{
+    background-color:#E5E5E5;
+}
+
+.user{
+    background-color: #FCFDFD;
+    border-radius: 5%;
+    margin: 3% 10%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: 'Archivo', sans-serif;
+}
+
+h1{
+    font-family: 'Archivo', sans-serif;    
+}
+
+.username{
+    text-align: center;
+    padding:2% 0% 0% 0%;
+}
+
+.avatar{
+    padding: 0% 0%;
+    display:block;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.interests{
+    background-color: #DDEEF5;
+    margin: 5% 8%;
+    padding: 3%;
+    border-radius: 3%;
+}
+.myInterests{
+    display: inline;
+}
+.myInterests>p{
+    display: inline;
+    padding: 0% 5%;
+}
+.newInterest{
+    position: relative;
+    display: inline;
+    text-align: center;
+}
+#btnSend{
+padding: 2%;
+margin: 3%;
+height: 3%;
+}
+#btnLogOut{
+    margin: 3%;
+}
