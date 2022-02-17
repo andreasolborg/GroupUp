@@ -10,7 +10,6 @@ import Chat from './pages/chat/chat';
 import Register from './pages/register/register';
 import Matches from './pages/matches/matches';
 import Navbar from './components/navbar.jsx';
-import './App.css';
 
 
 
