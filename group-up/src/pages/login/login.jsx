@@ -1,7 +1,6 @@
 import React from 'react';
 
 import './login.css';
-//import Directory from '../../components/directory/directory.component';
 
 const Login = () => {
     return (
