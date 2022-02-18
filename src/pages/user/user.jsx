@@ -1,10 +1,19 @@
 import React from "react";
+import { useState } from "react";
 
 import "./user.css";
 import Button from "@mui/material/Button";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { auth } from "../../firebase-config";
+import { signOut, onAuthStateChanged } from "firebase/auth";
 
-const User = () => {
+export default function User() {
+    
+    const logout = async () => {
+        console.log("test")
+        await signOut(auth);
+    };
+
     return (
         <div className="user">
             <h1 className="username"> Karan Singh Sandhu</h1>
@@ -26,34 +35,23 @@ const User = () => {
                 <div className="newInterest">
                     <div>
                         <p>new Interest:</p>
-                        <input id="" type="text" class="validate" />
+                        <input id="" type="text" />
                     </div>
                     <div>
                         <p>Change with:</p>
-                        <input id="" type="text" class="validate" />
+                        <input id="" type="text" />
                     </div>
                     </div>
 
-                    <Button variant="contained" id="btnSend">
+                    <Button variant="contained" id="btnSend" >
                         CHANGE
                     </Button>
                     
             </div>
 
-            <Button variant="contained" id="btnLogOut">
+            <Button variant="contained" id="btnLogOut" onClick={logout}>
                 Log out
             </Button>
         </div>
     );
 };
-
-/* 
-<Link to="./user"> </Link>
-
-
-<Avatar variant='circular'
-sx={{ width: 54, height: 54 }}
->H</Avatar>
- */
-
-export default User;
