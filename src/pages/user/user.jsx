@@ -9,6 +9,13 @@ import { signOut, onAuthStateChanged } from "firebase/auth";
 
 export default function User() {
     
+
+    const [user, setUser] = useState({});
+
+    onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
     const logout = async () => {
         console.log("test")
         await signOut(auth);
@@ -16,7 +23,7 @@ export default function User() {
 
     return (
         <div className="user">
-            <h1 className="username"> Karan Singh Sandhu</h1>
+            <h1 className="username">{user?.email}</h1>
 
             <AccountCircleIcon
                 className="avatar"

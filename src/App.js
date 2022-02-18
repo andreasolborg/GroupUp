@@ -3,13 +3,13 @@ import { Routes ,Route,  BrowserRouter } from 'react-router-dom';
 import history from './components/history.js';
 
 
-import Login from './pages/login/Login';
+import Login from './pages/login/login';
 import User from './pages/user/user.jsx';
 import Homepage from './pages/homepage/homepage';
 import Chat from './pages/chat/chat';
 import Matches from './pages/matches/matches';
 import Navbar from './components/navbar.jsx';
-import SignUp from './pages/signUp/SignUp';
+import SignUp from './pages/signUp/signUp';
 
 
 

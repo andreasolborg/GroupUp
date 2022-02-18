@@ -20,12 +20,6 @@ const theme = createTheme();
 
 export default function Login() {
 
-  const [user, setUser] = useState({});
-
-  onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser);
-  });
-
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
@@ -104,7 +98,6 @@ export default function Login() {
             </Grid>
           </Box>
         </Box>
-        {user?.email}
       </Container>
     </ThemeProvider>
   );
