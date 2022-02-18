@@ -19,22 +19,15 @@ import { createUserWithEmailAndPassword, onAuthStateChanged, updateCurrentUser }
 
 export default function SignUp() {
 
-  const [user, setUser] = useState({});
-
   const theme = createTheme();
-
-  onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser);
-  })
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       const data = new FormData(event.currentTarget);
-      const user = await createUserWithEmailAndPassword(
+      await createUserWithEmailAndPassword(
         auth, data.get("email"), data.get("password")
       );
-      console.log(user);
     } catch (error) {
       console.log(error.message);
     }
