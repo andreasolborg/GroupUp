@@ -3,10 +3,12 @@ import React from "react";
 import "./user.css";
 import Button from "@mui/material/Button";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import Navbar from "../../components/navbar";
 
 const User = () => {
     return (
         <div className="user">
+            <Navbar></Navbar>
             <h1 className="username"> Karan Singh Sandhu</h1>
 
             <AccountCircleIcon
