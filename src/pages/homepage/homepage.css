@@ -11,6 +11,10 @@ body{
     height: 700px;
 }
 
+.cardGroup{
+    align-items: center;
+    width: 400px;
+}
 
 .group{
     background-color: #DDEEF5;
