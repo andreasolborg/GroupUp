@@ -1,30 +1,24 @@
 import React from "react";
+import Navbar from "../../components/navbar";
+import "./homepage.css";
+import pic from "./Climbing.png"
+import { Button } from "@material-ui/core";
 
-function Homepage() {
-  return (
-    <div className="homepage">
-      <div class="container">
-        <div class="row align-items-center my-5">
-          <div class="col-lg-7">
-            <img
-              class="img-fluid rounded mb-4 mb-lg-0"
-              src="http://placehold.it/900x400"
-              alt=""
-            />
-          </div>
-          <div class="col-lg-5">
-            <h1 class="font-weight-light">homepage</h1>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book.
-            </p>
-          </div>
+const Homepage = () => {
+    return (
+        <div className="homepage">
+            <Navbar className="navbar"></Navbar>
+            <div className="group">
+                    <h1>Interest</h1>
+                    <img source={pic} alt="pic"/>
+                    <Button className="button" variant="outlined">Match</Button>
+                    <div className="info">
+                        <p>Interest: </p>
+                        <p>Age: </p>
+                        <p>Meeting time: </p>
+                    </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
-}
-
+    );
+};
 export default Homepage;
