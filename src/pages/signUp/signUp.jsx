@@ -16,6 +16,10 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { auth } from "../../firebase-config";
 import { createUserWithEmailAndPassword, onAuthStateChanged, updateCurrentUser } from "firebase/auth";
 import { NavLink } from 'react-router-dom';
+import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer } from 'firebase/firestore'
+import { db } from "../../firebase-config";
+
+
 
 
 export default function SignUp() {
@@ -29,10 +33,30 @@ export default function SignUp() {
       await createUserWithEmailAndPassword(
         auth, data.get("email"), data.get("password")
       );
+      storeUser(
+       data.get("firstName"),
+       data.get("lastName"),
+       44,
+       data.get("email"),
+      );
     } catch (error) {
       console.log(error.message);
     }
   };
+
+  const storeUser = async (firstName, lastName, age, mail) => {
+    await setDoc(doc(db, "profile", mail), {
+      testName: firstName,
+      testLastname: lastName,
+      testAge: age,
+      interest: ["Formel1"]
+      });
+  }
+
+  const listProfiles = async () => {
+
+  }
+  
 
   return (
     <ThemeProvider theme={theme}>

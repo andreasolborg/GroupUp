@@ -1,15 +1,35 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import "./user.css";
 import Button from "@mui/material/Button";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { auth, db } from "../../firebase-config";
-import { signOut, onAuthStateChanged } from "firebase/auth";
+import { signOut, onAuthStateChanged, deleteUser } from "firebase/auth";
+import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer } from 'firebase/firestore'
+
 
 export default function User() {
 
+    const profileCollectionReference = collection(db, "profile");
+    const [profiles, setProfiles] = useState([]);
     const [user, setUser] = useState({});
+    
+
+    useEffect(() => {
+        const getProfiles = async () => {
+          const data = await getDocs(profileCollectionReference);
+          setProfiles(data.docs.map((doc) => ({...doc.data(), id: doc.id})))
+          data.forEach((t) => {
+              console.log(t.id);
+              console.log(t.data());
+              console.log(t.data().testAge);
+          })
+        };
+        getProfiles();
+      }, []); 
+
+
 
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -19,6 +39,15 @@ export default function User() {
         console.log("test")
         await signOut(auth);
     };
+
+    const deleteUser = async () => {
+        await deleteDoc(doc(db, "profile", user.email));
+        auth.currentUser.delete().then(() => {
+            logout();
+        }).catch((error) =>{
+            console.log("Error in deletion");
+        });
+    }
 
     return (
         <div className="user">
@@ -58,6 +87,9 @@ export default function User() {
             <Button variant="contained" id="btnLogOut" onClick={logout}>
                 Log out
             </Button>
+            <Button variant="contained" id="btnLogOut" onClick={deleteUser}>
+                Delete User
+            </Button> 
         </div>
     );
 };
