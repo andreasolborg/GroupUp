@@ -16,6 +16,11 @@ body{
     width: 400px;
 }
 
+.filterBar{
+    width: 100%;
+    align-items: center;
+}
+
 .group{
     background-color: #DDEEF5;
     text-align: center;
