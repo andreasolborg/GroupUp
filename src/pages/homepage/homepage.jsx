@@ -1,30 +1,44 @@
 import React from "react";
+import Navbar from "../../components/navbar";
+import "./homepage.css";
+import Card from "../../components/profileCard"
+import Grid from "@mui/material/Grid";
+import { makeStyles } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
+
+const useStyles = makeStyles( {
+    gridContainer: {
+        paddingTop: '16%',
+        paddingLeft: '35%', 
+    }
+})
+
+
 
 function Homepage() {
-  return (
-    <div className="homepage">
-      <div class="container">
-        <div class="row align-items-center my-5">
-          <div class="col-lg-7">
-            <img
-              class="img-fluid rounded mb-4 mb-lg-0"
-              src="http://placehold.it/900x400"
-              alt=""
-            />
-          </div>
-          <div class="col-lg-5">
-            <h1 class="font-weight-light">homepage</h1>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book.
-            </p>
-          </div>
+    const classes = useStyles();
+    return (
+        <div className="homepage">
+            <Navbar className="navbar"></Navbar>
+            <div className="filterBar">
+                <Grid container spacing={3}>
+                    <Grid item xs>
+                        <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                    </Grid>
+                    <Grid item xs>
+                        <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                    </Grid>
+                </Grid>
+            </div>
+            <Grid container spacing = {4} className={classes.gridContainer} >
+                <Grid item xs={12} sm={6} md={4}>
+                    <Card/>
+                </Grid>
+            </Grid>
         </div>
-      </div>
-    </div>
-  );
-}
-
+    );
+};
 export default Homepage;
