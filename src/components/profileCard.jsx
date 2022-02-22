@@ -5,7 +5,6 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import makeStyles from "@material-ui/core/styles"
 import CardMedia from '@mui/material/CardMedia';
 
 
@@ -27,17 +26,17 @@ const card = (
         alt="activity"
       />
     <CardContent>
-      <Typography sx={{ fontSize: 18 }} color="text.secondary" gutterBottom>
-        match.name
+    <Typography variant="h5" component="div">
+        Interest
       </Typography>
-      <Typography variant="h5" component="div">
-        match.activity
+      <Typography sx={{ mb: 1.5 }} color="text.secondary" gutterBottom>
+        Location
       </Typography>
       <Typography sx={{ mb: 1.5 }} color="text.secondary">
-        match.location
+        Meeting time
       </Typography>
-      <Typography variant="body2">
-        You matched on match.matchDate
+      <Typography sx={{ mb: 1.5 }} color="text.secondary">
+        Age group
       </Typography>
     </CardContent>
     <CardActions>
@@ -48,7 +47,7 @@ const card = (
 
 export default function OutlinedCard() {
   return (
-    <Box sx={{ minWidth: 275 }}>
+    <Box sx={{ minWidth: 400 }}>
       <Card variant="outlined">{card}</Card>
     </Box>
   );
