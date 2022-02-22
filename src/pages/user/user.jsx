@@ -4,11 +4,10 @@ import { useState } from "react";
 import "./user.css";
 import Button from "@mui/material/Button";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { auth } from "../../firebase-config";
+import { auth, db } from "../../firebase-config";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 
 export default function User() {
-    
 
     const [user, setUser] = useState({});
 
