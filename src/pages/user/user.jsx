@@ -7,6 +7,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { auth, db } from "../../firebase-config";
 import { signOut, onAuthStateChanged, deleteUser } from "firebase/auth";
 import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer } from 'firebase/firestore'
+import { useNavigate } from "react-router-dom";
 
 
 export default function User() {
@@ -14,6 +15,8 @@ export default function User() {
     const profileCollectionReference = collection(db, "profile");
     const [profiles, setProfiles] = useState([]);
     const [user, setUser] = useState({});
+    
+    const navi = useNavigate();
     
 
     useEffect(() => {
@@ -47,6 +50,14 @@ export default function User() {
         }).catch((error) =>{
             console.log("Error in deletion");
         });
+    }
+
+    const goToGroups = () => {
+        navi("/groups");
+    }
+
+    const goToMyGroups = () => {
+        navi("/mygroups");
     }
 
     return (
@@ -89,6 +100,12 @@ export default function User() {
             </Button>
             <Button variant="contained" id="btnLogOut" onClick={deleteUser}>
                 Delete User
+            </Button> 
+            <Button variant="contained" id="btnLogOut" onClick={goToGroups}>
+                Go to groups
+            </Button> 
+            <Button variant="contained" id="btnLogOut" onClick={goToMyGroups}>
+                View my groups
             </Button> 
         </div>
     );
