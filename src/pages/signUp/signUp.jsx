@@ -1,12 +1,11 @@
 import * as React from 'react';
-import { useState } from "react";
+import { useEffect } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -15,8 +14,8 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { auth } from "../../firebase-config";
 import { createUserWithEmailAndPassword, onAuthStateChanged, updateCurrentUser } from "firebase/auth";
-import { NavLink } from 'react-router-dom';
-import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer } from 'firebase/firestore'
+import { NavLink, useNavigate } from 'react-router-dom';
+import { doc, setDoc } from 'firebase/firestore'
 import { db } from "../../firebase-config";
 
 
@@ -25,6 +24,18 @@ import { db } from "../../firebase-config";
 export default function SignUp() {
 
   const theme = createTheme();
+  const nav = useNavigate();
+
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (currentUser) => {
+        if (currentUser) {
+            console.log(auth.currentUser);
+            nav("/user");
+        }
+    });
+  }, []); 
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();

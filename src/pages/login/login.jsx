@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from "react";
+import { useEffect } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,17 +15,19 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { auth } from "../../firebase-config";
 import {onAuthStateChanged, signInWithEmailAndPassword} from "firebase/auth";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 const theme = createTheme();
 
 export default function Login() {
+  
+  const nav = useNavigate();
 
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
       const data = new FormData(event.currentTarget);
-      const user = await signInWithEmailAndPassword(
+      await signInWithEmailAndPassword(
         auth, data.get("email"), data.get("password")
       );
       
@@ -33,6 +35,16 @@ export default function Login() {
       console.log(error.message);
     }
   };
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (currentUser) => {
+        if (currentUser) {
+            console.log(auth.currentUser);
+            nav("/user");
+        }
+    });
+}, []); 
+
 
   return (
     <ThemeProvider theme={theme}>
