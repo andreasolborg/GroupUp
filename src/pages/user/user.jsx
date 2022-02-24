@@ -37,7 +37,8 @@ export default function User() {
     
         onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
-            if (!auth.currentUser) {
+
+            if (!currentUser) {
                 console.log(auth.currentUser);
                 nav("/");
             }
