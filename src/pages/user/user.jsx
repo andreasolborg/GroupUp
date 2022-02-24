@@ -5,8 +5,9 @@ import "./user.css";
 import Button from "@mui/material/Button";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { auth, db } from "../../firebase-config";
-import { signOut, onAuthStateChanged, deleteUser } from "firebase/auth";
-import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer } from 'firebase/firestore'
+import { signOut, onAuthStateChanged } from "firebase/auth";
+import { collection, getDocs, doc, deleteDoc } from 'firebase/firestore'
+import { Navigate, useNavigate } from "react-router-dom"
 
 
 export default function User() {
@@ -15,25 +16,33 @@ export default function User() {
     const [profiles, setProfiles] = useState([]);
     const [user, setUser] = useState({});
     
+    const getProfiles = async () => {
+        const data = await getDocs(profileCollectionReference);
+        setProfiles(data.docs.map((doc) => ({...doc.data(), id: doc.id})))
+        data.forEach((t) => {
+            /*
+            console.log(t.id);
+            console.log(t.data());
+            console.log(t.data().testAge);
+            */
+        })
+      };
+      
+    const nav = useNavigate();
+
+
 
     useEffect(() => {
-        const getProfiles = async () => {
-          const data = await getDocs(profileCollectionReference);
-          setProfiles(data.docs.map((doc) => ({...doc.data(), id: doc.id})))
-          data.forEach((t) => {
-              console.log(t.id);
-              console.log(t.data());
-              console.log(t.data().testAge);
-          })
-        };
-        getProfiles();
-      }, []); 
-
-
-
-    onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-    });
+        getProfiles()
+    
+        onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+            if (!auth.currentUser) {
+                console.log(auth.currentUser);
+                nav("/");
+            }
+        });
+    }, []); 
 
     const logout = async () => {
         console.log("test")
@@ -78,10 +87,9 @@ export default function User() {
                     </div>
                     </div>
 
-                    <Button variant="contained" id="btnSend" >
+                    <Button variant="contained" id="btnSend">
                         CHANGE
                     </Button>
-                    
             </div>
 
             <Button variant="contained" id="btnLogOut" onClick={logout}>
