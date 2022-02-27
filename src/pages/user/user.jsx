@@ -24,6 +24,7 @@ export default function User() {
               console.log(t.id);
               console.log(t.data());
               console.log(t.data().testAge);
+
           })
         };
         getProfiles();
@@ -48,10 +49,11 @@ export default function User() {
             console.log("Error in deletion");
         });
     }
-
     return (
         <div className="user">
+        <div className="top-part">
             <h1 className="username">{user?.email}</h1>
+            </div>
 
             <AccountCircleIcon
                 className="avatar"

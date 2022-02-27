@@ -25,6 +25,7 @@ function App() {
             <Route path="/matches" element={<Matches />} />
             <Route path="/navbar" element={<Navbar />} />
             <Route path="/signUp" element={<SignUp />} />
+            <Route path="/footer" element={<SignUp />} />
           </Routes>
         </BrowserRouter>
   );

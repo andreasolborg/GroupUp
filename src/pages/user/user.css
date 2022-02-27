@@ -1,11 +1,11 @@
 body{
-    background-color:#E5E5E5;
+    background-color:#EDEDED;
 }
 
 .user{
     background-color: #FCFDFD;
-    border-radius: 5%;
-    margin: 3% 10%;
+    border-radius: 3%;
+    margin: 1% 5%;
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -13,12 +13,16 @@ body{
 }
 
 h1{
-    font-family: 'Archivo', sans-serif;    
+    font-family: 'Archivo', sans-serif;  
+    
+}
+.top-part{
+    background-color: #FCFDFD;
 }
 
 .username{
     text-align: center;
-    padding:2% 0% 0% 0%;
+    padding:1% 0% 0% 0%;
 }
 
 .avatar{
@@ -31,8 +35,8 @@ h1{
 
 .interests{
     background-color: #DDEEF5;
-    margin: 5% 8%;
-    padding: 3%;
+    margin: 3% 4%;
+    padding: 2%;
     border-radius: 3%;
 }
 .myInterests{
@@ -40,7 +44,7 @@ h1{
 }
 .myInterests>p{
     display: inline;
-    padding: 0% 5%;
+    padding: 0% 2%;
 }
 .newInterest{
     position: relative;
