@@ -46,7 +46,7 @@ export default function User() {
      * Gets called when the LOG OUT button in clicked.
      */
     const logout = async () => {
-        console.log("test")
+        console.log("User signed out");
         await signOut(auth);
     };
 
@@ -57,6 +57,7 @@ export default function User() {
      * TODO: Remove the deleted user from all groups, and determine what to do with groups that this user owns. 
      */
     const deleteUser = async () => {
+        deleteOwnedGroups();
         removeUserFromAllGroups(user.email);
         await deleteDoc(doc(db, "profile", user.email));
         auth.currentUser.delete().then(() => {
@@ -88,6 +89,39 @@ export default function User() {
                 console.error(error);
             })
         })
+    }
+
+    const deleteOwnedGroups = async () => {
+        const queryForGroups = query(collection(db, "groups"), where("owner", "==", auth.currentUser.email));
+        const querySnapshot = await getDocs(queryForGroups);
+
+        querySnapshot.docs.map((g) => {
+            deleteDoc(doc(db, "groups", g.id)).then(() => {
+                console.log("Deleted group");
+            });
+        })
+    }
+
+
+    /**
+     * Temporary function to quickly create a group
+     * 
+     * @returns void
+     */
+    const createGroup = async () => {
+        if (!user){
+            console.log("No user is currently signed in. Cannot create a group.");
+            return;
+        }
+        await addDoc(collection(db, "groups"), {
+            owner: auth.currentUser.email,
+            interest: "fotball", //preset for now
+            members: []
+        }).then((t) => {
+            console.log("Created group!");
+        }).catch((error) => {
+            console.error(error);
+        });
     }
 
     const goToGroups = () => {
@@ -147,6 +181,9 @@ export default function User() {
             </Button> 
             <Button variant="contained" id="btnLogOut" onClick={() => removeUserFromAllGroups(auth.currentUser.email)}>
                 Remove User from joined groups
+            </Button> 
+            <Button variant="contained" id="btnLogOut" onClick={createGroup}>
+                Create group
             </Button> 
         </div>
     );
