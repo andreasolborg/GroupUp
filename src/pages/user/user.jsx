@@ -102,10 +102,10 @@ export default function User() {
                 Delete User
             </Button> 
             <Button variant="contained" id="btnLogOut" onClick={goToGroups}>
-                Go to groups
+               All groups
             </Button> 
             <Button variant="contained" id="btnLogOut" onClick={goToMyGroups}>
-                View my groups
+                My groups
             </Button> 
         </div>
     );
