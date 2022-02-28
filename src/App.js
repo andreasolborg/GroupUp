@@ -13,6 +13,7 @@ import SignUp from './pages/signUp/signUp';
 import Groups from './pages/groups/groups';
 import MyGroups from './pages/groups/mygroups';
 import Group from './pages/groups/group';
+import CreateGroup from './pages/groups/creategroup';
 
 
 
@@ -32,6 +33,8 @@ function App() {
             <Route path="/groups" element={<Groups />} />
             <Route path="/mygroups" element={<MyGroups />} />
             <Route path="/group/:id" element={<Group />} />
+            <Route path="/creategroup" element={<CreateGroup />} />
+
           </Routes>
         </BrowserRouter>
   );

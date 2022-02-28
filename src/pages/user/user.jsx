@@ -109,19 +109,7 @@ export default function User() {
      * @returns void
      */
     const createGroup = async () => {
-        if (!user){
-            console.log("No user is currently signed in. Cannot create a group.");
-            return;
-        }
-        await addDoc(collection(db, "groups"), {
-            owner: auth.currentUser.email,
-            interest: "fotball", //preset for now
-            members: []
-        }).then((t) => {
-            console.log("Created group!");
-        }).catch((error) => {
-            console.error(error);
-        });
+       navi("/creategroup");
     }
 
     const goToGroups = () => {
