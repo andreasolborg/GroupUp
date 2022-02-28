@@ -13,24 +13,26 @@ import { useNavigate } from "react-router-dom";
 export default function User() {
 
     const profileCollectionReference = collection(db, "profile");
-    const [profiles, setProfiles] = useState([]);
+  //  const [profiles, setProfiles] = useState([]); Not in use
     const [user, setUser] = useState({});
     
     const navi = useNavigate();
     
 
+    /**
+     * Hook for loading the list of profiles from firebase.
+     * Currently not in use?
+     */
+
+    /*
     useEffect(() => {
         const getProfiles = async () => {
           const data = await getDocs(profileCollectionReference);
           setProfiles(data.docs.map((doc) => ({...doc.data(), id: doc.id})))
-          data.forEach((t) => {
-              console.log(t.id);
-              console.log(t.data());
-              console.log(t.data().testAge);
-          })
         };
         getProfiles();
       }, []); 
+      */
 
 
 
@@ -38,15 +40,26 @@ export default function User() {
       setUser(currentUser);
     });
 
+
+    /**
+     * Function for logging out from the firebase-authentication.
+     * Gets called when the LOG OUT button in clicked.
+     */
     const logout = async () => {
         console.log("test")
         await signOut(auth);
     };
 
+    /**
+     * Function that is called from the DELETE USER button. 
+     * deletes the profile from firebase, as well as the authentication.
+     * 
+     * TODO: Remove the deleted user from all groups, and determine what to do with groups that this user owns. 
+     */
     const deleteUser = async () => {
         await deleteDoc(doc(db, "profile", user.email));
         auth.currentUser.delete().then(() => {
-            logout();
+            logout(); //This is probably not needed
         }).catch((error) =>{
             console.log("Error in deletion");
         });
