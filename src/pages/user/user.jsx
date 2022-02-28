@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { auth, db } from "../../firebase-config";
 import { signOut, onAuthStateChanged, deleteUser } from "firebase/auth";
-import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer } from 'firebase/firestore'
+import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, arrayRemove, arrayUnion, where } from 'firebase/firestore'
 import { useNavigate } from "react-router-dom";
 
 
@@ -57,12 +57,37 @@ export default function User() {
      * TODO: Remove the deleted user from all groups, and determine what to do with groups that this user owns. 
      */
     const deleteUser = async () => {
+        removeUserFromAllGroups(user.email);
         await deleteDoc(doc(db, "profile", user.email));
         auth.currentUser.delete().then(() => {
             logout(); //This is probably not needed
         }).catch((error) =>{
             console.log("Error in deletion");
         });
+    }
+
+
+
+    /**
+     * Reuseable block of code that takes in an email, and removes this email from all groups that the corresponding
+     * user is a member of (NB: Does not remove email from groups that it owns/has created)
+     * 
+     * @param {*} userEmail could be derived from auth.currentUser.email
+     */
+    const removeUserFromAllGroups = async (userEmail) => {
+        const groupRef = collection(db, "groups");
+        const queryForGroups = query(groupRef, where("members", "array-contains", userEmail));
+        const querySnapshot = await getDocs(queryForGroups);
+
+        querySnapshot.docs.map((g) => {
+            updateDoc(g.ref, {
+                members: arrayRemove(userEmail)
+            }).then(() => {
+                console.log("Successfully removed user from group ", g.id);
+            }).catch((error) => {
+                console.error(error);
+            })
+        })
     }
 
     const goToGroups = () => {
@@ -119,6 +144,9 @@ export default function User() {
             </Button> 
             <Button variant="contained" id="btnLogOut" onClick={goToMyGroups}>
                 My groups
+            </Button> 
+            <Button variant="contained" id="btnLogOut" onClick={() => removeUserFromAllGroups(auth.currentUser.email)}>
+                Remove User from joined groups
             </Button> 
         </div>
     );
