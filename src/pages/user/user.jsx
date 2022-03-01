@@ -9,6 +9,9 @@ import { signOut, onAuthStateChanged, deleteUser } from "firebase/auth";
 import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, arrayRemove, arrayUnion, where } from 'firebase/firestore'
 import { useNavigate } from "react-router-dom";
 import TextField from '@material-ui/core/TextField';
+import Navbar from "../../components/navbar";
+
+
 
 
 
@@ -123,6 +126,7 @@ export default function User() {
     }
 
     return (
+        <><Navbar className="navbar"></Navbar>
         <div className="user">
             <div className="top-part">
                 <h1 className="username">{user?.email}</h1>
@@ -153,7 +157,7 @@ export default function User() {
                     </div>
                 </div>
 
-                <Button variant="contained" id="btnSend" >
+                <Button variant="contained" id="btnSend">
                     CHANGE
                 </Button>
 
@@ -166,17 +170,17 @@ export default function User() {
                 Delete User
             </Button>
             <Button variant="contained" id="btnLogOut" onClick={goToGroups}>
-               All groups
-            </Button> 
+                All groups
+            </Button>
             <Button variant="contained" id="btnLogOut" onClick={goToMyGroups}>
                 My groups
-            </Button> 
+            </Button>
             <Button variant="contained" id="btnLogOut" onClick={() => removeUserFromAllGroups(auth.currentUser.email)}>
                 Remove User from joined groups
-            </Button> 
+            </Button>
             <Button variant="contained" id="btnLogOut" onClick={createGroup}>
                 Create group
-            </Button> 
-        </div>
+            </Button>
+        </div></>
     );
 };

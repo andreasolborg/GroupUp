@@ -15,12 +15,17 @@ import Button from "@mui/material/Button";
 import { Badge } from "@mui/material";
 import Box from '@mui/material/Box';
 import "./navbar.css";
+import { styled, alpha } from '@mui/material/styles';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
+
 
 const Navbar = () => {
     return (
         <AppBar position="static">
-            <div className="Navbar">
-                <Link to="/home" className='linksNav'>
+            <div className="navbar">
+                <Link to="/home" className='linksNav' className="logo">
                     GROUP UP
                 </Link>
                 <Link to="/matches" className='linksNav'>
@@ -38,6 +43,8 @@ const Navbar = () => {
                             </Badge>
                         </IconButton>
                 </Link>
+
+
                 <Link to="/user" className='navbarUser'>
                     <IconButton
                         color="inherit"
