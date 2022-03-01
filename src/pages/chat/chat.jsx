@@ -13,6 +13,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import Fab from '@material-ui/core/Fab';
 import SendIcon from '@material-ui/icons/Send';
+import Navbar from "../../components/navbar";
+
 
 const useStyles = makeStyles({
   table: {
@@ -38,10 +40,11 @@ const Chat = () => {
   const classes = useStyles();
 
   return (
-      <div>
+      <><div>
+          <div><Navbar></Navbar></div>
         <Grid container>
             <Grid item xs={12} >
-                <Typography variant="h5" className="header-message">Chat</Typography>
+                <Typography variant="h5" className="header-message"></Typography>
             </Grid>
         </Grid>
         <Grid container component={Paper} className={classes.chatSection}>
@@ -125,7 +128,7 @@ const Chat = () => {
                 </Grid>
             </Grid>
         </Grid>
-      </div>
+      </div></>
   );
 }
 
