@@ -20,8 +20,8 @@ function Homepage() {
     return (
         <div className="homepage">
             <Navbar className="navbar"></Navbar>
-            <div className="filterBar">
-                <Grid container spacing={3}>
+            <div className = "gridCards">
+            <Grid container spacing={3}>
                     <Grid item xs>
                         <TextField id="outlined-basic" label="Outlined" variant="outlined" />
                     </Grid>
@@ -32,12 +32,13 @@ function Homepage() {
                         <TextField id="outlined-basic" label="Outlined" variant="outlined" />
                     </Grid>
                 </Grid>
-            </div>
             <Grid container spacing = {4} className={classes.gridContainer} >
                 <Grid item xs={12} sm={6} md={4}>
                     <Card/>
                 </Grid>
             </Grid>
+            </div>
+
         </div>
     );
 };

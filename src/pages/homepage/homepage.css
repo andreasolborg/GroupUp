@@ -5,15 +5,18 @@ body{
 .homepage{
     background-color: #FCFDFD;
     align-items: center;
-    justify-content: center;
-    text-align: center;
     font-family: 'Archivo', sans-serif;
     height: 700px;
+}
+
+.gridCards{
+    text-align: center;
 }
 
 .cardGroup{
     align-items: center;
     width: 400px;
+
 }
 
 .filterBar{
