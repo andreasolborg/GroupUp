@@ -46,13 +46,11 @@ h1{
     display: inline;
     padding: 0% 2%;
 }
-.newInterest{
-    position: relative;
+.newInterest>div{
     display: inline;
-    text-align: center;
 }
 #btnSend{
-padding: 2%;
+padding: 1%;
 margin: 3%;
 height: 3%;
 }

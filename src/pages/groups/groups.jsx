@@ -7,6 +7,9 @@ import { useNavigate } from "react-router-dom";
 import { getBottomNavigationUtilityClass } from "@mui/material";
 import Card from "./card";
 import { CardList } from "./cardlist";
+import "./card.css";
+import Button from '@material-ui/core/Button';
+
 
 
 export default function Groups() {
@@ -32,9 +35,9 @@ export default function Groups() {
 
 
 
-    return <div>
+    return <div className="topOfGroups">
         <h1>GROUPS PAGE</h1>
-        <button onClick={() => {goToMain()}}>Go To Profile</button>
+        <Button className="profileBtn" onClick={() => {goToMain()}}variant="contained">Go To Profile</Button>
         <CardList groups={groups}/>
     </div>
 }
