@@ -1,0 +1,41 @@
+.card-container{
+    font-family: 'Archivo', sans-serif;
+    width:300px;
+    overflow: hidden;
+    box-shadow:0px 0px 15px -5px;
+    transition: 0.3s;
+    animation: ease-in;
+    border-radius: 15px;
+    background-color: aliceblue;
+}
+
+
+.image-container img{
+    overflow: hidden;
+    height: 200px;
+
+}
+
+.card-content{
+    margin:1rem;
+    margin-top: 0.5rem;
+}
+
+h3,p{
+    margin: 0;
+    padding: 0;
+}
+
+.card-title{
+    margin-bottom: 0.5rem;
+}
+
+.chat-btn:hover {
+    background-color:azure;
+    width:120px;
+    border-radius: 12px;
+}
+
+.card-rating{
+    
+}

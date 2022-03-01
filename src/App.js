@@ -10,6 +10,8 @@ import Chat from './pages/chat/chat';
 import Matches from './pages/matches/matches';
 import Navbar from './components/navbar.jsx';
 import SignUp from './pages/signUp/signUp';
+import Groups from './pages/group/groups.jsx';
+
 
 
 
@@ -25,6 +27,7 @@ function App() {
             <Route path="/matches" element={<Matches />} />
             <Route path="/navbar" element={<Navbar />} />
             <Route path="/signUp" element={<SignUp />} />
+            <Route path="/groups" element={<Groups />} />
           </Routes>
         </BrowserRouter>
   );
