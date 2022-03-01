@@ -6,7 +6,8 @@ import Button from "@mui/material/Button";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { auth, db } from "../../firebase-config";
 import { signOut, onAuthStateChanged, deleteUser } from "firebase/auth";
-import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer } from 'firebase/firestore'
+import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer } from 'firebase/firestore';
+import Navbar from "../../components/navbar"
 
 
 export default function User() {
