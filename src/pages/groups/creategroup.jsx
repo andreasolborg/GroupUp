@@ -31,17 +31,31 @@ export default function CreateGroup() {
             console.log("No user is currently signed in. Cannot create a group.");
             return;
         }
+        const groupName = document.getElementById("groupNameInput").value;
+        const interest = document.getElementById("groupInterest").value;
+        const location = document.getElementById("locationInput").value;
+        //Algo for comma-separated memebers list
+        const membersArray = document.getElementById("enterFriendInput").value.split(", ");
+
+        if (groupName === "" || interest === "" || location === ""){
+            console.log("Wrong input(s)");
+            return;
+        }
+
         await addDoc(collection(db, "groups"), {
             owner: auth.currentUser.email,
-            groupName: document.getElementById("groupNameInput").value,
-            interest: document.getElementById("groupInterest").value, //preset for now
-            members: [document.getElementById("enterFriendInput").value]
+            groupName: groupName,
+            interest: interest,
+            location: location,
+            members: membersArray,
+            requests: []
         }).then((t) => {
             console.log("Created group!");
         }).catch((error) => {
             console.error(error);
         });
         goToGroup();
+        
     }
 
     const goBackButton = () => {
@@ -59,9 +73,10 @@ export default function CreateGroup() {
                 <div><h1>CREATE GROUP</h1></div>
                 <div className="allInputs">
                     
-                    <TextField placeholder="enter group name" variant="standard" id="textInput" />
-                    <TextField placeholder="enter interest" variant="standard" id="textInput" />
-                    <TextField placeholder="enter a friend" variant="standard" id="textInput" />
+                    <TextField placeholder="enter group name*" variant="standard" id="groupNameInput" />
+                    <TextField placeholder="enter interest*" variant="standard" id="groupInterest" />
+                    <TextField placeholder="enter email of friend" variant="standard" id="enterFriendInput" />
+                    <TextField placeholder="enter a location*" variant="standard" id="locationInput" />
                     <Button onClick={createGroupButton} variant="outlined">Create group</Button>
                 </div>
             </div>
