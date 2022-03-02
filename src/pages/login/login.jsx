@@ -36,10 +36,8 @@ export default function Login() {
       console.log(error.message);
     }
   };
-  const goToUser = () => {
-    navi("/user");
+
     
-}
 
   return (
     <ThemeProvider theme={theme}>
@@ -88,9 +86,8 @@ export default function Login() {
               type="submit"
               fullWidth
               variant="contained"
-              goToUser
-              onClick={() => {goToUser()}}
               sx={{ mt: 3, mb: 2 }}
+              
             >
               Sign In
 
