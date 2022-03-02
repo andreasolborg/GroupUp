@@ -1,0 +1,30 @@
+body{
+
+
+}
+
+.groupForm{
+    margin: 5% 10%;
+    display: block;
+    background-color:whitesmoke;
+    padding: 3%;
+}
+
+.backBtn{
+    position: relative;
+    float:left;
+
+
+
+}
+groupForm>div{
+    background-color: white;
+
+}
+
+.allInputs>div{
+    display: block;
+    margin: 2% 1%;
+}
+#textInput{
+}

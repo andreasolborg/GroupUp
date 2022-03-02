@@ -18,6 +18,7 @@ import { createUserWithEmailAndPassword, onAuthStateChanged, updateCurrentUser }
 import { NavLink } from 'react-router-dom';
 import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer } from 'firebase/firestore'
 import { db } from "../../firebase-config";
+import {useNavigate} from 'react-router-dom';
 
 
 
@@ -25,6 +26,7 @@ import { db } from "../../firebase-config";
 export default function SignUp() {
 
   const theme = createTheme();
+  const navi = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -43,6 +45,11 @@ export default function SignUp() {
       console.log(error.message);
     }
   };
+
+  const goToUser = () => {
+    navi("/user");
+    
+}
 
   const storeUser = async (firstName, lastName, age, mail) => {
     await setDoc(doc(db, "profile", mail), {
@@ -121,15 +128,13 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
+                
               </Grid>
             </Grid>
             <Button
               type="submit"
               fullWidth
+              onClick={() => {goToUser()}}
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >

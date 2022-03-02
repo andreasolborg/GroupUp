@@ -16,10 +16,13 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { auth } from "../../firebase-config";
 import {onAuthStateChanged, signInWithEmailAndPassword} from "firebase/auth";
 import { NavLink } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
+
 
 const theme = createTheme();
 
 export default function Login() {
+  const navi = useNavigate();
 
   const handleSubmit = async (event) => {
     try {
@@ -33,6 +36,10 @@ export default function Login() {
       console.log(error.message);
     }
   };
+  const goToUser = () => {
+    navi("/user");
+    
+}
 
   return (
     <ThemeProvider theme={theme}>
@@ -81,9 +88,12 @@ export default function Login() {
               type="submit"
               fullWidth
               variant="contained"
+              goToUser
+              onClick={() => {goToUser()}}
               sx={{ mt: 3, mb: 2 }}
             >
               Sign In
+
             </Button>
             <Grid container>
               <Grid item xs>

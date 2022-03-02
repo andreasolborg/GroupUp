@@ -18,13 +18,18 @@ import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import logo from './TekstLogo.svg';
 import "./navbar.css";
+import { styled, alpha } from '@mui/material/styles';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
+
 
 const Navbar = () => {
     return (
         <AppBar position="static">
-            <div className="Navbar">
-                <Link to="/home" className='linksNav'>
-                    <img marginTop = "5px" height="30px" src={logo}></img>
+            <div className="navbar">
+                <Link to="/home" className='linksNav' className="logo">
+                    GROUP UP
                 </Link>
                 <Link to="/matches" className='linksNav'>
                 <IconButton
@@ -47,6 +52,8 @@ const Navbar = () => {
                             </Badge>
                         </IconButton>
                 </Link>
+
+
                 <Link to="/user" className='navbarUser'>
                     <IconButton
                         color="inherit"

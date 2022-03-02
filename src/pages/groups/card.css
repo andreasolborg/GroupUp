@@ -1,0 +1,20 @@
+body{
+    text-align: center;
+}
+
+.groupBtn{
+    margin: 2% 5%;
+}
+.groupBtn>Button{
+    margin: 2%;
+}
+.groupElement{
+    margin: 2% 15%;
+}
+
+.topOfGroups{
+display: block;
+}
+
+.profileBtn{
+}
