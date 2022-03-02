@@ -41,15 +41,13 @@ export default function SignUp() {
        44,
        data.get("email"),
       );
+      navi("/user")
     } catch (error) {
       console.log(error.message);
     }
   };
 
-  const goToUser = () => {
-    navi("/user");
-    
-}
+
 
   const storeUser = async (firstName, lastName, age, mail) => {
     await setDoc(doc(db, "profile", mail), {
@@ -63,7 +61,7 @@ export default function SignUp() {
   const listProfiles = async () => {
 
   }
-  
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -134,7 +132,6 @@ export default function SignUp() {
             <Button
               type="submit"
               fullWidth
-              onClick={() => {goToUser()}}
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >

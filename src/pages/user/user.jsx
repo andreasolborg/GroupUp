@@ -53,6 +53,8 @@ export default function User() {
     const logout = async () => {
         console.log("User signed out");
         await signOut(auth);
+        navi("/");
+
     };
 
     /**
@@ -124,6 +126,7 @@ export default function User() {
     const goToMyGroups = () => {
         navi("/mygroups");
     }
+    
 
     return (
         <><Navbar className="navbar"></Navbar>
