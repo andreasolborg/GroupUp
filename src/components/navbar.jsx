@@ -1,70 +1,62 @@
-import React from "react";
-import {
-    AppBar,
-    Toolbar,
-    CssBaseline,
-    Typography,
-    makeStyles,
-} from "@material-ui/core";
+import * as React from 'react';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+//import {Tabs, Tab, AppBar } from "@material-ui/core";
+//import AppBar from '@material-ui/core';
+import HomeIcon from '@mui/icons-material/Home';
+import GroupIcon from '@mui/icons-material/Group';
+//import ChatIcon from '@mui/icons-material/Chat';
+import PersonPinIcon from '@mui/icons-material/PersonPin';
 import { Link } from "react-router-dom";
-import IconButton from '@mui/material/IconButton';
-import MailIcon from '@mui/icons-material/Mail';
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import GroupIcon from '@material-ui/icons/Group';
-import Button from "@mui/material/Button";
-import { Badge } from "@mui/material";
-import Box from '@mui/material/Box';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import logo from './TekstLogo.svg';
-import "./navbar.css";
-import { styled, alpha } from '@mui/material/styles';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-//import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
+//import { Badge } from "@mui/material";
+//<Badge badgeContent={1000} color="error" id = "badge"></Badge>
 
 
-const Navbar = () => {
-    return (
-        <AppBar position="static">
-            <div className="navbar">
-                <Link to="/home" className='linksNav' className="logo">
-                    GROUP UP
-                </Link>
-                <Link to="/matches" className='linksNav'>
-                <IconButton
-                        color="inherit"
-                        aria-label="show more">
-                        <FavoriteIcon />
-                    </IconButton>
-                </Link>
-                <Link to="/groups" className='linksNav'>
-                        <IconButton size="large" aria-label="groups" color="inherit">
-                            <Badge color="error">
-                                <GroupIcon />
-                            </Badge>
-                        </IconButton>
-                </Link>
-                <Link to="/chat" className='linksNav'>
-                        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                            <Badge badgeContent={1000} color="error">
-                                <ChatBubbleIcon />
-                            </Badge>
-                        </IconButton>
-                </Link>
 
 
-                <Link to="/user" className='navbarUser'>
-                    <IconButton
-                        color="inherit"
-                        size="large"
-                        aria-label="show more">
-                        <AccountCircle />
-                    </IconButton>
-                </Link>
-            </div>
-        </AppBar>
-    );
-};
+import './navbar.css';
 
-export default Navbar;
+//import Directory from '../../components/directory/directory.component';
+
+
+export default function IconTabs() {
+
+    const currentTab = () => {
+        const path = window.location.pathname
+        if (path === "/matches") return 1
+        else if (path === "/myGroups") return 2
+        else if (path === "/chat") return 3
+        else if (path === "/user") return 4
+        
+        
+      }
+     
+    const [value, setValue] = React.useState(currentTab);
+   
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+   
+  };
+
+  
+
+  return (
+    <div className='Navbar'>
+        <Tabs value={value} onChange={handleChange} aria-label="navbar">
+            <Link to="/groups">
+                <img margin-top = "20px" height="30px" id="groupUpLogo" src={logo}></img>
+            </Link>
+            <Tab icon={<FavoriteIcon />}  aria-label="matches" to = "/matches" component = {Link} id="navbarMatch"/>
+            <Tab icon={<GroupIcon />}  aria-label="groups" to = "/myGroups" component = {Link} id="navbarGroup"/>
+            <Tab icon={<ChatBubbleIcon />}  aria-label="chat" to = "/chat" component = {Link} id="navbarChat"/>
+            <Tab icon={<PersonPinIcon />}  aria-label="person" iconPosition="end" label="Min profil" to="/user" component={Link} id="navbarUser"/>
+            
+        </Tabs>
+    </div>
+    
+  );
+}

@@ -31,7 +31,7 @@ function App() {
             <Route path="/navbar" element={<Navbar />} />
             <Route path="/signUp" element={<SignUp />} />
             <Route path="/groups" element={<Groups />} />
-            <Route path="/mygroups" element={<MyGroups />} />
+            <Route path="/myGroups" element={<MyGroups />} />
             <Route path="/group/:id" element={<Group />} />
             <Route path="/creategroup" element={<CreateGroup />} />
 

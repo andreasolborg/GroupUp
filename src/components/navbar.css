@@ -1,20 +1,12 @@
-.navbar{
-  background-color: #FCFDFD;
-  padding: 1%;
+.Navbar{
+  background-color: #FFFFFF;
+  position: static;
+  width: 100%;
+  /*height: 80px;*/
 }
 
-.logo{
-  padding-top: 1%;
-  text-align: center;
-  float:left;
-  font-size: 20px;
-  color:black;
-  margin-left: 7%;
-  text-decoration: none;
-}
 .linksNav{
-    text-align: center;
-    float:left;
+    text-decoration: "none";
     font-size: 20px;
     color:black;
     margin-left: 7%;
@@ -30,5 +22,48 @@
   right:10%;
   top: 0%;
   color: black;
+}
 
+#groupUpLogo {
+  margin-top: 20%;
+  margin-bottom: 10%;
+  margin-left: 85%;
+}
+
+#navbarMatch {
+  /*color:black;*/
+  margin-left: 7%;
+  left: 8%; 
+  font-size: 20px; 
+}
+
+#navbarGroup {
+  /*color:black;*/
+  margin-left: 7%;
+  left: 13%; 
+  font-size: 20px;  
+}
+
+#navbarChat {
+  margin-left: 7%;
+  
+  left: 18%;
+  font-size: 20px;
+  
+}
+
+#badge {
+  left: 18%;
+  margin-top: 1%;
+  font-size: 0.60rem;
+}
+
+#navbarUser{
+  position: absolute;
+  float: right;
+  margin: 0%;
+  left:92%;
+  top: 0%;
+  /*color: black;*/
+  
 }

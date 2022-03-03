@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button';
 import { collection, arrayRemove, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion } from 'firebase/firestore'
 import { ClassNames } from "@emotion/react";
 import "./group.css";
-
+import Navbar from "../../components/navbar";
 
 
 
@@ -227,6 +227,7 @@ export default function Group() {
 
     return (
         <div>
+            <Navbar></Navbar>
             <button onClick={goBackButton}>Go Back</button>
             <h1>{groupName}</h1>
             <h2>Owner: {owner}</h2>
