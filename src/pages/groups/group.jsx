@@ -244,7 +244,7 @@ export default function Group() {
 
             <div id="admin">
                 <div className="text">
-                <h2>Admin privileges</h2>
+                <h2>Gruppe leder</h2>
                 <p>These functions are hidden for regular members</p>
 
                 <div className="update-details">
