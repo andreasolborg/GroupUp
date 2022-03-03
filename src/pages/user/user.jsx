@@ -12,14 +12,15 @@ import TextField from '@material-ui/core/TextField';
 import Navbar from "../../components/navbar";
 
 
-
+// const nameRef = doc(db, "profile", id);
 
 
 export default function User() {
 
     const profileCollectionReference = collection(db, "profile");
-  //  const [profiles, setProfiles] = useState([]); Not in use
+    //  const [profiles, setProfiles] = useState([]); Not in use
     const [user, setUser] = useState({});
+    const [name, setName] = useState(" ");
 
     const nav = useNavigate();
 
@@ -52,8 +53,18 @@ export default function User() {
     */
 
     useEffect(() => {
-        //getProfiles()
-    
+ 
+        /* const getName = async () => {
+            const queryName = query(profileCollectionReference, where("testEmail", "==", auth.currentUser.email));
+
+            const snapshotName = await getDocs(queryName);
+            console.log(queryName)
+            setName(snapshotName.metadata.testName);
+            
+        }
+        getName(); */
+
+
         onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
 
@@ -62,7 +73,7 @@ export default function User() {
                 nav("/");
             }
         });
-    }, []); 
+    }, []);
 
 
     /**
@@ -88,7 +99,7 @@ export default function User() {
         await deleteDoc(doc(db, "profile", user.email));
         auth.currentUser.delete().then(() => {
             logout(); //This is probably not needed
-        }).catch((error) =>{
+        }).catch((error) => {
             console.log("Error in deletion");
         });
     }
@@ -135,7 +146,7 @@ export default function User() {
      * @returns void
      */
     const createGroup = async () => {
-       nav("/creategroup");
+        nav("/creategroup");
     }
 
     const goToGroups = () => {
@@ -145,67 +156,66 @@ export default function User() {
     const goToMyGroups = () => {
         nav("/myGroups");
     }
-    
+
 
     return (
         <><Navbar className="navbar"></Navbar>
-        <div className="user">
-            <div className="top-part">
-                <h1 className="username">{user?.email}</h1>
-            </div>
-
-            <AccountCircleIcon
-                className="avatar"
-                sx={{ width: 86, height: 86 }}
-            ></AccountCircleIcon>
-
-            <div className="interests">
-                <h3>My Interests:</h3>
-                <div className="myInterests">
-                    <p>Interest 1</p>
-                    <p>Interest 2</p>
-                    <p>Interest 3</p>
-                    <p>Interest 4</p>
-                </div>
-                <h3>Choose New Interests:</h3>
-                <div className="newInterest">
-                    <div>
-                        <p>new Interest:</p>
-                        <TextField id="filled-basic" label="Filled" variant="filled" />
-                    </div>
-                    <div>
-                        <p>Change with:</p>
-                        <TextField id="filled-basic" label="Filled" variant="filled" />
-                    </div>
+            <div className="user">
+                <div className="top-part">
+                    <h1 className="username">{user?.email}</h1>
                 </div>
 
-                <Button variant="contained" id="btnSend">
-                    CHANGE
-                </Button>
+                <AccountCircleIcon
+                    className="avatar"
+                    sx={{ width: 86, height: 86 }}
+                ></AccountCircleIcon>
+
+                <div>
+                    <Button variant="contained" id="btnLogOut" onClick={goToGroups}>
+                        All groups
+                    </Button>
+                    <Button variant="contained" id="btnLogOut" onClick={goToMyGroups}>
+                        My groups
+                    </Button>
+                    <Button variant="contained" id="btnLogOut" onClick={() => removeUserFromAllGroups(auth.currentUser.email)}>
+                        Remove User from joined groups
+                    </Button>
+                    <Button variant="contained" id="btnLogOut" onClick={createGroup}>
+                        Create group
+                    </Button>
+                </div>
+                <div className="interests">
+                    <h3>My Interests:</h3>
+                    <div className="myInterests">
+                        <p>Interest 1</p>
+                        <p>Interest 2</p>
+                        <p>Interest 3</p>
+                        <p>Interest 4</p>
+                    </div>
+                    <h3>Choose New Interests:</h3>
+                    <div className="newInterest">
+                        <div>
+                            <p>new Interest:</p>
+                            <TextField id="filled-basic" label="Filled" variant="filled" />
+                        </div>
+                        <div>
+                            <p>Change with:</p>
+                            <TextField id="filled-basic" label="Filled" variant="filled" />
+                        </div>
+                    </div>
 
                     <Button variant="contained" id="btnSend">
                         CHANGE
                     </Button>
-            </div>
+                </div>
 
-            <Button variant="contained" id="btnLogOut" onClick={logout}>
-                Log out
-            </Button>
-            <Button variant="contained" id="btnLogOut" onClick={deleteUser}>
-                Delete User
-            </Button>
-            <Button variant="contained" id="btnLogOut" onClick={goToGroups}>
-                All groups
-            </Button>
-            <Button variant="contained" id="btnLogOut" onClick={goToMyGroups}>
-                My groups
-            </Button>
-            <Button variant="contained" id="btnLogOut" onClick={() => removeUserFromAllGroups(auth.currentUser.email)}>
-                Remove User from joined groups
-            </Button>
-            <Button variant="contained" id="btnLogOut" onClick={createGroup}>
-                Create group
-            </Button>
-        </div></>
+                <Button variant="contained" id="btnLogOut" onClick={logout}>
+                    Log out
+                </Button>
+                <Button variant="contained" id="btnLogOut" onClick={deleteUser}>
+                    Delete User
+                </Button>
+
+            </div></>
     );
 };

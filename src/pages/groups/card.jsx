@@ -69,9 +69,9 @@ const useStyles = makeStyles({
         <MUICard variant="outlined" className="groupElement">
             <div>
                 <h1 className="textOnCard">{props.group.groupName}</h1>
-                <h2 className="textOnCard"> Owner: {props.group.owner} </h2>
                 <p className="textOnCard">Interest: {props.group.interest}</p>
                 <p className="textOnCard">Location: {props.group.location}</p>
+                <p className="textOnCard"> Owner: {props.group.owner} </p>
             </div>
             <div className="card-buttons">
                 <Button id="visitGroupButton" onClick={() => {enterGroup(props.group.id)}} variant="outlined">Visit group</Button>

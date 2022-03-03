@@ -39,7 +39,6 @@ export default function Groups() {
     return <div className="topOfGroups">
         <Navbar></Navbar>
         <h1>GROUPS PAGE</h1>
-        <Button className="profileBtn" onClick={() => {goToMain()}}variant="contained">Go To Profile</Button>
         <CardList groups={groups}/>
     </div>
 }
