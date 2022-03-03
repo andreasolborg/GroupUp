@@ -21,7 +21,7 @@ export default function User() {
   //  const [profiles, setProfiles] = useState([]); Not in use
     const [user, setUser] = useState({});
 
-    const navi = useNavigate();
+    const nav = useNavigate();
 
 
     /**
@@ -39,6 +39,7 @@ export default function User() {
       }, []); 
       */
 
+    /*
     const getProfiles = async () => {
         const data = await getDocs(profileCollectionReference);
         setProfiles(data.docs.map((doc) => ({...doc.data(), id: doc.id})))
@@ -48,9 +49,10 @@ export default function User() {
             console.log(t.data().testAge);
         })
       };
+    */
 
     useEffect(() => {
-        getProfiles()
+        //getProfiles()
     
         onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
@@ -70,7 +72,7 @@ export default function User() {
     const logout = async () => {
         console.log("User signed out");
         await signOut(auth);
-        navi("/");
+        nav("/");
 
     };
 
@@ -133,15 +135,15 @@ export default function User() {
      * @returns void
      */
     const createGroup = async () => {
-       navi("/creategroup");
+       nav("/creategroup");
     }
 
     const goToGroups = () => {
-        navi("/groups");
+        nav("/groups");
     }
 
     const goToMyGroups = () => {
-        navi("/mygroups");
+        nav("/mygroups");
     }
     
 
