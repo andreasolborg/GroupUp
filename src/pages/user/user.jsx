@@ -18,8 +18,9 @@ import Navbar from "../../components/navbar";
 export default function User() {
 
     const profileCollectionReference = collection(db, "profile");
-  //  const [profiles, setProfiles] = useState([]); Not in use
+    const [profiles, setProfiles] = useState([]);
     const [user, setUser] = useState({});
+    const [name, setName] = useState( "" );
 
     const nav = useNavigate();
 
@@ -48,8 +49,18 @@ export default function User() {
             console.log(t.data());
             console.log(t.data().testAge);
         })
-      };
-    */
+      }; */
+    
+
+    const getName = async (currentUser) => {
+        const data = await getDocs(profileCollectionReference);
+        data.forEach((t) => {
+            if (t.id == currentUser.email) {
+                setName(t.data().testName + " " + t.data().testLastname)
+                console.log();
+            }
+        })
+    }
 
     useEffect(() => {
         //getProfiles()
@@ -61,6 +72,8 @@ export default function User() {
                 console.log(auth.currentUser);
                 nav("/");
             }
+
+            getName(currentUser);
         });
     }, []); 
 
@@ -151,7 +164,7 @@ export default function User() {
         <><Navbar className="navbar"></Navbar>
         <div className="user">
             <div className="top-part">
-                <h1 className="username">{user?.email}</h1>
+                <h1 className="username">{name}</h1>
             </div>
 
             <AccountCircleIcon
