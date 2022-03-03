@@ -1,55 +1,49 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import makeStyles from "@material-ui/core/styles"
-import CardMedia from '@mui/material/CardMedia';
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import { textAlign } from '@mui/system';
+import { alignProperty } from '@mui/material/styles/cssUtils';
+
+const useStyles = makeStyles({
+  root: {
+    maxWidth: 345,
+    height: "100%",
+    marginTop: "auto"
+  },
+  media: {
+    height: 140,
+  },
+  button: {
+    display:'flex', justiyContent:'space-between', flexDirection:'row'
+  },
+});
 
 
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-  >
-    •
-  </Box>
-);
-
-const card = (
-  <React.Fragment>
-      <CardMedia
-        component="img"
-        height="140"
-        image="https://www.britsoc.co.uk/media/23986/adobestock_4437974.jpg"
-        alt="activity"
-      />
-    <CardContent>
-      <Typography sx={{ fontSize: 18 }} color="text.secondary" gutterBottom>
-        match.name
-      </Typography>
-      <Typography variant="h5" component="div">
-        match.activity
-      </Typography>
-      <Typography sx={{ mb: 1.5 }} color="text.secondary">
-        match.location
-      </Typography>
-      <Typography variant="body2">
-        You matched on match.matchDate
-      </Typography>
-    </CardContent>
-    <CardActions>
-      <Button size="small">Send message</Button>
-    </CardActions>
-  </React.Fragment>
-);
-
-export default function OutlinedCard() {
+export default function MediaCard({ image, title, description }) {
+  const classes = useStyles();
   return (
-    <Box sx={{ minWidth: 275 }}>
-      <Card variant="outlined">{card}</Card>
-    </Box>
+    <Card className={classes.root}>
+      <CardActionArea>
+        <CardMedia className={classes.media} image={image} title={title} />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2">
+            {title}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {description}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      <CardActions className={classes.button}>
+        <Button size="small" color="primary">
+          Send message
+        </Button>
+      </CardActions>
+    </Card>
   );
 }

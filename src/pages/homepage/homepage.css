@@ -1,19 +1,25 @@
 body{
-    background-color:#E5E5E5;
+    background-color:#EDEDED;
+
+    margin: 0%;
 }
 
 .homepage{
-    background-color: #FCFDFD;
+    padding-top: 2%;
+    background-color: #EDEDED;
     align-items: center;
-    justify-content: center;
-    text-align: center;
     font-family: 'Archivo', sans-serif;
     height: 700px;
+}
+
+.gridCards{
+    text-align: center;
 }
 
 .cardGroup{
     align-items: center;
     width: 400px;
+
 }
 
 .filterBar{
@@ -32,9 +38,6 @@ body{
     margin: 150px;
 }
 
-.navbar{
-    margin-bottom: 20px;
-}
 
 .button {
     margin:3%;

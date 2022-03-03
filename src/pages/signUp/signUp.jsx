@@ -37,6 +37,8 @@ export default function SignUp() {
     });
   }, []); 
 
+  const theme = createTheme();
+  const navi = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -52,6 +54,7 @@ export default function SignUp() {
        data.get("age"),
        data.get("email"),
       );
+      navi("/user")
     } catch (error) {
       console.log(error.message);
     }
@@ -70,7 +73,7 @@ export default function SignUp() {
   const listProfiles = async () => {
 
   }
-  
+
 
   return (
     <ThemeProvider theme={theme}>

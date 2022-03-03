@@ -18,8 +18,7 @@ const useStyles = makeStyles( {
 function Homepage() {
     const classes = useStyles();
     return (
-        <div className="homepage">
-            <Navbar className="navbar"></Navbar>
+            <><Navbar className="navbar"></Navbar><div className="homepage">
             <div className="filterBar">
                 <Grid container spacing={3}>
                     <Grid item xs>
@@ -33,12 +32,12 @@ function Homepage() {
                     </Grid>
                 </Grid>
             </div>
-            <Grid container spacing = {4} className={classes.gridContainer} >
+            <Grid container spacing={4} className={classes.gridContainer}>
                 <Grid item xs={12} sm={6} md={4}>
-                    <Card/>
+                    <Card />
                 </Grid>
             </Grid>
-        </div>
+        </div></>
     );
 };
 export default Homepage;
