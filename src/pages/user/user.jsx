@@ -174,7 +174,7 @@ export default function User() {
         <><Navbar className="navbar"></Navbar>
             <div className="user">
                 <div className="top-part">
-                    <h1 className="username">{user?.email}</h1>
+                    <h1 className="username">{name}</h1>
                 </div>
 
                 <AccountCircleIcon
