@@ -31,8 +31,8 @@ function GroupCard({leader, interest, location, matchDate, ageGroup, imageURL, r
         </div>
         <div className="chat-btn">
             <Link to="/chat">
-                <IconButton size="large" className="icon-button">
-                    <ChatBubbleIcon/>
+                <IconButton size="large" className="icon-button" disableRipple>
+                    <ChatBubbleIcon ></ChatBubbleIcon>
                     Chat
                 </IconButton>
             </Link>
