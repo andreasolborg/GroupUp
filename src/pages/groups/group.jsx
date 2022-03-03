@@ -228,7 +228,6 @@ export default function Group() {
     return (
         <div>
             <Navbar></Navbar>
-            <button onClick={goBackButton}>Go Back</button>
             <h1>{groupName}</h1>
             <h2>Owner: {owner}</h2>
             <h2>Interest: {interest}</h2>
@@ -241,7 +240,7 @@ export default function Group() {
                     </div>
                 ))}
             </div>
-            <button className="obsButton" onClick={() => leaveGroup()}>Leave group</button>
+            <Button className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
 
             <div id="admin">
                 <div className="text">
@@ -281,7 +280,7 @@ export default function Group() {
                         </div>
                     ))}
                </div> 
-               <button className="obsButton" onClick={leaveGroup}>Delete Group</button>
+               <Button className="obsButton" onClick={leaveGroup}>Delete Group</Button>
             </div>
         </div>
     )

@@ -40,12 +40,11 @@ export default function MyGroups () {
         <div>
             <Navbar></Navbar>
             <h1>MY GROUPS</h1>
-            <button onClick={goToProfile}>Go to profile</button>
             <br/>
             <br/>
-            **** Joined groups ****
+            <h2>Joined Groups</h2>
             <CardList groups={joinedGroups}/>
-            **** Owned groups ****
+            <h2>Owned Groups</h2>
             <CardList groups={ownedGroups}/>
         </div>
     )

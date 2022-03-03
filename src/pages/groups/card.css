@@ -14,7 +14,22 @@ body{
 
 .topOfGroups{
 display: block;
+padding-bottom: 2%;
 }
 
-.profileBtn{
+.card-buttons{
+    padding-bottom: 2%;
 }
+
+#visitGroupButton, #requestButton{
+    margin: 1%;
+    background-color:#DDEEF5;
+}
+
+.textOnCard{
+    font-style: normal;
+    font-family: 'Archivo', sans-serif;
+}
+
+
+
