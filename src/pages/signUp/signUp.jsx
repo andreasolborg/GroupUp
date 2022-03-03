@@ -18,7 +18,6 @@ import { doc, setDoc } from 'firebase/firestore'
 import { db } from "../../firebase-config";
 import { FormLabel, RadioGroup, FormControl, Radio } from '@mui/material';
 import Interests from './interests';
-import DatePicker from '@mui/lab/DatePicker';
 import LocalizationProvider, { MuiPickersAdapterContext } from '@mui/lab/LocalizationProvider';
 
 export default function SignUp() {
