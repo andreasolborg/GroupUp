@@ -18,15 +18,9 @@ import Navbar from "../../components/navbar";
 export default function User() {
 
     const profileCollectionReference = collection(db, "profile");
-<<<<<<< HEAD
-    //  const [profiles, setProfiles] = useState([]); Not in use
-    const [user, setUser] = useState({});
-    const [name, setName] = useState(" ");
-=======
     const [profiles, setProfiles] = useState([]);
     const [user, setUser] = useState({});
     const [name, setName] = useState( "" );
->>>>>>> 55983044d553eda63ff14624098b6bac8e6f8cc2
 
     const nav = useNavigate();
 
@@ -178,7 +172,6 @@ export default function User() {
 
     return (
         <><Navbar className="navbar"></Navbar>
-<<<<<<< HEAD
             <div className="user">
                 <div className="top-part">
                     <h1 className="username">{user?.email}</h1>
@@ -202,25 +195,6 @@ export default function User() {
                     <Button variant="contained" id="btnLogOut" onClick={createGroup}>
                         Create group
                     </Button>
-=======
-        <div className="user">
-            <div className="top-part">
-                <h1 className="username">{name}</h1>
-            </div>
-
-            <AccountCircleIcon
-                className="avatar"
-                sx={{ width: 86, height: 86 }}
-            ></AccountCircleIcon>
-
-            <div className="interests">
-                <h3>My Interests:</h3>
-                <div className="myInterests">
-                    <p>Interest 1</p>
-                    <p>Interest 2</p>
-                    <p>Interest 3</p>
-                    <p>Interest 4</p>
->>>>>>> 55983044d553eda63ff14624098b6bac8e6f8cc2
                 </div>
                 <div className="interests">
                     <h3>My Interests:</h3>
