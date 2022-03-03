@@ -1,12 +1,10 @@
 import * as React from 'react';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -15,18 +13,29 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { auth } from "../../firebase-config";
 import { createUserWithEmailAndPassword, onAuthStateChanged, updateCurrentUser } from "firebase/auth";
-import { NavLink } from 'react-router-dom';
-import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer } from 'firebase/firestore'
+import { NavLink, useNavigate } from 'react-router-dom';
+import { doc, setDoc } from 'firebase/firestore'
 import { db } from "../../firebase-config";
-import {useNavigate} from 'react-router-dom';
-
-
-
+import { FormLabel, RadioGroup, FormControl, Radio } from '@mui/material';
+import Interests from './interests';
+import DatePicker from '@mui/lab/DatePicker';
+import LocalizationProvider, { MuiPickersAdapterContext } from '@mui/lab/LocalizationProvider';
 
 export default function SignUp() {
 
+  const [date, setDate] = useState();
+
   const theme = createTheme();
-  const navi = useNavigate();
+  const nav = useNavigate();
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (currentUser) => {
+        if (currentUser) {
+            console.log(auth.currentUser);
+            nav("/user");
+        }
+    });
+  }, []); 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -38,21 +47,20 @@ export default function SignUp() {
       storeUser(
        data.get("firstName"),
        data.get("lastName"),
-       44,
+       data.get("gender"),
+       data.get("age"),
        data.get("email"),
       );
-      navi("/user")
     } catch (error) {
       console.log(error.message);
     }
   };
 
-
-
-  const storeUser = async (firstName, lastName, age, mail) => {
+  const storeUser = async (firstName, lastName, gender, age, mail) => {
     await setDoc(doc(db, "profile", mail), {
       testName: firstName,
       testLastname: lastName,
+      testGender: gender,
       testAge: age,
       interest: ["Formel1"]
       });
@@ -104,6 +112,33 @@ export default function SignUp() {
                   autoComplete="family-name"
                 />
               </Grid>
+
+              <Grid item xs={12}>
+                <FormControl >
+                  <FormLabel >Gender</FormLabel>
+                  <RadioGroup name="gender" required row autoComplete="sex">
+                    <FormControlLabel value="Male" control={<Radio />} label="Male"/>
+                    <FormControlLabel value="Female" control={<Radio />} label="Female"/>
+                    <FormControlLabel value="Other" control={<Radio />} label="Other"/>
+                  </RadioGroup>
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={12}>
+                <Interests name="interests" required/>
+              </Grid>
+
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="age"
+                  label="Age"
+                  id="age"
+                  autoComplete='age'
+                />
+              </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   required
@@ -125,10 +160,8 @@ export default function SignUp() {
                   autoComplete="new-password"
                 />
               </Grid>
-              <Grid item xs={12}>
-                
-              </Grid>
             </Grid>
+
             <Button
               type="submit"
               fullWidth

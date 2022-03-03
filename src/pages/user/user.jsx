@@ -39,11 +39,28 @@ export default function User() {
       }, []); 
       */
 
+    const getProfiles = async () => {
+        const data = await getDocs(profileCollectionReference);
+        setProfiles(data.docs.map((doc) => ({...doc.data(), id: doc.id})))
+        data.forEach((t) => {
+            console.log(t.id);
+            console.log(t.data());
+            console.log(t.data().testAge);
+        })
+      };
 
+    useEffect(() => {
+        getProfiles()
+    
+        onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
 
-    onAuthStateChanged(auth, (currentUser) => {
-        setUser(currentUser);
-    });
+            if (!currentUser) {
+                console.log(auth.currentUser);
+                nav("/");
+            }
+        });
+    }, []); 
 
 
     /**
@@ -164,6 +181,9 @@ export default function User() {
                     CHANGE
                 </Button>
 
+                    <Button variant="contained" id="btnSend">
+                        CHANGE
+                    </Button>
             </div>
 
             <Button variant="contained" id="btnLogOut" onClick={logout}>
