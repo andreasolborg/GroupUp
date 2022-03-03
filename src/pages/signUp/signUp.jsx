@@ -58,6 +58,7 @@ export default function SignUp() {
   const storeUser = async (firstName, lastName, gender, age, mail) => {
     await setDoc(doc(db, "profile", mail), {
       testName: firstName,
+      testEmail: mail,
       testLastname: lastName,
       testGender: gender,
       testAge: age,
