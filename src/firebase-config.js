@@ -25,4 +25,3 @@ const myQuery = collection(db, 'profile')
 async function myFunction(){
   const myDocs = await getDocs(myQuery)
 }
-

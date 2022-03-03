@@ -9,6 +9,7 @@ const useStyles = makeStyles({
   gridContainer: {
     paddingTop: '10px',
     paddingLeft: '100px',
+    
   }
 })
 
@@ -20,7 +21,7 @@ function Groups() {
   return (
     <><div className="groups">
     <div><Navbar></Navbar></div>
-    <Grid container spacing = {1} className={classes.gridContainer}>
+    <Grid container spacing = {2} className={classes.gridContainer}>
       <Grid item xs={12} sm={6} md={4}>
         <Card
         leader="Karan" 
