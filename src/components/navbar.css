@@ -59,10 +59,10 @@
 }
 
 #navbarUser{
-  position: absolute;
+  position: fixed;
   float: right;
   margin: 0%;
-  left:92%;
+  right:10px;
   top: 0%;
   /*color: black;*/
   
