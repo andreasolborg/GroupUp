@@ -143,7 +143,7 @@ export default function User() {
     }
 
     const goToMyGroups = () => {
-        navi("/myGroups");
+        nav("/myGroups");
     }
     
 
