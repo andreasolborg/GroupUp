@@ -6,6 +6,7 @@ import { signOut, onAuthStateChanged, deleteUser } from "firebase/auth";
 import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion } from 'firebase/firestore'
 import { useNavigate } from "react-router-dom";
 import { CardList } from "./cardlist";
+import Navbar from "../../components/navbar";
 
 
 export default function MyGroups () {
@@ -37,6 +38,7 @@ export default function MyGroups () {
 
     return (
         <div>
+            <Navbar></Navbar>
             <h1>MY GROUPS</h1>
             <button onClick={goToProfile}>Go to profile</button>
             <br/>

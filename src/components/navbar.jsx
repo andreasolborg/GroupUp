@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import logo from './TekstLogo.svg';
-import { Badge } from "@mui/material";
+//import { Badge } from "@mui/material";
 //<Badge badgeContent={1000} color="error" id = "badge"></Badge>
 
 
@@ -27,7 +27,7 @@ export default function IconTabs() {
     const currentTab = () => {
         const path = window.location.pathname
         if (path === "/matches") return 1
-        else if (path === "/groups") return 2
+        else if (path === "/myGroups") return 2
         else if (path === "/chat") return 3
         else if (path === "/user") return 4
         
@@ -47,11 +47,11 @@ export default function IconTabs() {
   return (
     <div className='Navbar'>
         <Tabs value={value} onChange={handleChange} aria-label="navbar">
-            <Link to="/home">
+            <Link to="/groups">
                 <img margin-top = "20px" height="30px" id="groupUpLogo" src={logo}></img>
             </Link>
             <Tab icon={<FavoriteIcon />}  aria-label="matches" to = "/matches" component = {Link} id="navbarMatch"/>
-            <Tab icon={<GroupIcon />}  aria-label="groups" to = "/groups" component = {Link} id="navbarGroup"/>
+            <Tab icon={<GroupIcon />}  aria-label="groups" to = "/myGroups" component = {Link} id="navbarGroup"/>
             <Tab icon={<ChatBubbleIcon />}  aria-label="chat" to = "/chat" component = {Link} id="navbarChat"/>
             <Tab icon={<PersonPinIcon />}  aria-label="person" iconPosition="end" label="Min profil" to="/user" component={Link} id="navbarUser"/>
             
