@@ -1,10 +1,9 @@
-import React from "react";
 import { useState, useEffect } from "react";
-
+import React from "react";
 import "./user.css";
 import Button from "@mui/material/Button";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { auth, db } from "../../firebase-config";
+import { auth, db, storage } from "../../firebase-config";
 import { signOut, onAuthStateChanged, deleteUser } from "firebase/auth";
 import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, arrayRemove, arrayUnion, where } from 'firebase/firestore'
 import { useNavigate } from "react-router-dom";
@@ -20,8 +19,9 @@ export default function User() {
     const profileCollectionReference = collection(db, "profile");
     const [profiles, setProfiles] = useState([]);
     const [user, setUser] = useState({});
-    const [name, setName] = useState( "" );
-
+    const [name, setName] = useState("");
+    const [file, setFile] = useState(null);
+    const [url, setURL] = useState("");
     const nav = useNavigate();
 
 
@@ -50,7 +50,9 @@ export default function User() {
             console.log(t.data().testAge);
         })
       }; */
-    
+
+
+
 
     const getName = async (currentUser) => {
         const data = await getDocs(profileCollectionReference);
@@ -63,7 +65,7 @@ export default function User() {
     }
 
     useEffect(() => {
- 
+
         /* const getName = async () => {
             const queryName = query(profileCollectionReference, where("testEmail", "==", auth.currentUser.email));
 
@@ -170,6 +172,77 @@ export default function User() {
     }
 
 
+
+
+    function handleChange(e) {
+        setFile(e.target.files[0]);
+    }
+
+    function handleUpload2(e) {
+        e.preventDefault();
+        const ref = storage.ref(`${file.name}`);
+        const uploadTask = ref.put(file);
+        uploadTask.on("state_changed", console.log, console.error, () => {
+            ref
+                .getDownloadURL()
+                .then((url) => {
+                    setFile(null);
+                    setURL(url);
+                });
+        });
+    }
+
+
+
+
+    const uploadedImage = React.useRef(null);
+    const imageUploader = React.useRef(null);
+
+    const handleImageUpload = e => {
+        const [file] = e.target.files;
+        if (file) {
+            const reader = new FileReader();
+            const { current } = uploadedImage;
+            current.file = file;
+            reader.onload = e => {
+                current.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+
+
+    const handleUpload = () => {
+        // console.log(this.state.image);
+        let file = this.state.image;
+        var storage = storage();
+        var storageRef = storage.ref();
+        var uploadTask = storageRef.child(file.name).put(file);
+
+        uploadTask.on(storage.TaskEvent.STATE_CHANGED,
+            (snapshot) => {
+                var progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes)) * 100
+                this.setState({ progress })
+            }, (error) => {
+                throw error
+            }, () => {
+                // uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) =>{
+
+                uploadTask.snapshot.ref.getDownloadURL().then((url) => {
+                    this.setState({
+                        downloadURL: url
+                    })
+                })
+                document.getElementById("file").value = null
+
+            }
+        )
+    }
+
+
+
+
     return (
         <><Navbar className="navbar"></Navbar>
             <div className="user">
@@ -177,11 +250,65 @@ export default function User() {
                     <h1 className="username">{name}</h1>
                 </div>
 
-                <AccountCircleIcon
+                <div>
+                    <form onSubmit={handleUpload2}>
+                        <input type="file" onChange={handleChange} />
+                        <button disabled={!file}>upload kkkkkto firebase</button>
+                    </form>
+                    <img src={url} alt="" />
+                </div>
+
+
+
+
+
+
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center"
+                    }}
+                >
+                    <input
+                        type="file"
+                        id = "file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        ref={imageUploader}
+                        style={{
+                            display: "none"
+                        }}
+                    />
+                    <div
+                        style={{
+                            height: "150px",
+                            width: "150px",
+                            border: "1px dashed black"
+                        }}
+                        onClick={() => imageUploader.current.click()}
+                    >
+                        <img
+                            ref={uploadedImage}
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                position: "relative"
+                            }}
+                        />
+                    </div>
+                    Click to upload Image
+                </div>
+                <button onClick={handleUpload}>bgf </button>
+
+
+
+                {/*                 <AccountCircleIcon
                     className="avatar"
                     sx={{ width: 86, height: 86 }}
                 ></AccountCircleIcon>
-
+ */}
                 <div>
                     <Button variant="contained" id="btnLogOut" onClick={goToGroups}>
                         All groups
