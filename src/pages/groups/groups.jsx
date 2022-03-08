@@ -9,6 +9,7 @@ import Card from "./card";
 import { CardList } from "./cardlist";
 import "./card.css";
 import Button from '@material-ui/core/Button';
+import Navbar from "../../components/navbar";
 
 
 
@@ -36,8 +37,8 @@ export default function Groups() {
 
 
     return <div className="topOfGroups">
+        <Navbar></Navbar>
         <h1>GROUPS PAGE</h1>
-        <Button className="profileBtn" onClick={() => {goToMain()}}variant="contained">Go To Profile</Button>
         <CardList groups={groups}/>
     </div>
 }

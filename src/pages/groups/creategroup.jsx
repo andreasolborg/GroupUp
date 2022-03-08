@@ -9,6 +9,7 @@ import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc,
 import { useNavigate } from "react-router-dom";
 import TextField from '@material-ui/core/TextField';
 import "./creategroup.css";
+import Navbar from "../../components/navbar";
 
 
 
@@ -68,6 +69,7 @@ export default function CreateGroup() {
 
     return (
         <div>
+            <Navbar></Navbar>
             <Button onClick={goBackButton} variant="outlined" className="backBtn">Go Back</Button>
             <div className="groupForm">
                 <div><h1>CREATE GROUP</h1></div>

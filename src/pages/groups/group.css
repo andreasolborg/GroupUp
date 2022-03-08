@@ -25,9 +25,13 @@
 
 .obsButton {
     margin: 20px;
-    background-color: orangered;
 }
 
 .remove-users {
     margin: 25px;
+}
+
+#admin{
+    align-items: center;
+    background-color: #DDEEF5;
 }

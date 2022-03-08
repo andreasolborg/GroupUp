@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button';
 import { collection, arrayRemove, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion } from 'firebase/firestore'
 import { ClassNames } from "@emotion/react";
 import "./group.css";
-
+import Navbar from "../../components/navbar";
 
 
 
@@ -227,7 +227,7 @@ export default function Group() {
 
     return (
         <div>
-            <button onClick={goBackButton}>Go Back</button>
+            <Navbar></Navbar>
             <h1>{groupName}</h1>
             <h2>Owner: {owner}</h2>
             <h2>Interest: {interest}</h2>
@@ -240,11 +240,11 @@ export default function Group() {
                     </div>
                 ))}
             </div>
-            <button className="obsButton" onClick={() => leaveGroup()}>Leave group</button>
+            <Button className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
 
             <div id="admin">
                 <div className="text">
-                <h2>Admin privileges</h2>
+                <h2>Gruppe leder</h2>
                 <p>These functions are hidden for regular members</p>
 
                 <div className="update-details">
@@ -280,7 +280,7 @@ export default function Group() {
                         </div>
                     ))}
                </div> 
-               <button className="obsButton" onClick={leaveGroup}>Delete Group</button>
+               <Button className="obsButton" onClick={leaveGroup}>Delete Group</Button>
             </div>
         </div>
     )

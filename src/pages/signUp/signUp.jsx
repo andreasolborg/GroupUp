@@ -18,7 +18,6 @@ import { doc, setDoc } from 'firebase/firestore'
 import { db } from "../../firebase-config";
 import { FormLabel, RadioGroup, FormControl, Radio } from '@mui/material';
 import Interests from './interests';
-import DatePicker from '@mui/lab/DatePicker';
 import LocalizationProvider, { MuiPickersAdapterContext } from '@mui/lab/LocalizationProvider';
 
 export default function SignUp() {
@@ -59,6 +58,7 @@ export default function SignUp() {
   const storeUser = async (firstName, lastName, gender, age, mail) => {
     await setDoc(doc(db, "profile", mail), {
       testName: firstName,
+      testEmail: mail,
       testLastname: lastName,
       testGender: gender,
       testAge: age,
@@ -172,7 +172,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <NavLink to="/login" variant="body2">
+                <NavLink to="/" variant="body2">
                   Already have an account? Sign in
                 </NavLink>
               </Grid>
