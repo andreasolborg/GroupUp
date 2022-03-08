@@ -153,13 +153,20 @@ export default function SignUp() {
       }
     }
     console.log("counters:; ", numCounter, " ", letterCounter);
-    if (letterCounter > 2 && numCounter > 2) {
+    if (letterCounter > 2 && numCounter > 2 && matchPassword()) {
       setErrorPassword(false);
       return true;
     } else {
       setErrorPassword(true);
       return false;
     }
+  }
+
+  const matchPassword = () => {
+    if (document.getElementById("password").value != document.getElementById("confirmPassword").value) {
+      return false;
+    }
+    return true;
   }
 
 
@@ -257,6 +264,19 @@ export default function SignUp() {
                   label="Password"
                   type="password"
                   id="password"
+                  autoComplete="new-password"
+                  helperText="Password must have at least 3 numbers and 3 letters"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  error={errorPassword}
+                  required
+                  fullWidth
+                  name="confirmPassword"
+                  label="Confirm Password"
+                  type="password"
+                  id="confirmPassword"
                   autoComplete="new-password"
                   helperText="Password must have at least 3 numbers and 3 letters"
                 />
