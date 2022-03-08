@@ -51,7 +51,7 @@ export default function User() {
         })
       }; */
 
-
+    
 
 
     const getName = async (currentUser) => {
@@ -174,6 +174,18 @@ export default function User() {
 
     const [image, setImage] = useState(null);
     const [url, setUrl] = useState(null);
+    const imageName = "/profile/" + auth.currentUser.email + "ProfileImage";
+
+
+    useEffect(() => {
+        const getPicture = async () => {
+            const imageRef = ref(storage, imageName);
+            getDownloadURL(imageRef).then((url) => {
+                setUrl(url);
+            });
+        }
+        getPicture();
+    })
 
 
     const handleImageChange = (e) => {
@@ -183,7 +195,7 @@ export default function User() {
       };
     
       const handleSubmit = () => {
-        const imageRef = ref(storage, "image");
+        const imageRef = ref(storage, imageName);
 
         uploadBytes(imageRef, image)
           .then(() => {
