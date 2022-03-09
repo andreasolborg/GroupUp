@@ -18,7 +18,7 @@ import { doc, setDoc } from 'firebase/firestore'
 import { db } from "../../firebase-config";
 import { FormLabel, RadioGroup, FormControl, Radio } from '@mui/material';
 import Interests from './interests';
-import LocalizationProvider, { MuiPickersAdapterContext } from '@mui/lab/LocalizationProvider';
+import Passwords from './passwords';
 
 export default function SignUp() {
 
@@ -27,7 +27,7 @@ export default function SignUp() {
   const [errorName, setErrorName] = React.useState(false);
   const [errorEmail, setErrorEmail] = React.useState(false);
   const [errorPassword, setErrorPassword] = React.useState(false);
-
+  const [interests, setInterests] = useState([]);
 
   const theme = createTheme();
   const nav = useNavigate();
@@ -43,6 +43,7 @@ export default function SignUp() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log(interests);
     try {
       const data = new FormData(event.currentTarget);
       if (!checkName(data.get("firstName") || !checkName(data.get("lastName")))) {
@@ -61,8 +62,6 @@ export default function SignUp() {
         console.log("Wrong in password (May be something wrong with the method");
         return;
       }
-
-
 
       await createUserWithEmailAndPassword(
         auth, data.get("email"), data.get("password")
@@ -89,11 +88,6 @@ export default function SignUp() {
       interest: ["Formel1"]
     });
   }
-
-  const listProfiles = async () => {
-
-  }
-
 
   const checkAge = (a) => {
     if (a < 18) {
@@ -133,43 +127,6 @@ export default function SignUp() {
     return false;
   }
 
-  /**
-   * Very shady
-   */
-  const checkPassword = () => {
-    if (document.getElementById("password").value == "") {
-      setErrorPassword(true);
-      return;
-    }
-    const passwordString = document.getElementById("password").value;
-    var numCounter = 0;
-    var letterCounter = 0;
-    for (var i = 0; i < passwordString.length; i++) {
-      console.log("in loop, ", passwordString.charAt(i));
-      if (isNaN(passwordString.charAt(i))) {
-        letterCounter++;
-      } else {
-        numCounter++;
-      }
-    }
-    console.log("counters:; ", numCounter, " ", letterCounter);
-    if (letterCounter > 2 && numCounter > 2 && matchPassword()) {
-      setErrorPassword(false);
-      return true;
-    } else {
-      setErrorPassword(true);
-      return false;
-    }
-  }
-
-  const matchPassword = () => {
-    if (document.getElementById("password").value != document.getElementById("confirmPassword").value) {
-      return false;
-    }
-    return true;
-  }
-
-
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -200,7 +157,6 @@ export default function SignUp() {
                   id="firstName"
                   label="First Name"
                   autoFocus
-                  helperText="Name can only be letters"
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -227,7 +183,7 @@ export default function SignUp() {
               </Grid>
 
               <Grid item xs={12}>
-                <Interests name="interests" required />
+                <Interests interests={interests} setInterests={setInterests} />
               </Grid>
 
               <Grid item xs={12}>
@@ -255,32 +211,9 @@ export default function SignUp() {
                   helperText="Email must contain '@' and '.'"
                 />
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  error={errorPassword}
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                  helperText="Password must have at least 3 numbers and 3 letters"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  error={errorPassword}
-                  required
-                  fullWidth
-                  name="confirmPassword"
-                  label="Confirm Password"
-                  type="password"
-                  id="confirmPassword"
-                  autoComplete="new-password"
-                  helperText="Password must have at least 3 numbers and 3 letters"
-                />
-              </Grid>
+
+              <Passwords/>
+
             </Grid>
 
             <Button

@@ -2,14 +2,13 @@ import * as React from 'react';
 import { useState } from "react";
 
 import List from '@mui/material/List';
-import { IconButton, InputAdornment, TextField } from "@mui/material";
+import { FormControl, IconButton, InputAdornment, TextField } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import InterestList from './interestList';
 
 
-export default function Interests() {
+export default function Interests({ interests, setInterests }) {
     
-    const [interests, setInterests] = useState([]);
     const [interest, setInterest] = useState("");
 
     function handleInterestTextChange(e) {
