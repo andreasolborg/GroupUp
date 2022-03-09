@@ -60,7 +60,7 @@ export default function CreateGroup() {
             interest: interest,
             location: location,
             datetime: dateTime,
-            description: document.getElementById("description").value,
+            description: document.getElementById("des").value,
             members: membersArray,
             requests: []
         }).then((t) => {
@@ -140,7 +140,7 @@ export default function CreateGroup() {
                             }}
                         />
                     </LocalizationProvider>
-                    <textarea id="description" rows="5" cols="50" placeholder="Enter a description of your group"/>
+                    <textarea id="des" rows="5" placeholder="Enter a description of your group"/>
                     <Button onClick={createGroupButton} variant="outlined">Create group</Button>
                 </div>
             </div>
