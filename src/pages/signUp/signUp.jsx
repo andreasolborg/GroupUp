@@ -278,7 +278,7 @@ export default function SignUp() {
                   type="password"
                   id="confirmPassword"
                   autoComplete="new-password"
-                  helperText="Password must have at least 3 numbers and 3 letters"
+                  helperText="Passwords must be equal"
                 />
               </Grid>
             </Grid>
