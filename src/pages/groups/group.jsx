@@ -78,7 +78,7 @@ export default function Group() {
             const groupDocSnap = await getDoc(groupRef);
             if (groupDocSnap.data().owner == auth.currentUser.email) {
                 setAdmin(true);
-                document.getElementById("admin").style = "display:block";
+                document.getElementById("admin").style = "display:inline-block";
             }
         }
         getAdmin();
@@ -210,9 +210,9 @@ export default function Group() {
         window.location.reload(false);
     }
 
-    const setNewDate = async (newDate) => {
+    const setNewDate = async () => {
         await updateDoc(groupRef, {
-            datetime: newDate
+            datetime: dateTime
         });
         window.location.reload(false);
     }
@@ -235,11 +235,25 @@ export default function Group() {
         window.location.reload(false);
     }
 
+    const sendNewDescription = async () => {
+        const areaString = document.getElementById("des").value;
+        if (areaString === ""){
+            console.log("Empty area, returning");
+            return;
+        }
+        setDescription(areaString);
+        await updateDoc(groupRef, {
+            description: areaString
+        })
+    }
+
     // <Button onClick={getAdminElements} variant="contained">Admin</Button>
 
     return (
-        <div>
+        <div id="parent">
+            <div>
             <Navbar></Navbar>
+            <div id="regular">
             <h1>{groupName}</h1>
             <h2>Owner: {owner}</h2>
             <div id="desc">
@@ -257,6 +271,8 @@ export default function Group() {
                 ))}
             </div>
             <Button className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
+            </div>
+            </div>
 
             <div id="admin">
                 <div className="text">
@@ -290,10 +306,16 @@ export default function Group() {
                             label="DateTimePicker"
                             value={dateTime}
                             onChange={(newValue) => {
-                                setNewDate(newValue);
+                                setDateTime(newValue);
                             }}
                         />
                     </LocalizationProvider>
+                    <button onClick={setNewDate}>Send</button>
+                </div>
+
+                <div id="des-container">
+                    <textarea id="des" rows="5" placeholder="Enter new description"/>
+                    <button onClick={sendNewDescription}>Submit description</button>
                 </div>
 
                 <div className="text">
