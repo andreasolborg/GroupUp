@@ -82,7 +82,7 @@ export default function Group() {
             }
         }
         getAdmin();
-    });
+    }, []);
 
     var key = true; //Key is used to lock the useEffect below when the group dont exist
 
