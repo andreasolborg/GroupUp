@@ -32,6 +32,11 @@
     width: 90%;
 }
 
+#showAdmin {
+    display: none;
+    margin: 15px;
+}
+
 #desc {
     font-family: 'Archivo', sans-serif;
     width:300px;

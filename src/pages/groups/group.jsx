@@ -78,7 +78,7 @@ export default function Group() {
             const groupDocSnap = await getDoc(groupRef);
             if (groupDocSnap.data().owner == auth.currentUser.email) {
                 setAdmin(true);
-                document.getElementById("admin").style = "display:inline-block";
+                document.getElementById("showAdmin").style = "display:inline-block";
             }
         }
         getAdmin();
@@ -247,6 +247,18 @@ export default function Group() {
         })
     }
 
+    const hideAdminButton = () => {
+        document.getElementById("admin").style = "display: none";
+        document.getElementById("showAdmin").style = "display: inline-block";
+
+    }
+
+    const showAdminButton = () => {
+        document.getElementById("admin").style = "display: inline-block";
+        document.getElementById("showAdmin").style = "display: none";
+
+    }
+
     // <Button onClick={getAdminElements} variant="contained">Admin</Button>
 
     return (
@@ -273,9 +285,12 @@ export default function Group() {
             <Button className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
             </div>
             </div>
-
+            <div id="showAdmin">
+                <Button variant="contained" onClick={showAdminButton}>Show Admin Priviliges</Button>
+                </div>
             <div id="admin">
                 <div className="text">
+                <Button variant="contained" onClick={hideAdminButton}>Hide Admin Priviliges</Button>
                     <h2>Gruppeleder</h2>
                     <p>These functions are hidden for regular members</p>
 
@@ -329,7 +344,7 @@ export default function Group() {
                         </div>
                     ))}
                 </div>
-                <Button className="obsButton" onClick={leaveGroup}>Delete Group</Button>
+                <Button variant="contained" className="obsButton" onClick={leaveGroup}>Delete Group</Button>
             </div>
         </div>
     )
