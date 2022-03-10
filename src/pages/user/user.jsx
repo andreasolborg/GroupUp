@@ -21,18 +21,21 @@ export default function User() {
     const [name, setName] = useState("");
     const nav = useNavigate();
 
+    const [interests, setInterests] = useState([]);
+    const [interest, setInterest] = useState("");
+
     const [open, setOpen] = useState(false);
 
     const handleClick = () => {
         setOpen(true);
     };
-    
+
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
             return;
-          }
+        }
         setOpen(false);
-      };
+    };
 
 
     /**
@@ -60,9 +63,6 @@ export default function User() {
             console.log(t.data().testAge);
         })
       }; */
-
-
-
 
     const getUserInfo = async (currentUser) => {
         const data = await getDocs(profileCollectionReference);
@@ -187,54 +187,12 @@ export default function User() {
         nav("/myGroups");
     }
 
-
-    const [image, setImage] = useState(null);
-    const [url, setUrl] = useState(null);
-
-
-    const handleImageChange = (e) => {
-        if (e.target.files[0]) {
-          setImage(e.target.files[0]);
-        }
-      };
-    
-      const handleSubmit = () => {
-        const imageRef = ref(storage, "image");
-
-        uploadBytes(imageRef, image)
-          .then(() => {
-            getDownloadURL(imageRef)
-              .then((url) => {
-                setUrl(url);
-              })
-              .catch((error) => {
-                console.log(error.message, "error getting the image url");
-              });
-            setImage(null);
-          })
-          .catch((error) => {
-            console.log(error.message);
-          });
-          console.log(url);
-console.log(setUrl);
-      };
-
-
-
-
     return (
         <><Navbar className="navbar"></Navbar>
             <div className="user">
                 <div className="top-part">
                     <h1 className="username">{name}</h1>
                 </div>
-
-
-
-
-<Avatar src={url} sx={{ width: 150, height: 150 }} />
-      <input type="file" onChange={handleImageChange} />
-      <button onClick={handleSubmit}>Submit</button>
 
 
                 {/*                 <AccountCircleIcon
@@ -268,18 +226,18 @@ console.log(setUrl);
                         <div>
                             <p>Interest:</p>
                             <TextField i
-                                d="filled-basic" 
-                                label="f.eks. fotball" 
-                                variant="filled" 
-                                value = {interest}
-                                onChange = {updateInterest}
+                                d="filled-basic"
+                                label="f.eks. fotball"
+                                variant="filled"
+                                value={interest}
+                                onChange={updateInterest}
                             />
                         </div>
                     </div>
 
                     <Button variant="contained" id="btnSend" onClick={addInterest}>
                         Add
-                    </Button>                    
+                    </Button>
                     <Button variant="contained" id="btnSend" onClick={removeInterest}>
                         Remove
                     </Button>
