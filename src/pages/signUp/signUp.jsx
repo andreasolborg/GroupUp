@@ -12,7 +12,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { auth } from "../../firebase-config";
 import { onAuthStateChanged } from "firebase/auth";
 import { NavLink, useNavigate } from 'react-router-dom';
-import { createUser } from "../../firebase-config";
+import { createUser } from "../../firestore";
 import Interests from './interests';
 import Passwords from './passwords';
 import Name from './name';

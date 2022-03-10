@@ -4,16 +4,13 @@ import { useState, useEffect } from "react";
 import "./user.css";
 import Button from "@mui/material/Button";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { auth, db } from "../../firebase-config";
-import { signOut, onAuthStateChanged, deleteUser } from "firebase/auth";
-import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, arrayRemove, arrayUnion, where } from 'firebase/firestore'
+import { auth } from "../../firebase-config";
+import { db } from "../../firestore";
+import { signOut, onAuthStateChanged } from "firebase/auth";
+import { collection, getDocs, updateDoc, doc, deleteDoc, arrayRemove, where, query } from 'firebase/firestore'
 import { useNavigate } from "react-router-dom";
 import TextField from '@material-ui/core/TextField';
 import Navbar from "../../components/navbar";
-
-
-// const nameRef = doc(db, "profile", id);
-
 
 export default function User() {
 
@@ -55,9 +52,9 @@ export default function User() {
     const getName = async (currentUser) => {
         const data = await getDocs(profileCollectionReference);
         data.forEach((t) => {
+            console.log(t.id);
             if (t.id == currentUser.email) {
                 setName(t.data().testName + " " + t.data().testLastname)
-                console.log();
             }
         })
     }
@@ -115,8 +112,6 @@ export default function User() {
             console.log("Error in deletion");
         });
     }
-
-
 
     /**
      * Reuseable block of code that takes in an email, and removes this email from all groups that the corresponding

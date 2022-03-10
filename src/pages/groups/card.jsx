@@ -2,7 +2,8 @@ import React from "react";
 import MUICard from "@mui/material/Card";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { auth, db } from "../../firebase-config";
+import { auth } from "../../firebase-config";
+import { db } from "../../firestore";
 import { collection, arrayRemove, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion } from 'firebase/firestore'
 import { getBottomNavigationUtilityClass } from "@mui/material";
 import { CardList } from "./cardlist";
