@@ -3,6 +3,18 @@ body{
 
 }
 
+#des {
+    font-family: 'Archivo', sans-serif;
+    overflow: hidden;
+    box-shadow:0px 0px 15px -5px;
+    transition: 0.3s;
+    animation: ease-in;
+    border-radius: 15px;
+    background-color: beige;
+    margin: auto;
+    width: 80%;
+}
+
 .groupForm{
     margin: 5% 10%;
     display: block;
