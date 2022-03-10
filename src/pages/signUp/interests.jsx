@@ -2,14 +2,13 @@ import * as React from 'react';
 import { useState } from "react";
 
 import List from '@mui/material/List';
-import { IconButton, InputAdornment, TextField } from "@mui/material";
+import { Grid, IconButton, InputAdornment, TextField } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import InterestList from './interestList';
 
 
-export default function Interests() {
+export default function Interests({ interests, setInterests, error, setError }) {
     
-    const [interests, setInterests] = useState([]);
     const [interest, setInterest] = useState("");
 
     function handleInterestTextChange(e) {
@@ -17,13 +16,14 @@ export default function Interests() {
     }
 
     function addInterest() {
-        if (!interests.includes(interest)) {
+        if (!interests.includes(interest) && interest.trim().length != 0) {
             setInterests(interests => [...interests, interest]);
+            setError(false);
         }
     }
 
     return (
-        <>
+        <Grid item xs={12}>
             <TextField
                 fullWidth
                 name="interest"
@@ -41,6 +41,8 @@ export default function Interests() {
                   }}
                 value={interest}
                 onChange={handleInterestTextChange}
+                error = { error }
+                helperText = { error ? "You need at least one interest" : "" }
             />
 
             <List
@@ -57,6 +59,6 @@ export default function Interests() {
                 >
                 <InterestList interests={interests}></InterestList>
             </List>
-        </>
+        </Grid>
     )
 }

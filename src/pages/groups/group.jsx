@@ -1,7 +1,8 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { auth, db } from "../../firebase-config";
+import { auth } from "../../firebase-config";
+import { db } from "../../firestore";
 import { getBottomNavigationUtilityClass } from "@mui/material";
 import Card from "./card";
 import { CardList } from "./cardlist";

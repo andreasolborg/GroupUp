@@ -1,10 +1,5 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import {getDocs, getFirestore} from "@firebase/firestore";
-import {collection} from "@firebase/firestore";
-import { getStorage, ref } from "@firebase/storage";
-
-
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -16,18 +11,7 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_APP_ID,
 };
 
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
-
-export const db = getFirestore(app);
-export const storage = getStorage(app);
-
-
-const myQuery = collection(db, 'profile')
-
-async function myFunction(){
-  const myDocs = await getDocs(myQuery)
-}
-
 

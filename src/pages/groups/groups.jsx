@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import "./groups.css";
-import { auth, db } from "../../firebase-config";
+import { db } from "../../firestore";
 import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion } from 'firebase/firestore'
 import { useNavigate } from "react-router-dom";
 import { getBottomNavigationUtilityClass } from "@mui/material";

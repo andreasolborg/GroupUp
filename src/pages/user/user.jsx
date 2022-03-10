@@ -3,9 +3,10 @@ import React from "react";
 import "./user.css";
 import Button from "@mui/material/Button";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { auth, db, storage } from "../../firebase-config";
-import { signOut, onAuthStateChanged, deleteUser } from "firebase/auth";
-import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, arrayRemove, arrayUnion, where } from 'firebase/firestore'
+import { auth } from "../../firebase-config";
+import { db } from "../../firestore";
+import { signOut, onAuthStateChanged } from "firebase/auth";
+import { collection, getDocs, updateDoc, doc, deleteDoc, arrayRemove, where, query } from 'firebase/firestore'
 import { useNavigate } from "react-router-dom";
 import TextField from '@material-ui/core/TextField';
 import Navbar from "../../components/navbar";
@@ -13,14 +14,9 @@ import Avatar from '@mui/material/Avatar'
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 
-
-// const nameRef = doc(db, "profile", id);
-
-
 export default function User() {
 
     const profileCollectionReference = collection(db, "profile");
-    const [profiles, setProfiles] = useState([]);
     const [user, setUser] = useState({});
     const [name, setName] = useState("");
     const nav = useNavigate();
@@ -68,29 +64,37 @@ export default function User() {
 
 
 
-    const getName = async (currentUser) => {
+    const getUserInfo = async (currentUser) => {
         const data = await getDocs(profileCollectionReference);
         data.forEach((t) => {
-            if (t.id == currentUser.email) {
-                setName(t.data().testName + " " + t.data().testLastname)
-                console.log();
+            if (t.id.toLowerCase() == currentUser.email.toLowerCase()) {
+                setName(t.data().firstname + " " + t.data().lastname)
+                setInterests(t.data().interest);
             }
         })
     }
 
-    useEffect(() => {
+    const updateInterest = (e) => {
+        setInterest(e.target.value);
+    }
 
-        /* const getName = async () => {
-            const queryName = query(profileCollectionReference, where("testEmail", "==", auth.currentUser.email));
-
-            const snapshotName = await getDocs(queryName);
-            console.log(queryName)
-            setName(snapshotName.metadata.testName);
-            
+    function addInterest() {
+        if (!interests.includes(interest) && interest.trim().length != 0) {
+            setInterests(interests => [...interests, interest]);
         }
-        getName(); */
+    }
 
+    function removeInterest() {
+        let tempList = [...interests];
+        const index = tempList.indexOf(interest);
+        if (index < 0) {
+            return;
+        }
+        tempList.splice(index, 1);
+        setInterests(tempList);
+    }
 
+    useEffect(() => {
         onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
 
@@ -99,7 +103,7 @@ export default function User() {
                 nav("/");
             }
 
-            getName(currentUser);
+            getUserInfo(currentUser);
         });
     }, []);
 
@@ -131,8 +135,6 @@ export default function User() {
             console.log("Error in deletion");
         });
     }
-
-
 
     /**
      * Reuseable block of code that takes in an email, and removes this email from all groups that the corresponding
@@ -257,25 +259,29 @@ console.log(setUrl);
                 <div className="interests">
                     <h3>My Interests:</h3>
                     <div className="myInterests">
-                        <p>Interest 1</p>
-                        <p>Interest 2</p>
-                        <p>Interest 3</p>
-                        <p>Interest 4</p>
+                        {interests.map((item) => (
+                            <p>{item}</p>
+                        ))}
                     </div>
-                    <h3>Choose New Interests:</h3>
+                    <h3>Change interest:</h3>
                     <div className="newInterest">
                         <div>
-                            <p>new Interest:</p>
-                            <TextField id="filled-basic" label="Filled" variant="filled" />
-                        </div>
-                        <div>
-                            <p>Change with:</p>
-                            <TextField id="filled-basic" label="Filled" variant="filled" />
+                            <p>Interest:</p>
+                            <TextField i
+                                d="filled-basic" 
+                                label="f.eks. fotball" 
+                                variant="filled" 
+                                value = {interest}
+                                onChange = {updateInterest}
+                            />
                         </div>
                     </div>
 
-                    <Button variant="contained" id="btnSend">
-                        CHANGE
+                    <Button variant="contained" id="btnSend" onClick={addInterest}>
+                        Add
+                    </Button>                    
+                    <Button variant="contained" id="btnSend" onClick={removeInterest}>
+                        Remove
                     </Button>
                 </div>
 

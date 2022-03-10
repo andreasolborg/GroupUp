@@ -1,7 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { auth, db } from "../../firebase-config";
+import { auth } from "../../firebase-config";
+import { db } from "../../firestore";
 import { signOut, onAuthStateChanged, deleteUser } from "firebase/auth";
 import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion } from 'firebase/firestore'
 import { useNavigate } from "react-router-dom";
