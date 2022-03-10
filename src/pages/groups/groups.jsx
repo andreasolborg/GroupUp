@@ -44,6 +44,17 @@ export default function Groups() {
         getGroups();
     }, []);
 
+
+    /**
+     * function gets called when the input in the textfields gets updated
+     * 
+     * Checks first whether the inputs from "interest" and "location" match any goups.
+     * Then it checks if "timeToggled", which indicates that the user have filtered by time/date as well.
+     * 
+     * Adds the correct groups to the array to be displayed
+     * 
+     * TODO: Triple if-statement is probably not ideal
+     */
     const searchBarChanged = () => {
         var arrRes = [];
         groups.forEach((g) => {
@@ -61,13 +72,16 @@ export default function Groups() {
         setGroupTemp(arrRes);
     }
 
+    /**
+     * Gets called when a user push the "Apply Time Filter" button.
+     * 
+     */
     const filterByTime = () => {
         setTimeToggled(true);
         var arrRes = [];
 
         groupTemp.forEach((g) => {
             if (new Date(g.datetime.seconds * 1000) > startTime && new Date(g.datetime.seconds * 1000) < endTime) {
-                console.log("Yurr");
                 arrRes.push(g);
             }
         });
@@ -75,6 +89,10 @@ export default function Groups() {
         document.getElementById("filterByTimeButton").style = "color: green";
     }
 
+
+    /**
+     * Deactivates the time filter
+     */
     const cancelTimeFilter = () => {
         setTimeToggled(false);
         var arrRes = [];
@@ -121,6 +139,9 @@ export default function Groups() {
             </LocalizationProvider>
             <button id="filterByTimeButton" onClick={filterByTime}>Apply Time Filter</button>
             <button onClick={() => cancelTimeFilter()}>Remove time filter</button>
+        </div>
+        <div>
+
         </div>
         <CardList groups={groupTemp} />
     </div>
