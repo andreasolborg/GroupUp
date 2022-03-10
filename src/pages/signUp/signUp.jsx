@@ -20,6 +20,7 @@ import Gender from './gender';
 import Age from './age';
 import Email from './email';
 
+
 export default function SignUp() {
 
   const [interests, setInterests] = useState([]);
@@ -34,6 +35,10 @@ export default function SignUp() {
 
   const theme = createTheme();
   const nav = useNavigate();
+
+  const checkAge = async() =>{
+
+  }
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {

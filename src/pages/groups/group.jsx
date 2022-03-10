@@ -12,8 +12,10 @@ import { collection, arrayRemove, getDocs, addDoc, updateDoc, doc, deleteDoc, ge
 import { ClassNames } from "@emotion/react";
 import "./group.css";
 import Navbar from "../../components/navbar";
-
-
+import DateTimePicker from 'react-datetime-picker';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import TextField from '@material-ui/core/TextField';
 
 //This page holds information on a particular group. 
 
@@ -27,9 +29,9 @@ import Navbar from "../../components/navbar";
 export default function Group() {
 
 
-     /**
-     * id is used for determining wich group that has been entered. This group-id also makes the URL for that group-page.
-     */
+    /**
+    * id is used for determining wich group that has been entered. This group-id also makes the URL for that group-page.
+    */
     const { id } = useParams();
     const navi = useNavigate();
 
@@ -41,6 +43,8 @@ export default function Group() {
     const [members, setMembers] = useState([]);
     const [admin, setAdmin] = useState(false);
     const [requests, setRequests] = useState([]);
+    const [dateTime, setDateTime] = useState(new Date());
+    const [description, setDescription] = useState("");
 
     const groupRef = doc(db, "groups", id);
 
@@ -48,7 +52,7 @@ export default function Group() {
     /**
      * Sets the useState of members, broken af
      */
-     useEffect(() => {
+    useEffect(() => {
         const getMembers = async () => {
             const groupDocsnap = await getDoc(groupRef);
 
@@ -75,11 +79,11 @@ export default function Group() {
             const groupDocSnap = await getDoc(groupRef);
             if (groupDocSnap.data().owner == auth.currentUser.email) {
                 setAdmin(true);
-                document.getElementById("admin").style="display:block";
-            } 
+                document.getElementById("showAdmin").style = "display:inline-block";
+            }
         }
         getAdmin();
-    });
+    }, []);
 
     var key = true; //Key is used to lock the useEffect below when the group dont exist
 
@@ -101,10 +105,11 @@ export default function Group() {
             setLocation(groupDocSnap.data().location);
             setInterest(groupDocSnap.data().interest);
             setGroupName(groupDocSnap.data().groupName);
-
+            setDateTime(new Date(groupDocSnap.data().datetime.seconds*1000));
+            setDescription(groupDocSnap.data().description);
         };
         getOwner();
-    });
+    }, []);
 
 
     /**
@@ -137,7 +142,7 @@ export default function Group() {
                 isMember = true;
             }
         });
-        
+
         if (isMember) {
             await updateDoc(groupRef, {
                 members: arrayRemove(auth.currentUser.email)
@@ -188,21 +193,28 @@ export default function Group() {
             return;
         }
 
-        if (gname!== ""){
+        if (gname !== "") {
             await updateDoc(groupRef, {
                 groupName: gname
             });
         }
-        if (ginterest !== ""){
+        if (ginterest !== "") {
             await updateDoc(groupRef, {
                 interest: ginterest
             });
         }
-        if (glocation !== ""){
+        if (glocation !== "") {
             await updateDoc(groupRef, {
                 location: glocation
             });
         }
+        window.location.reload(false);
+    }
+
+    const setNewDate = async () => {
+        await updateDoc(groupRef, {
+            datetime: dateTime
+        });
         window.location.reload(false);
     }
 
@@ -224,64 +236,116 @@ export default function Group() {
         window.location.reload(false);
     }
 
-// <Button onClick={getAdminElements} variant="contained">Admin</Button>
+    const sendNewDescription = async () => {
+        const areaString = document.getElementById("des").value;
+        if (areaString === ""){
+            console.log("Empty area, returning");
+            return;
+        }
+        setDescription(areaString);
+        await updateDoc(groupRef, {
+            description: areaString
+        })
+    }
+
+    const hideAdminButton = () => {
+        document.getElementById("admin").style = "display: none";
+        document.getElementById("showAdmin").style = "display: inline-block";
+
+    }
+
+    const showAdminButton = () => {
+        document.getElementById("admin").style = "display: inline-block";
+        document.getElementById("showAdmin").style = "display: none";
+
+    }
+
+    // <Button onClick={getAdminElements} variant="contained">Admin</Button>
 
     return (
-        <div>
+        <div id="parent">
+            <div>
             <Navbar></Navbar>
+            <div id="regular">
             <h1>{groupName}</h1>
             <h2>Owner: {owner}</h2>
+            <div id="desc">
+                <p>{description}</p>
+                </div>
             <h2>Interest: {interest}</h2>
             <h2>Location: {location}</h2>
+            <h2>Date and time: {dateTime.toUTCString()}</h2>
             <h2>Members:</h2>
             <div>
                 {members.map((m) => (
                     <div className="membersList">
-                    <p>{m}</p>
+                        <p>{m}</p>
                     </div>
                 ))}
             </div>
             <Button className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
-
+            </div>
+            </div>
+            <div id="showAdmin">
+                <Button variant="contained" onClick={showAdminButton}>Show Admin Priviliges</Button>
+                </div>
             <div id="admin">
                 <div className="text">
-                <h2>Gruppe leder</h2>
-                <p>These functions are hidden for regular members</p>
+                <Button variant="contained" onClick={hideAdminButton}>Hide Admin Priviliges</Button>
+                    <h2>Gruppeleder</h2>
+                    <p>These functions are hidden for regular members</p>
 
-                <div className="update-details">
-                    <h3>Update Group Details</h3>
-                    <input placeholder="Enter a group name" id="groupNameInput"/>
-                    <input placeholder="Enter a new interest" id="interestInput"/>
-                    <input placeholder="Enter a new location" id="locationInput"/>
-                </div>
-                <button onClick={updateGroupDetails}>Send</button>
+                    <div className="update-details">
+                        <h3>Update Group Details</h3>
+                        <input placeholder="Enter a group name" id="groupNameInput" />
+                        <input placeholder="Enter a new interest" id="interestInput" />
+                        <input placeholder="Enter a new location" id="locationInput" />
+                    </div>
+                    <button onClick={updateGroupDetails}>Send</button>
 
 
                 </div>
                 <div className="remove-users">
                     <h3>Remove users</h3>
-                    <input placeholder="Enter user-mail" id="removeUserInput"/>
+                    <input placeholder="Enter user-mail" id="removeUserInput" />
                     <button onClick={removeUserButton}>Remove</button>
                 </div>
                 <div className="remove-users">
                     <h3>Add users</h3>
-                    <input placeholder="Enter user-mail" id="addUserInput"/>
+                    <input placeholder="Enter user-mail" id="addUserInput" />
                     <button onClick={addUserButton}>Add</button>
                 </div>
+                <div>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <DateTimePicker
+                            renderInput={(props) => <TextField {...props} />}
+                            label="DateTimePicker"
+                            value={dateTime}
+                            onChange={(newValue) => {
+                                setDateTime(newValue);
+                            }}
+                        />
+                    </LocalizationProvider>
+                    <button onClick={setNewDate}>Send</button>
+                </div>
 
-               
-               <div className="text">
+                <div id="des-container">
+                    <textarea id="des" rows="5" placeholder="Enter new description"/>
+                    <button onClick={sendNewDescription}>Submit description</button>
+                </div>
+
+                <div className="text">
                     <h2>The request queue</h2>
                     {requests.map((r) => (
                         <div className="membersList">
                             <div className="text">
-                            <h3>{r}</h3>
-                            <button onClick={() => acceptRequestButton(r)}>Accept request</button>
+                                <h3>{r}</h3>
+                                <button onClick={() => acceptRequestButton(r)}>Accept request</button>
                             </div>
                         </div>
                     ))}
-               </div> 
-               <Button className="obsButton" onClick={leaveGroup}>Delete Group</Button>
+                </div>
+                <Button variant="contained" className="obsButton" onClick={leaveGroup}>Delete Group</Button>
             </div>
         </div>
     )

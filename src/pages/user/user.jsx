@@ -1,6 +1,5 @@
-import React from "react";
 import { useState, useEffect } from "react";
-
+import React from "react";
 import "./user.css";
 import Button from "@mui/material/Button";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -11,17 +10,59 @@ import { collection, getDocs, updateDoc, doc, deleteDoc, arrayRemove, where, que
 import { useNavigate } from "react-router-dom";
 import TextField from '@material-ui/core/TextField';
 import Navbar from "../../components/navbar";
+import Avatar from '@mui/material/Avatar'
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
 
 export default function User() {
 
     const profileCollectionReference = collection(db, "profile");
     const [user, setUser] = useState({});
-    const [name, setName] = useState( "" );
-    const [interests, setInterests] = useState([]);
-
-    const [interest, setInterest] = useState("");
-
+    const [name, setName] = useState("");
     const nav = useNavigate();
+
+    const [open, setOpen] = useState(false);
+
+    const handleClick = () => {
+        setOpen(true);
+    };
+    
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+          }
+        setOpen(false);
+      };
+
+
+    /**
+     * Hook for loading the list of profiles from firebase.
+     * Currently not in use?
+     */
+
+    /*
+    useEffect(() => {
+        const getProfiles = async () => {
+          const data = await getDocs(profileCollectionReference);
+          setProfiles(data.docs.map((doc) => ({...doc.data(), id: doc.id})))
+        };
+        getProfiles();
+      }, []); 
+      */
+
+    /*
+    const getProfiles = async () => {
+        const data = await getDocs(profileCollectionReference);
+        setProfiles(data.docs.map((doc) => ({...doc.data(), id: doc.id})))
+        data.forEach((t) => {
+            console.log(t.id);
+            console.log(t.data());
+            console.log(t.data().testAge);
+        })
+      }; */
+
+
+
 
     const getUserInfo = async (currentUser) => {
         const data = await getDocs(profileCollectionReference);
@@ -147,6 +188,40 @@ export default function User() {
     }
 
 
+    const [image, setImage] = useState(null);
+    const [url, setUrl] = useState(null);
+
+
+    const handleImageChange = (e) => {
+        if (e.target.files[0]) {
+          setImage(e.target.files[0]);
+        }
+      };
+    
+      const handleSubmit = () => {
+        const imageRef = ref(storage, "image");
+
+        uploadBytes(imageRef, image)
+          .then(() => {
+            getDownloadURL(imageRef)
+              .then((url) => {
+                setUrl(url);
+              })
+              .catch((error) => {
+                console.log(error.message, "error getting the image url");
+              });
+            setImage(null);
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
+          console.log(url);
+console.log(setUrl);
+      };
+
+
+
+
     return (
         <><Navbar className="navbar"></Navbar>
             <div className="user">
@@ -154,11 +229,19 @@ export default function User() {
                     <h1 className="username">{name}</h1>
                 </div>
 
-                <AccountCircleIcon
+
+
+
+<Avatar src={url} sx={{ width: 150, height: 150 }} />
+      <input type="file" onChange={handleImageChange} />
+      <button onClick={handleSubmit}>Submit</button>
+
+
+                {/*                 <AccountCircleIcon
                     className="avatar"
                     sx={{ width: 86, height: 86 }}
                 ></AccountCircleIcon>
-
+ */}
                 <div>
                     <Button variant="contained" id="btnLogOut" onClick={goToGroups}>
                         All groups
