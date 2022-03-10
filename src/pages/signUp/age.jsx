@@ -1,5 +1,4 @@
 import { Grid, TextField } from "@mui/material";
-import { useState } from "react";
 import { isAdult } from "./signupValidation";
 
 export default function Age( { error, setError } ) {

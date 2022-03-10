@@ -1,4 +1,3 @@
-import { Password } from "@mui/icons-material";
 import { Grid, TextField } from "@mui/material";
 import { useState } from "react";
 import { isStrongPassword } from "./signupValidation";

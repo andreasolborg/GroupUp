@@ -52,7 +52,6 @@ export default function SignUp() {
       const data = new FormData(event.currentTarget);
 
       if (interests.length < 1) {
-        console.log("test");
         setInterestsError(true);
         return;
       }
@@ -80,11 +79,11 @@ export default function SignUp() {
 
   const storeUser = async (firstName, lastName, gender, age, mail, interests) => {
     await setDoc(doc(db, "profile", mail), {
-      testName: firstName,
-      testEmail: mail,
-      testLastname: lastName,
-      testGender: gender,
-      testAge: age,
+      firstname: firstName,
+      email: mail,
+      lastname: lastName,
+      gender: gender,
+      age: age,
       interest: interests
     });
   }

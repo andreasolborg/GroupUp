@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState } from "react";
 
 import List from '@mui/material/List';
-import { FormControl, Grid, IconButton, InputAdornment, TextField } from "@mui/material";
+import { Grid, IconButton, InputAdornment, TextField } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import InterestList from './interestList';
 

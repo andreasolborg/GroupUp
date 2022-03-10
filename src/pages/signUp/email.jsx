@@ -1,5 +1,4 @@
 import { Grid, TextField } from "@mui/material";
-import { useState } from "react";
 import { isValidEmail } from "./signupValidation";
 
 

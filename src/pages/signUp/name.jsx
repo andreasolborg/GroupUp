@@ -1,5 +1,4 @@
 import { Grid, TextField } from "@mui/material";
-import { useState } from "react";
 import { isValidName } from "./signupValidation";
 
 export default function Name( {errorFirst, setErrorFirst, errorLast, setErrorLast} ) {
