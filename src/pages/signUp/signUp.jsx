@@ -20,12 +20,17 @@ import { FormLabel, RadioGroup, FormControl, Radio } from '@mui/material';
 import Interests from './interests';
 import LocalizationProvider, { MuiPickersAdapterContext } from '@mui/lab/LocalizationProvider';
 
+
 export default function SignUp() {
 
   const [date, setDate] = useState();
 
   const theme = createTheme();
   const nav = useNavigate();
+
+  const checkAge = async() =>{
+
+  }
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
@@ -38,6 +43,7 @@ export default function SignUp() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    
     try {
       const data = new FormData(event.currentTarget);
       await createUserWithEmailAndPassword(
@@ -134,6 +140,7 @@ export default function SignUp() {
                   fullWidth
                   name="age"
                   label="Age"
+                  type="number"
                   id="age"
                   autoComplete='age'
                 />
