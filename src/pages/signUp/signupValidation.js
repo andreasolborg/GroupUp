@@ -38,13 +38,13 @@ export const isValidEmail = (email) => {
 
 
 /**
- * Checks if string only contains upper and lowercase letters from a-z.
+ * Checks if string only contains upper and lowercase letters from a-å.
  * 
  * @param {string} string 
  * @returns A boolean value that indicates whether string matches criteria.
  */
 export const isValidName = (string) => {
-    var letters = /^[A-Za-z]+$/;
+    var letters = /^[A-Za-zæøåÆØÅ]+$/;
 
     return letters.test(string);
 }

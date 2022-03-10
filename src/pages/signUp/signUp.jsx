@@ -10,10 +10,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { auth } from "../../firebase-config";
-import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { NavLink, useNavigate } from 'react-router-dom';
-import { doc, setDoc } from 'firebase/firestore'
-import { db } from "../../firebase-config";
+import { createUser } from "../../firebase-config";
 import Interests from './interests';
 import Passwords from './passwords';
 import Name from './name';
@@ -60,33 +59,19 @@ export default function SignUp() {
         return;
       }
 
-      await createUserWithEmailAndPassword(
-        auth, data.get("email"), data.get("password")
-      );
-
-      storeUser(
+      createUser(
         data.get("firstName"),
         data.get("lastName"),
         data.get("gender"),
         data.get("age"),
         data.get("email"),
-        interests
+        interests,
+        data.get("password")
       );
     } catch (error) {
       console.log(error.message);
     }
   };
-
-  const storeUser = async (firstName, lastName, gender, age, mail, interests) => {
-    await setDoc(doc(db, "profile", mail), {
-      firstname: firstName,
-      email: mail,
-      lastname: lastName,
-      gender: gender,
-      age: age,
-      interest: interests
-    });
-  }
 
   return (
     <ThemeProvider theme={theme}>
