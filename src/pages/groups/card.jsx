@@ -12,11 +12,6 @@ import "./card.css";
 import { makeStyles } from "@material-ui/core";
 import PopUp from "../../components/popup";
 
-
-
-
-
-
 export const Card = (props) => {
 
     const [reloader, setReloader] = useState([]);

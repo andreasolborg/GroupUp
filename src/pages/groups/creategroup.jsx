@@ -68,10 +68,8 @@ export default function CreateGroup() {
         //Algo for comma-separated memebers list
         const membersArray = document.getElementById("enterFriendInput").value.split(", ");
 
-        if (groupName === "" || interest === "" || location === "") {
+        if (!checkInputsForValidation()) {
      
-        if (!checkInputsForValidation()){
-            console.log("Wrong input(s)");
             setOpen(true);
             return;
         }
@@ -172,5 +170,4 @@ export default function CreateGroup() {
         </div>
 
     )
-}
 }
