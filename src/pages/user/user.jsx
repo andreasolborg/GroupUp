@@ -13,6 +13,7 @@ import Avatar from '@mui/material/Avatar'
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 
+
 // const nameRef = doc(db, "profile", id);
 
 
@@ -23,6 +24,19 @@ export default function User() {
     const [user, setUser] = useState({});
     const [name, setName] = useState("");
     const nav = useNavigate();
+
+    const [open, setOpen] = useState(false);
+
+    const handleClick = () => {
+        setOpen(true);
+    };
+    
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+          }
+        setOpen(false);
+      };
 
 
     /**
