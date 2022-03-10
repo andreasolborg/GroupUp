@@ -19,6 +19,8 @@ export default function User() {
     const [name, setName] = useState( "" );
     const [interests, setInterests] = useState([]);
 
+    const [interest, setInterest] = useState("");
+
     const nav = useNavigate();
 
     const getUserInfo = async (currentUser) => {
@@ -29,6 +31,26 @@ export default function User() {
                 setInterests(t.data().interest);
             }
         })
+    }
+
+    const updateInterest = (e) => {
+        setInterest(e.target.value);
+    }
+
+    function addInterest() {
+        if (!interests.includes(interest) && interest.trim().length != 0) {
+            setInterests(interests => [...interests, interest]);
+        }
+    }
+
+    function removeInterest() {
+        let tempList = [...interests];
+        const index = tempList.indexOf(interest);
+        if (index < 0) {
+            return;
+        }
+        tempList.splice(index, 1);
+        setInterests(tempList);
     }
 
     useEffect(() => {
@@ -158,20 +180,25 @@ export default function User() {
                             <p>{item}</p>
                         ))}
                     </div>
-                    <h3>Choose New Interests:</h3>
+                    <h3>Change interest:</h3>
                     <div className="newInterest">
                         <div>
-                            <p>new Interest:</p>
-                            <TextField id="filled-basic" label="Filled" variant="filled" />
-                        </div>
-                        <div>
-                            <p>Change with:</p>
-                            <TextField id="filled-basic" label="Filled" variant="filled" />
+                            <p>Interest:</p>
+                            <TextField i
+                                d="filled-basic" 
+                                label="f.eks. fotball" 
+                                variant="filled" 
+                                value = {interest}
+                                onChange = {updateInterest}
+                            />
                         </div>
                     </div>
 
-                    <Button variant="contained" id="btnSend">
-                        CHANGE
+                    <Button variant="contained" id="btnSend" onClick={addInterest}>
+                        Add
+                    </Button>                    
+                    <Button variant="contained" id="btnSend" onClick={removeInterest}>
+                        Remove
                     </Button>
                 </div>
 
