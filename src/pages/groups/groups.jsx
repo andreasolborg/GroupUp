@@ -39,18 +39,20 @@ export default function Groups() {
     const searchBarChanged = () => {
         var arrRes = [];
         groups.forEach((g) => {
-            if (g.interest.toLowerCase().includes(document.getElementById("searchInput").value.toLowerCase())){
+            if (g.interest.toLowerCase().includes(document.getElementById("searchInput").value.toLowerCase()) &&
+            g.location.toLowerCase().includes(document.getElementById("locationSearchInput").value)){
                 arrRes.push(g);
             }
         });
         setGroupTemp(arrRes);  
     }
+   
 
     return <div className="topOfGroups">
         <Navbar></Navbar>
         <h1>GROUPS PAGE</h1>
-        <input id="searchInput" placeholder="search..." onChange={() => {searchBarChanged()}}/>
-
+        <input id="searchInput" placeholder="search by interest..." onChange={() => {searchBarChanged()}}/>
+        <input id="locationSearchInput" placeholder="search by location..." onChange={() => {searchBarChanged()}}/>
         <CardList groups={groupTemp}/>
     </div>
 }
