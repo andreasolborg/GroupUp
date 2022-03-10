@@ -15,63 +15,21 @@ import Navbar from "../../components/navbar";
 export default function User() {
 
     const profileCollectionReference = collection(db, "profile");
-    const [profiles, setProfiles] = useState([]);
     const [user, setUser] = useState({});
     const [name, setName] = useState( "" );
 
     const nav = useNavigate();
 
-
-    /**
-     * Hook for loading the list of profiles from firebase.
-     * Currently not in use?
-     */
-
-    /*
-    useEffect(() => {
-        const getProfiles = async () => {
-          const data = await getDocs(profileCollectionReference);
-          setProfiles(data.docs.map((doc) => ({...doc.data(), id: doc.id})))
-        };
-        getProfiles();
-      }, []); 
-      */
-
-    /*
-    const getProfiles = async () => {
-        const data = await getDocs(profileCollectionReference);
-        setProfiles(data.docs.map((doc) => ({...doc.data(), id: doc.id})))
-        data.forEach((t) => {
-            console.log(t.id);
-            console.log(t.data());
-            console.log(t.data().testAge);
-        })
-      }; */
-    
-
     const getName = async (currentUser) => {
         const data = await getDocs(profileCollectionReference);
         data.forEach((t) => {
-            console.log(t.id);
-            if (t.id == currentUser.email) {
-                setName(t.data().testName + " " + t.data().testLastname)
+            if (t.id.toLowerCase() == currentUser.email.toLowerCase()) {
+                setName(t.data().firstname + " " + t.data().lastname)
             }
         })
     }
 
     useEffect(() => {
- 
-        /* const getName = async () => {
-            const queryName = query(profileCollectionReference, where("testEmail", "==", auth.currentUser.email));
-
-            const snapshotName = await getDocs(queryName);
-            console.log(queryName)
-            setName(snapshotName.metadata.testName);
-            
-        }
-        getName(); */
-
-
         onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
 
@@ -79,7 +37,7 @@ export default function User() {
                 console.log(auth.currentUser);
                 nav("/");
             }
-
+            
             getName(currentUser);
         });
     }, []);
