@@ -17,14 +17,16 @@ export default function User() {
     const profileCollectionReference = collection(db, "profile");
     const [user, setUser] = useState({});
     const [name, setName] = useState( "" );
+    const [interests, setInterests] = useState([]);
 
     const nav = useNavigate();
 
-    const getName = async (currentUser) => {
+    const getUserInfo = async (currentUser) => {
         const data = await getDocs(profileCollectionReference);
         data.forEach((t) => {
             if (t.id.toLowerCase() == currentUser.email.toLowerCase()) {
                 setName(t.data().firstname + " " + t.data().lastname)
+                setInterests(t.data().interest);
             }
         })
     }
@@ -37,8 +39,8 @@ export default function User() {
                 console.log(auth.currentUser);
                 nav("/");
             }
-            
-            getName(currentUser);
+
+            getUserInfo(currentUser);
         });
     }, []);
 
@@ -152,10 +154,9 @@ export default function User() {
                 <div className="interests">
                     <h3>My Interests:</h3>
                     <div className="myInterests">
-                        <p>Interest 1</p>
-                        <p>Interest 2</p>
-                        <p>Interest 3</p>
-                        <p>Interest 4</p>
+                        {interests.map((item) => (
+                            <p>{item}</p>
+                        ))}
                     </div>
                     <h3>Choose New Interests:</h3>
                     <div className="newInterest">
