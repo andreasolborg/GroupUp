@@ -1,9 +1,28 @@
+import { Password } from "@mui/icons-material";
 import { Grid, TextField } from "@mui/material";
+import { useState } from "react";
+import { isStrongPassword } from "./signupValidation";
 
 
-export default function Passwords() {
+export default function Passwords( {error, setError, confirmError, setConfirmError} ) {
     
-    
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+
+    const updatePassword = (e) => {
+        let pass = e.target.value
+        setPassword(pass);
+        setError(!isStrongPassword(pass));
+
+        setConfirmError(! (pass == confirmPassword));
+    }
+
+    const updateConfirmPassword = (e) => {
+        let pass = e.target.value;
+        setConfirmPassword(pass)
+        setConfirmError(!(password == e.target.value));
+    }
+
     return (
         <>
             <Grid item xs={12}>
@@ -15,7 +34,10 @@ export default function Passwords() {
                     type="password"
                     id="password"
                     autoComplete="new-password"
-                    helperText="Password must have at least 3 numbers and 3 letters"
+                    value={ password }
+                    onChange={ updatePassword }
+                    error = { error }
+                    helperText={ error ? "Password must have at least 3 numbers and 3 letters" : "" }
                 />
             </Grid>
             <Grid item xs={12}>
@@ -27,7 +49,10 @@ export default function Passwords() {
                     type="password"
                     id="confirmPassword"
                     autoComplete="new-password"
-                    helperText="Password must have at least 3 numbers and 3 letters"
+                    value = { confirmPassword }
+                    onChange={ updateConfirmPassword }
+                    error = { confirmError }
+                    helperText={ confirmError ? "Confirmation password must be same as password" : ""}
                 />
             </Grid>
         </>
