@@ -4,7 +4,7 @@ import "./groups.css";
 import { db } from "../../firestore";
 import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion } from 'firebase/firestore'
 import { useNavigate } from "react-router-dom";
-import { getBottomNavigationUtilityClass } from "@mui/material";
+import { getBottomNavigationUtilityClass, TextField } from "@mui/material";
 import Card from "./card";
 import { CardList } from "./cardlist";
 import "./card.css";
@@ -16,6 +16,7 @@ import Navbar from "../../components/navbar";
 export default function Groups() {
 
     const [groups, setGroups] = useState([]);
+    const [groupTemp, setGroupTemp] = useState([]);
     const groupsCollectionReference = collection(db, "groups");
     const navi = useNavigate();
 
@@ -29,17 +30,27 @@ export default function Groups() {
         const getGroups = async () => {
             const querySnapshot = await getDocs(groupsCollectionReference);
             setGroups(querySnapshot.docs.map((doc) => ({...doc.data(), id: doc.id})));
+            setGroupTemp(querySnapshot.docs.map((doc) => ({...doc.data(), id: doc.id})));
         
         };
         getGroups();
     }, []);
 
-
+    const searchBarChanged = () => {
+        var arrRes = [];
+        groups.forEach((g) => {
+            if (g.interest.toLowerCase().includes(document.getElementById("searchInput").value.toLowerCase())){
+                arrRes.push(g);
+            }
+        });
+        setGroupTemp(arrRes);  
+    }
 
     return <div className="topOfGroups">
         <Navbar></Navbar>
         <h1>GROUPS PAGE</h1>
-        <CardList groups={groups}/>
+        <input id="searchInput" placeholder="search..." onChange={() => {searchBarChanged()}}/>
+
+        <CardList groups={groupTemp}/>
     </div>
 }
-
