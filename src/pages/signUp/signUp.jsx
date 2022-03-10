@@ -18,45 +18,43 @@ import { doc, setDoc } from 'firebase/firestore'
 import { db } from "../../firebase-config";
 import { FormLabel, RadioGroup, FormControl, Radio } from '@mui/material';
 import Interests from './interests';
-import Alert from '@material-ui/lab/Alert';
 import LocalizationProvider, { MuiPickersAdapterContext } from '@mui/lab/LocalizationProvider';
+
 
 export default function SignUp() {
 
   const [date, setDate] = useState();
-  const [error, setError] = React.useState(false);
-
 
   const theme = createTheme();
   const nav = useNavigate();
 
+  const checkAge = async() =>{
+
+  }
+
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser && checkAge==true) {
-        console.log(auth.currentUser);
-        nav("/user");
-      }
+        if (currentUser) {
+            console.log(auth.currentUser);
+            nav("/user");
+        }
     });
-  }, []);
+  }, []); 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (checkAge()) {
-      console.log("return checkAge");
-      return;
-    }
+    
     try {
       const data = new FormData(event.currentTarget);
       await createUserWithEmailAndPassword(
         auth, data.get("email"), data.get("password")
       );
-
       storeUser(
-        data.get("firstName"),
-        data.get("lastName"),
-        data.get("gender"),
-        data.get("age"),
-        data.get("email"),
+       data.get("firstName"),
+       data.get("lastName"),
+       data.get("gender"),
+       data.get("age"),
+       data.get("email"),
       );
     } catch (error) {
       console.log(error.message);
@@ -71,21 +69,12 @@ export default function SignUp() {
       testGender: gender,
       testAge: age,
       interest: ["Formel1"]
-    });
+      });
   }
 
-  const checkAge = () => {
-    if ((document.getElementById("age").value) < 18) {
-      console.log(document.getElementById("age").value)
-      console.log("check age")
-      return false;
-    }
+  const listProfiles = async () => {
 
   }
-
-
-
-
 
 
   return (
@@ -134,27 +123,26 @@ export default function SignUp() {
                 <FormControl >
                   <FormLabel >Gender</FormLabel>
                   <RadioGroup name="gender" required row autoComplete="sex">
-                    <FormControlLabel value="Male" control={<Radio />} label="Male" />
-                    <FormControlLabel value="Female" control={<Radio />} label="Female" />
-                    <FormControlLabel value="Other" control={<Radio />} label="Other" />
+                    <FormControlLabel value="Male" control={<Radio />} label="Male"/>
+                    <FormControlLabel value="Female" control={<Radio />} label="Female"/>
+                    <FormControlLabel value="Other" control={<Radio />} label="Other"/>
                   </RadioGroup>
                 </FormControl>
               </Grid>
 
               <Grid item xs={12}>
-                <Interests name="interests" required />
+                <Interests name="interests" required/>
               </Grid>
 
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  type="number"
                   name="age"
                   label="Age"
+                  type="number"
                   id="age"
                   autoComplete='age'
-
                 />
               </Grid>
 
@@ -182,12 +170,10 @@ export default function SignUp() {
             </Grid>
 
             <Button
-              onClick={checkAge}
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-
             >
               Sign Up
             </Button>
