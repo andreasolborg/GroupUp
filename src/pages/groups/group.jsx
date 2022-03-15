@@ -257,7 +257,10 @@ export default function Group() {
     const showAdminButton = () => {
         document.getElementById("admin").style = "display: inline-block";
         document.getElementById("showAdmin").style = "display: none";
+    }
 
+    const goToMatching = () => {
+        navi("/matchpage/"+id);
     }
 
     // <Button onClick={getAdminElements} variant="contained">Admin</Button>
@@ -294,6 +297,7 @@ export default function Group() {
                 <Button variant="contained" onClick={hideAdminButton}>Hide Admin Priviliges</Button>
                     <h2>Gruppeleder</h2>
                     <p>These functions are hidden for regular members</p>
+                    <Button variant="contained" onClick={goToMatching}>Enter Matching</Button>
 
                     <div className="update-details">
                         <h3>Update Group Details</h3>
