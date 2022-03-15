@@ -1,0 +1,15 @@
+.topOfGroups{
+    align-items: center;
+    background-color: violet;
+}
+
+.filterGroups{
+    align-items: center;
+    background-color: greenyellow;
+    text-align: center;
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-top: 25px;
+    padding-top: 10px;;
+
+}
