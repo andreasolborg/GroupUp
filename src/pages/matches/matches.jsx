@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../../components/navbar";
 import Grid from '@mui/material/Grid';
-import Card from "../../components/Card";
+import Card from "../../components/groupCard";
 import { makeStyles } from "@material-ui/core";
 
 

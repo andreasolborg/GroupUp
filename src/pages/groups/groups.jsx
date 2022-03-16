@@ -6,7 +6,7 @@ import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc,
 import { useNavigate } from "react-router-dom";
 import { getBottomNavigationUtilityClass, TextField } from "@mui/material";
 import MediaCard from "./card";
-import { CardList } from "./cardlist";
+import CardList from "./cardlist";
 import "./card.css";
 import Button from '@material-ui/core/Button';
 import Navbar from "../../components/navbar";

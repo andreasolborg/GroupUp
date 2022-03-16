@@ -5,28 +5,28 @@ import { makeStyles } from "@material-ui/core";
 
 
 const useStyles = makeStyles({
-   /* gridContainer: {
-    paddingTop: "50px",
+    gridContainer: {
+    paddingTop: "20px",
     direction: "column",
-    alignItems: "center",
+    alignItems: "stretch",
     display: "flex",
     justifyContent: "center",
-    xs: "auto", 
-    sm: "6",
-    md: "4",
-    backgroundColor: "orange",
- */   
+    xs: 12, 
+    md: 6,
+    lg: 4
     } 
-  })
+  });
 
-export const CardList = (props) => {
+
+export default function CardList( {groups} ) {
     const classes = useStyles();
     return(
-    <div className="testdiv">
-        <Grid container spacing = {2} className={classes.gridContainer}>
-        {props.groups.map((group) => (
-            <MediaCard key={group.id} group={group}></MediaCard>
-        ))} 
+        <Grid container spacing = {5} className={classes.gridContainer}>
+            {groups.map((group) => (
+                <Grid key={group.id} item>
+                    <MediaCard group={group}></MediaCard>
+                </Grid>
+            ))} 
         </Grid>
-    </div>)
+    );
 }   

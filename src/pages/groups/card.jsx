@@ -109,33 +109,31 @@ export const MediaCard = (props) => {
     return (
         <div>
             <Card className={classes.root}>
-                <Grid item xs={6} md={8} className={classes.gridContainer}>
-                    <CardActionArea>
-                        <CardMedia className={classes.media} image="https://st.depositphotos.com/2325841/2529/i/600/depositphotos_25293855-stock-photo-multi-ethnic-group-thumbs-up.jpg" />
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2">
-                                {props.group.groupName}
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary" component="p">
-                                {props.group.interest}
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary" component="p">
-                                {props.group.location}
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary" component="p">
-                                {props.group.owner}
-                            </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                    <CardActions className={classes.button}>
-                        <div className="card-buttons">
-                            <Button id="visitGroupButton" onClick={() => { enterGroup(props.group.id) }} variant="outlined">Visit group</Button>
-                            <Button id="requestButton" onClick={() => { requestToJoin() }} variant="outlined">Request to join group</Button>
-                            <PopUp open={open} severity={severity} feedbackMessage={feedbackMessage} handleClose={handleClose}>
-                            </PopUp>
-                        </div>
-                    </CardActions>
-                </Grid>
+                <CardActionArea>
+                    <CardMedia className={classes.media} image="https://st.depositphotos.com/2325841/2529/i/600/depositphotos_25293855-stock-photo-multi-ethnic-group-thumbs-up.jpg" />
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="h2">
+                            {props.group.groupName}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                            {props.group.interest}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                            {props.group.location}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                            {props.group.owner}
+                        </Typography>
+                    </CardContent>
+                </CardActionArea>
+                <CardActions className={classes.button}>
+                    <div className="card-buttons">
+                        <Button id="visitGroupButton" onClick={() => { enterGroup(props.group.id) }} variant="outlined">Visit group</Button>
+                        <Button id="requestButton" onClick={() => { requestToJoin() }} variant="outlined">Request to join group</Button>
+                        <PopUp open={open} severity={severity} feedbackMessage={feedbackMessage} handleClose={handleClose}>
+                        </PopUp>
+                    </div>
+                </CardActions>
             </Card>
         </div>
     );
