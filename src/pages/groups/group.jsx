@@ -261,7 +261,7 @@ export default function Group() {
     }
 
     const goToMatching = () => {
-        navi("/matchpage/"+id);
+        navi("/matchpage/" + id);
     }
 
     // <Button onClick={getAdminElements} variant="contained">Admin</Button>
@@ -292,10 +292,10 @@ export default function Group() {
             </div>
             <div id="showAdmin">
                 <Button variant="contained" onClick={showAdminButton}>Show Admin Priviliges</Button>
-                </div>
+            </div>
             <div id="admin">
                 <div className="text">
-                <Button variant="contained" onClick={hideAdminButton}>Hide Admin Priviliges</Button>
+                    <Button variant="contained" onClick={hideAdminButton}>Hide Admin Priviliges</Button>
                     <h2>Gruppeleder</h2>
                     <p>These functions are hidden for regular members</p>
                     <Button variant="contained" onClick={goToMatching}>Enter Matching</Button>
@@ -321,7 +321,7 @@ export default function Group() {
                     <button onClick={addUserButton}>Add</button>
                 </div>
                 <div>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DateTimePicker
                             renderInput={(props) => <TextField {...props} />}
                             label="DateTimePicker"
@@ -334,20 +334,20 @@ export default function Group() {
                     <button onClick={setNewDate}>Send</button>
                 </div>
 
-            <GroupOwnerPanel
-                hideAdminButton = { hideAdminButton }
-                updateGroupDetails = { updateGroupDetails }
-                removeUserButton = { removeUserButton }
-                setNewDate = { setNewDate }
-                sendNewDescription = { sendNewDescription }
-                requests = { requests }
-                leaveGroup = { leaveGroup }
-                addUserButton = { addUserButton }
-                setDateTime = { setDateTime }
-                dateTime = { dateTime }
-                acceptRequestButton = { acceptRequestButton }
-            />
-
+                <GroupOwnerPanel
+                    hideAdminButton={hideAdminButton}
+                    updateGroupDetails={updateGroupDetails}
+                    removeUserButton={removeUserButton}
+                    setNewDate={setNewDate}
+                    sendNewDescription={sendNewDescription}
+                    requests={requests}
+                    leaveGroup={leaveGroup}
+                    addUserButton={addUserButton}
+                    setDateTime={setDateTime}
+                    dateTime={dateTime}
+                    acceptRequestButton={acceptRequestButton}
+                />
+            </div>
         </div>
     )
 }
