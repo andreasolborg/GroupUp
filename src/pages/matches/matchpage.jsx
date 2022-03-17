@@ -1,22 +1,11 @@
 import React from "react";
-import { useNavigate, useParams, route } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { auth } from "../../firebase-config";
-import { db } from "../../firestore";
-import { getBottomNavigationUtilityClass } from "@mui/material";
-import Button from '@material-ui/core/Button';
-
-import { collection, arrayRemove, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion } from 'firebase/firestore'
-import { ClassNames } from "@emotion/react";
 import Navbar from "../../components/navbar";
-import DateTimePicker from 'react-datetime-picker';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import TextField from '@material-ui/core/TextField';
+import { db } from "../../firestore";
+import { collection, arrayRemove, getDocs, updateDoc, doc, getDoc, arrayUnion } from 'firebase/firestore'
 import "./matchpage.css";
-import { ConstructionOutlined, VaccinesRounded } from "@mui/icons-material";
-import { roundToNearestMinutes } from "date-fns";
-
 
 
 /**
@@ -30,17 +19,11 @@ export default function Matchpage() {
     const { id } = useParams();
 
     const groupsCollectionReference = collection(db, "groups");
-    const groupRef = doc(db, "groups", id);
 
     const [groups, setGroups] = useState([]);
-    const [head, setHead] = useState("not sat yet");
-    const [rel, setRel] = useState(0);
 
-    var headOfArray;
-    var isReady;
-    var queueArray = [];
-    var bufferArray = [];
-    var key = false;
+    const [displayedGroup, setDisplayedGroup] = useState({});
+
 
     /**
      * Get all groups that this user does not own
@@ -48,81 +31,21 @@ export default function Matchpage() {
      * Will create the foundation of the matching-queue, which will later be updated
      */
     useEffect(() => {
-        const getAllGroups = async () => {
-         //   const q = query(collection(db, "groups"), where("owner", "!=", auth.currentUser.email));
-         //   const querySnapshot = await getDocs(q);
-            const querySnapshot = await getDocs(groupsCollectionReference);
-           
-            setGroups(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-       
-            console.log("GROUPS SIZE: ", groups.length);
-        };
-        getAllGroups();
+        updateGroups();
     }, []); 
 
-/*
-    useEffect(() => {
-        const getGroups = async () => {
-            const querySnapshot = await getDocs(groupsCollectionReference);
-            setGroups(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
 
-        };
-        getGroups();
+    /**
+     * Sets the starting values for the groups and displayedgroup hooks
+     */
+    const updateGroups = async () => {
+        const querySnapshot = await getDocs(groupsCollectionReference)
 
-    }, []);
-    */
+        const tempGroups = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
 
-   
-
-    const reloadArray = async () => {
-        const q = query(collection(db, "groups"), where("owner", "!=", auth.currentUser.email));
-        const querySnapshot = await getDocs(q);
-        setGroups(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-        document.getElementById("gname").innerHTML = "Click 'NEXT' to begin matching";
+        setDisplayedGroup(tempGroups.shift());
+        setGroups(tempGroups);
     }
-
-
-
-
-    const initQueue = async () => {
-        await reloadArray();
-
-    }
-
-
-
-    const nextGroupButton = () => {
-        /*    console.log("LENGTH FROM nextGroupButton: ", queueArray.length);
-            if (queueArray.length === 0) {
-                console.log("Arraylength is 0 - wtd");
-                return;
-            } */
-         
-        try {
-            headOfArray = groups.shift();
-            document.getElementById("gname").innerHTML = headOfArray.groupName;
-            document.getElementById("ginterest").innerHTML = headOfArray.interest;
-            document.getElementById("gdescription").innerHTML = headOfArray.description;
-            document.getElementById("gdate").innerHTML = new Date(headOfArray.datetime.seconds * 1000);
-
-            if (headOfArray.goldmatches.includes(id)) {
-                document.getElementById("isMatched").innerHTML = "ALREADY MATCHED WITH GOLD";
-            } else if (headOfArray.regmatches.includes(id)) {
-                document.getElementById("isMatched").innerHTML = "ALREADY MATCHED";
-            } else {
-                document.getElementById("isMatched").innerHTML = "";
-            }
-
-        } catch (error) {
-            console.error(error); //Check this one if the queue is very short
-            document.getElementById("gname").innerHTML = "End of groups!";
-            document.getElementById("ginterest").innerHTML = "Click refresh to re-loop";
-            document.getElementById("gdescription").innerHTML = "";
-            document.getElementById("gdate").innerHTML = "";
-            document.getElementById("isMatched").innerHTML = "";
-        }
-    }
-
 
     /**
      * Current thought: Keep 2 arrays in firestore: 1) regular matches 2) gold matches. 
@@ -133,7 +56,7 @@ export default function Matchpage() {
      */
     const matchWithGoup = async (isGold) => {
         //Get id of group on head
-        const gref = doc(db, "groups", headOfArray.id);
+        const gref = doc(db, "groups", displayedGroup.id);
 
         if (isGold) {
             await updateDoc(gref, {
@@ -144,15 +67,13 @@ export default function Matchpage() {
                 regmatches: arrayUnion(id)
             });
         }
-        checkMutualMatch(id, headOfArray.id);
+        checkMutualMatch(id, displayedGroup.id);
         if (isGold) {
             document.getElementById("isMatched").innerHTML = "MATCHED WITH GROUP USING GOLD";
         } else {
             document.getElementById("isMatched").innerHTML = "MATCHED WITH GROUP";
         }
-        //await reloadArray();
     }
-
 
 
     const checkMutualMatch = async (ownGroupId, otherGroupId) => {
@@ -169,11 +90,14 @@ export default function Matchpage() {
         } else {
             console.log("Not a mutual match");
         }
+    }
 
+    const nextGroup = () => {
+        setDisplayedGroup(groups.shift());
     }
 
     const unmatchButton = async () => {
-        const gref = doc(db, "groups", headOfArray.id);
+        const gref = doc(db, "groups", displayedGroup.id);
         await updateDoc(gref, {
             goldmatches: arrayRemove(id),
             regmatches: arrayRemove(id)
@@ -184,28 +108,26 @@ export default function Matchpage() {
     }
 
     const logButton = () => {
-        console.log("LOGGER! Size: ", queueArray.length);
-        queueArray.map((m) => {
-            console.log("LOG: ", m);
+        console.log("LOGGER! Size: ", groups.length);
+        groups.map((m) => {
+            console.log("LOG: ", m.groupName);
         });
     }
 
 
     return (
         <div>
-            <Navbar />
+            <Navbar/>
             <h2>testing</h2>
-            <button onClick={initQueue}>Refresh</button>
-            <button id="reloadButton" onClick={reloadArray}>Reload Array</button>
 
             <div id="matchcard">
-                <h1 id="gname">"Not sat yet</h1>
-                <h2 id="ginterest">Not sat yet</h2>
-                <p id="gdescription">Not sat yet</p>
-                <h2 id="gdate">Not sat yet</h2>
+                <h1 id="gname">{displayedGroup.groupName}</h1>
+                <h2 id="ginterest">{displayedGroup.interest}</h2>
+                <p id="gdescription">{displayedGroup.description}</p>
+                <h2 id="gdate"></h2>
                 <h2 id="isMatched"></h2>
             </div>
-            <button onClick={() => { nextGroupButton() }}>Next group</button>
+            <button onClick={nextGroup}>Next group</button>
             <button onClick={() => { matchWithGoup(true) }}>Match with GOLD</button>
             <button onClick={() => { matchWithGoup(false) }}>Match with Regular</button>
             <button onClick={() => { unmatchButton() }}>Unmatch (gold and regular)</button>
