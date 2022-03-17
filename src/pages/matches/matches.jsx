@@ -1,36 +1,73 @@
-import React from 'react';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import HomeIcon from '@mui/icons-material/Home';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ChatIcon from '@mui/icons-material/Chat';
-import PersonPinIcon from '@mui/icons-material/PersonPin';
-
-//import * as React from 'react';
-
-import './matches.css';
-//import Directory from '../../components/directory/directory.component';
+import React from "react";
+import Navbar from "../../components/navbar";
+import Grid from '@mui/material/Grid';
+import Card from "../../components/groupCard";
+import { makeStyles } from "@material-ui/core";
 
 
-export default function IconTabs() {
-  const [value, setValue] = React.useState(0);
+const useStyles = makeStyles({
+  gridContainer: {
+  paddingTop: "20px",
+  direction: "column",
+  alignItems: "stretch",
+  display: "flex",
+  justifyContent: "center",
+  xs: 12, 
+  md: 6,
+  lg: 4
+  } 
+})
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+const mediaCards = [
+  {
+    title: 'Fotball',
+    image: 'https://www.britsoc.co.uk/media/23986/adobestock_4437974.jpg',
+    description:
+      'Fotball er en ballidrett mellom to lag, hvert bestående av elleve spillere, hvor formålet er å få ballen flest ganger inn i motstanderlagets mål. Idretten utøves på en rektangulær bane med ett mål i hver kortende, og det laget som har fått flest mål når spilletiden er ute, vinner kampen.',
+  },
+  {
+    title: 'Klatring',
+    image: 'https://eu-assets.simpleview-europe.com/lillehammer/imageresizer/?image=%2Fdbimgs%2FLIL-Gallery-TyriliKlatring.jpg&action=WhatsOnFP',
+    description:
+      'Klatring er en aktivitet som innebærer kroppslig bevegelse i bratt terreng, vanligvis i fjell eller i innendørs klatrehaller.',
+  },
+  {
+    title: 'Basketball',
+    image: 'https://cdn.vox-cdn.com/thumbor/ZSH9c_8OQdZXvb25AFmE0G1FTXs=/0x0:4398x2931/920x613/filters:focal(1590x317:2292x1019):format(webp)/cdn.vox-cdn.com/uploads/chorus_image/image/69330596/1316120947.0.jpg',
+    description:
+      'Basketball eller basket er en lagsport der to lag, bestående av fem spillere, prøver å score poeng mot hverandre ved å kaste en ball gjennom en ring. Dette må skje i tråd med reglene som er forhåndsbestemt før spillet starter.',
+  },
+  {
+    title: 'Langrenn',
+    image: 'https://g.acdn.no/obscura/API/dynamic/r1/nadp/tr_2000_2000_s_f/0000/2020/03/03/3423931554/1/original/17039220.jpg?chk=199993',
+    description:
+      'Langrenn er en konkurranseidrett utviklet fra skigåing. Langrenn utøves på to hovedmåter, klassisk stil og fristil. Når en løper går klassisk, følger skiene et spor, og som regel legges det festesmurning under skiene for at de ikke så lett skal gli når de skyves bakover for fremdrift.',
+  },
 
+
+
+];
+
+
+function Matches() {
+  const classes = useStyles();
   return (
-    <Tabs value={value} onChange={handleChange} aria-label="icon tabs example">
-      <Tab icon={<HomeIcon />} aria-label="home" />
-      <Tab icon={<FavoriteIcon />} aria-label="favorite" />
-      <Tab icon={<ChatIcon />} aria-label="chat" />
-      <Tab icon={<PersonPinIcon />} aria-label="person" iconPosition="end" label="Min profil" />
-    </Tabs>
+    <><div className="matches">
+    <div><Navbar></Navbar></div>
+
+    <Grid container spacing = {5} className={classes.gridContainer}>
+      {mediaCards.map((card, i) => {
+            return (
+              <Grid key={i} item>
+                <Card {...card} />
+              </Grid>
+            );
+          })}
+    </Grid>
+    
+    </div></>
+    
   );
 }
 
-
-
-
-
-
+export default Matches;

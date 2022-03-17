@@ -1,0 +1,83 @@
+/*#admin {
+    display: none;
+    font-family: 'Archivo', sans-serif;
+    width: 400px;
+    overflow: hidden;
+    box-shadow:0px 0px 15px -5px;
+    transition: 0.3s;
+    animation: ease-in;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    margin-left: 15px;
+    margin-right: 15px;
+    align-items: center;
+    background-color: #DDEEF5;
+}
+*/
+#admin {
+    display: none;
+    font-family: 'Archivo', sans-serif;
+    border-radius: 15px;
+    background-color: #DDEEF5;
+    margin: 15px;
+    padding-top: 15px;
+}
+
+#des-container {
+    margin: 15px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+#des {
+    font-family: 'Archivo', sans-serif;
+    overflow: hidden;
+    box-shadow:0px 0px 15px -5px;
+    transition: 0.3s;
+    animation: ease-in;
+    border-radius: 15px;
+    margin: auto;
+    width: 100%;
+}
+
+#showAdmin {
+    display: none;
+    margin: 15px;
+}
+
+#desc {
+    font-family: 'Archivo', sans-serif;
+    width:300px;
+    overflow: hidden;
+    box-shadow:0px 0px 15px -5px;
+    transition: 0.3s;
+    animation: ease-in;
+    border-radius: 15px;
+    background-color: beige;
+    margin: auto;
+
+}
+
+.text{
+    margin: 10px;
+    align-items: center;
+}
+
+.membersList {
+    margin-bottom: 15px;
+}
+
+.obsButton {
+    margin: 20px;
+}
+
+.remove-users {
+    margin: 25px;
+}
+
+#btnID {
+    background-color: #c6d7dd;
+    color: black;
+   margin: 10px;
+}
