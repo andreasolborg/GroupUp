@@ -190,7 +190,7 @@ export default function User() {
 
     const handleImageChange = (e) => {
         if (e.target.files[0]) {
-            setImage(e.target.files[0]);
+            setImage(e.target.files[0]);    
         }
     };
 
@@ -223,6 +223,7 @@ export default function User() {
         input.onchange = e => {
             handleImageChange(e);
         }
+
     }
 
 
@@ -239,7 +240,7 @@ export default function User() {
 
                 <Avatar onClick={uploadProfileImage} src={url} sx={{ width: 150, height: 150 }} />
                 {/*<input type="file" onChange={handleImageChange} />*/}
-                <button onClick={handleSubmit}>Submit</button>
+                <button onClick={handleSubmit}>Upload Image</button>
 
 
                 {/*                 <AccountCircleIcon
