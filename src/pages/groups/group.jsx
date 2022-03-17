@@ -262,7 +262,7 @@ export default function Group() {
     }
 
     const goToMatching = () => {
-        navi("/matchpage/"+id);
+        navi("/matchpage/" + id);
     }
 
     // <Button onClick={getAdminElements} variant="contained">Admin</Button>
@@ -279,24 +279,30 @@ export default function Group() {
                                 <p style={{ color: "grey", fontFamily: 'Archivo' }} >Owner: {owner}</p>
                             </Grid>
                             <Grid xs={3} style={{ alignItems: "center", justifyContent: "center" }}>
-                                <Button style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
+                                <Button id='btnID' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
                             </Grid>
                         </Grid>
                     </div>
                     <Grid container>
                         <Grid xs={6}>
-                            <h2>Interest: {interest}</h2>
-                            <h2>Location: {location}</h2>
-                            <h2>Meeting time: {dateTime.toUTCString()}</h2>
+                            <div className="information" >
+                                <p style={{ fontSize: 20 }} >
+                                    <b style={{ textDecoration: 'underline' }}>Interest:</b> {interest}
+                                </p>
+                                <p style={{ fontSize: 20 }}><b style={{ textDecoration: 'underline' }}>Location:</b> {location}</p>
+                                <p style={{ fontSize: 20 }}><b style={{ textDecoration: 'underline' }}>Meeting time: </b> {dateTime.toUTCString()}</p>
+                            </div>
                         </Grid>
                         <Grid xs={6}>
-                            <h2>Members:</h2>
-                            <div>
-                                {members.map((m) => (
-                                    <div className="membersList">
-                                        <p>{m}</p>
-                                    </div>
-                                ))}
+                            <div className="memberBox">
+                                <h2 style={{ fontFamily: 'Archivo', textDecoration: 'underline' }}><b>Members:</b></h2>
+                                <div>
+                                    {members.map((m) => (
+                                        <div className="membersList">
+                                            <p>{m}</p>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </Grid>
                         <Grid>
@@ -309,49 +315,8 @@ export default function Group() {
                 </div>
             </div>
             <div id="showAdmin">
-                <Button variant="contained" onClick={showAdminButton}>Show Admin Priviliges</Button>
-                </div>
-            <div id="admin">
-                <div className="text">
-                <Button variant="contained" onClick={hideAdminButton}>Hide Admin Priviliges</Button>
-                    <h2>Gruppeleder</h2>
-                    <p>These functions are hidden for regular members</p>
-                    <Button variant="contained" onClick={goToMatching}>Enter Matching</Button>
-
-                    <div className="update-details">
-                        <h3>Update Group Details</h3>
-                        <input placeholder="Enter a group name" id="groupNameInput" />
-                        <input placeholder="Enter a new interest" id="interestInput" />
-                        <input placeholder="Enter a new location" id="locationInput" />
-                    </div>
-                    <button onClick={updateGroupDetails}>Send</button>
-
-
-                </div>
-                <div className="remove-users">
-                    <h3>Remove users</h3>
-                    <input placeholder="Enter user-mail" id="removeUserInput" />
-                    <button onClick={removeUserButton}>Remove</button>
-                </div>
-                <div className="remove-users">
-                    <h3>Add users</h3>
-                    <input placeholder="Enter user-mail" id="addUserInput" />
-                    <button onClick={addUserButton}>Add</button>
-                </div>
-                <div>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <DateTimePicker
-                            renderInput={(props) => <TextField {...props} />}
-                            label="DateTimePicker"
-                            value={dateTime}
-                            onChange={(newValue) => {
-                                setDateTime(newValue);
-                            }}
-                        />
-                    </LocalizationProvider>
-                    <button onClick={setNewDate}>Send</button>
-                </div>
-
+                <Button id='btnID' variant="contained" onClick={showAdminButton}>Show Admin Priviliges</Button>
+            </div>
             <GroupOwnerPanel
                 hideAdminButton={hideAdminButton}
                 updateGroupDetails={updateGroupDetails}

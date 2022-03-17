@@ -27,12 +27,14 @@
 
 .outerDiv{
     align-items: center;
+    text-align: center;
 }
 
 .header{
     padding-bottom: 2%;
     background-color: #DDEEF5;
     border-radius: 15px 15px 0px 0px;
+    height: 200px;
 }
 
 .groupPage{
@@ -45,6 +47,19 @@
     border-radius: 15px;
     width: 80%;
     justify-content: center;
+}
+
+.information{
+    font-family: 'Archivo';
+    padding-top: 10%;
+    
+}
+
+.memberBox{
+    background-color: #DDEEF5;
+    border-radius: 15px;
+    margin: 8%;
+    padding: 2%;
 }
 
 #des-container {
