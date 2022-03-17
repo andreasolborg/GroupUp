@@ -1,4 +1,4 @@
-#admin {
+/*#admin {
     display: none;
     font-family: 'Archivo', sans-serif;
     width: 400px;
@@ -13,6 +13,15 @@
     margin-right: 15px;
     align-items: center;
     background-color: #DDEEF5;
+}
+*/
+#admin {
+    display: none;
+    font-family: 'Archivo', sans-serif;
+    border-radius: 15px;
+    background-color: #DDEEF5;
+    margin: 15px;
+    padding-top: 15px;
 }
 
 #des-container {
@@ -67,3 +76,8 @@
     margin: 25px;
 }
 
+#btnID {
+    background-color: #c6d7dd;
+    color: black;
+   margin: 10px;
+}
