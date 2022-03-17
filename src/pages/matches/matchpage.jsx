@@ -43,7 +43,7 @@ export default function Matchpage() {
 
         const tempGroups = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
 
-        setDisplayedGroup(tempGroups.shift());
+        updateDisplayedGroup(tempGroups.shift());
         setGroups(tempGroups);
     }
 
@@ -68,11 +68,43 @@ export default function Matchpage() {
             });
         }
         checkMutualMatch(id, displayedGroup.id);
-        if (isGold) {
-            document.getElementById("isMatched").innerHTML = "MATCHED WITH GROUP USING GOLD";
-        } else {
-            document.getElementById("isMatched").innerHTML = "MATCHED WITH GROUP";
-        }
+
+        const tempGroup = displayedGroup;
+        
+        updateDisplayedGroup()
+    }
+
+
+    const updateDisplayedGroup = async (group) => {
+        let dict = new Object();
+
+        dict["id"] = group.id;
+        dict["groupName"] = group.groupName;
+        dict["interest"] = group.interest;
+        dict["description"] = group.description;
+        dict["time"] = getTimestampString(group.datetime);
+        dict["regMatch"] = await isMatched(group.id);
+        dict["goldMatch"] = await isGoldMatched(group.id);
+
+        setDisplayedGroup(dict);
+    }
+
+    async function isMatched(otherGroupId) {
+        const otherGroupRef = doc(db, "groups", otherGroupId);
+        const otherGroupSnap = await getDoc(otherGroupRef);
+
+        console.log("RegMatched: ", otherGroupSnap.data().regmatches.includes(id));
+
+        return otherGroupSnap.data().regmatches.includes(id);
+    }
+
+    const isGoldMatched = async (otherGroupId) => {
+        const otherGroupRef = doc(db, "groups", otherGroupId);
+        const otherGroupSnap = await getDoc(otherGroupRef);
+
+        console.log("GoldMatches: ", otherGroupSnap.data().goldmatches.includes(id));
+
+        return otherGroupSnap.data().goldmatches.includes(id);
     }
 
 
@@ -93,7 +125,7 @@ export default function Matchpage() {
     }
 
     const nextGroup = () => {
-        setDisplayedGroup(groups.shift());
+        updateDisplayedGroup(groups.shift());
     }
 
     const unmatchButton = async () => {
@@ -114,6 +146,12 @@ export default function Matchpage() {
         });
     }
 
+    const getTimestampString = (timestamp) => {
+        let date = new Date(timestamp * 1000);
+
+        return date.toUTCString();
+    }
+
 
     return (
         <div>
@@ -124,8 +162,9 @@ export default function Matchpage() {
                 <h1 id="gname">{displayedGroup.groupName}</h1>
                 <h2 id="ginterest">{displayedGroup.interest}</h2>
                 <p id="gdescription">{displayedGroup.description}</p>
-                <h2 id="gdate"></h2>
-                <h2 id="isMatched"></h2>
+                <h2 id="gdate">{displayedGroup.time}</h2>
+                <h2 id="regMatch">{displayedGroup.regMatch ? "Already matched" : ""}</h2>
+                <h2 id="goldMatch"> {displayedGroup.goldMatch ? "Already matched with gold" : ""} </h2>
             </div>
             <button onClick={nextGroup}>Next group</button>
             <button onClick={() => { matchWithGoup(true) }}>Match with GOLD</button>
