@@ -187,12 +187,78 @@ export default function User() {
         nav("/myGroups");
     }
 
+
+    const [image, setImage] = useState(null);
+    const [url, setUrl] = useState(null);
+    const [imageName, setImageName] = useState("");
+    
+
+
+    useEffect(() => {
+        const getPicture = async () => {
+            const imageRef = ref(storage, imageName);
+            getDownloadURL(imageRef).then((url) => {
+                setUrl(url);
+            });
+        }
+        getPicture();
+        setImageName("/profile/" + user.email + "ProfileImage");
+    }); 
+
+
+    const handleImageChange = (e) => {
+        if (e.target.files[0]) {
+            setImage(e.target.files[0]);    
+        }
+    };
+
+    const handleSubmit = () => {
+        const imageRef = ref(storage, imageName);
+
+        uploadBytes(imageRef, image)
+            .then(() => {
+                getDownloadURL(imageRef)
+                    .then((url) => {
+                        setUrl(url);
+                    })
+                    .catch((error) => {
+                        console.log(error.message, "error getting the image url");
+                    });
+                setImage(null);
+            })
+            .catch((error) => {
+                console.log(error.message);
+            });
+        console.log(url);
+        console.log(setUrl);
+    };
+
+
+    const uploadProfileImage = () => {
+        var input = document.createElement('input');
+        input.type = 'file';
+        input.click();
+        input.onchange = e => {
+            handleImageChange(e);
+        }
+
+    }
+
+
+
     return (
         <><Navbar className="navbar"></Navbar>
             <div className="user">
                 <div className="top-part">
                     <h1 className="username">{name}</h1>
                 </div>
+
+
+
+
+                <Avatar onClick={uploadProfileImage} src={url} sx={{ width: 150, height: 150 }} />
+                {/*<input type="file" onChange={handleImageChange} />*/}
+                <button onClick={handleSubmit}>Upload Image</button>
 
 
                 {/*                 <AccountCircleIcon
