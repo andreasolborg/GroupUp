@@ -14,6 +14,7 @@ import Groups from './pages/groups/groups';
 import MyGroups from './pages/groups/mygroups';
 import Group from './pages/groups/group';
 import CreateGroup from './pages/groups/creategroup';
+import MatchPage from './pages/matches/matchpage';
 
 
 
@@ -34,6 +35,7 @@ function App() {
             <Route path="/myGroups" element={<MyGroups />} />
             <Route path="/group/:id" element={<Group />} />
             <Route path="/creategroup" element={<CreateGroup />} />
+            <Route path="/matchpage/:id" element={<MatchPage />} />
 
           </Routes>
         </BrowserRouter>

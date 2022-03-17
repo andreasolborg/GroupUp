@@ -82,7 +82,10 @@ export default function CreateGroup() {
             datetime: dateTime,
             description: document.getElementById("des").value,
             members: membersArray,
-            requests: []
+            requests: [],
+            regmatches: [],
+            goldmatches: [],
+            mutualmatches: []
         }).then((t) => {
             console.log("Created group!");
         }).catch((error) => {
