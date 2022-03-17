@@ -259,7 +259,10 @@ export default function Group() {
     const showAdminButton = () => {
         document.getElementById("admin").style = "display: inline-block";
         document.getElementById("showAdmin").style = "display: none";
+    }
 
+    const goToMatching = () => {
+        navi("/matchpage/"+id);
     }
 
     // <Button onClick={getAdminElements} variant="contained">Admin</Button>
@@ -307,7 +310,47 @@ export default function Group() {
             </div>
             <div id="showAdmin">
                 <Button variant="contained" onClick={showAdminButton}>Show Admin Priviliges</Button>
-            </div>
+                </div>
+            <div id="admin">
+                <div className="text">
+                <Button variant="contained" onClick={hideAdminButton}>Hide Admin Priviliges</Button>
+                    <h2>Gruppeleder</h2>
+                    <p>These functions are hidden for regular members</p>
+                    <Button variant="contained" onClick={goToMatching}>Enter Matching</Button>
+
+                    <div className="update-details">
+                        <h3>Update Group Details</h3>
+                        <input placeholder="Enter a group name" id="groupNameInput" />
+                        <input placeholder="Enter a new interest" id="interestInput" />
+                        <input placeholder="Enter a new location" id="locationInput" />
+                    </div>
+                    <button onClick={updateGroupDetails}>Send</button>
+
+
+                </div>
+                <div className="remove-users">
+                    <h3>Remove users</h3>
+                    <input placeholder="Enter user-mail" id="removeUserInput" />
+                    <button onClick={removeUserButton}>Remove</button>
+                </div>
+                <div className="remove-users">
+                    <h3>Add users</h3>
+                    <input placeholder="Enter user-mail" id="addUserInput" />
+                    <button onClick={addUserButton}>Add</button>
+                </div>
+                <div>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <DateTimePicker
+                            renderInput={(props) => <TextField {...props} />}
+                            label="DateTimePicker"
+                            value={dateTime}
+                            onChange={(newValue) => {
+                                setDateTime(newValue);
+                            }}
+                        />
+                    </LocalizationProvider>
+                    <button onClick={setNewDate}>Send</button>
+                </div>
 
             <GroupOwnerPanel
                 hideAdminButton={hideAdminButton}

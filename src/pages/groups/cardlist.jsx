@@ -1,11 +1,32 @@
 import React from "react";
-import {Card} from "./card";
+import {MediaCard} from "./card";
+import Grid from '@mui/material/Grid';
+import { makeStyles } from "@material-ui/core";
 
-export const CardList = (props) => {
+
+const useStyles = makeStyles({
+    gridContainer: {
+    paddingTop: "0px",
+    direction: "column",
+    alignItems: "stretch",
+    display: "flex",
+    justifyContent: "center",
+    xs: 12, 
+    md: 6,
+    lg: 4
+    } 
+  });
+
+
+export default function CardList( {groups} ) {
+    const classes = useStyles();
     return(
-    <div>
-        {props.groups.map((group) => (
-            <Card key={group.id} group={group}></Card>
-        ))}
-    </div>)
+        <Grid container spacing = {4} className={classes.gridContainer}>
+            {groups.map((group) => (
+                <Grid key={group.id} item>
+                    <MediaCard group={group}></MediaCard>
+                </Grid>
+            ))} 
+        </Grid>
+    );
 }   

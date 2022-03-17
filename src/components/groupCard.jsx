@@ -24,7 +24,7 @@ const useStyles = makeStyles({
 });
 
 
-export default function MediaCard({ image, title, description }) {
+export default function GroupCard({ image, title, description }) {
   const classes = useStyles();
   return (
     <Card className={classes.root}>

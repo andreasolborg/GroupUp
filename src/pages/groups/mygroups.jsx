@@ -6,7 +6,7 @@ import { db } from "../../firestore";
 import { signOut, onAuthStateChanged, deleteUser } from "firebase/auth";
 import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion } from 'firebase/firestore'
 import { useNavigate } from "react-router-dom";
-import { CardList } from "./cardlist";
+import CardList from "./cardlist";
 import Navbar from "../../components/navbar";
 
 
