@@ -17,6 +17,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import TextField from '@material-ui/core/TextField';
 import GroupOwnerPanel from "./groupOwnerPanel";
+import { Grid } from "@mui/material";
 
 //This page holds information on a particular group. 
 
@@ -267,87 +268,69 @@ export default function Group() {
     // <Button onClick={getAdminElements} variant="contained">Admin</Button>
 
     return (
-        <div id="parent">
-            <div>
-                <Navbar></Navbar>
-                <div id="regular">
-                    <h1>{groupName}</h1>
-                    <h2>Owner: {owner}</h2>
-                    <div id="desc">
-                        <p>{description}</p>
+        <div className="outerDiv">
+            <Navbar></Navbar>
+            <div className="groupPage" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <div className="groupBox"  >
+                    <div className="header">
+                        <Grid container>
+                            <Grid xs={9}>
+                                <h1 style={{ marginTop: 60 }}>{groupName}</h1>
+                                <p style={{ color: "grey", fontFamily: 'Archivo' }} >Owner: {owner}</p>
+                            </Grid>
+                            <Grid xs={3} style={{ alignItems: "center", justifyContent: "center" }}>
+                                <Button id='btnID' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
+                            </Grid>
+                        </Grid>
                     </div>
-                    <h2>Interest: {interest}</h2>
-                    <h2>Location: {location}</h2>
-                    <h2>Date and time: {dateTime.toUTCString()}</h2>
-                    <h2>Members:</h2>
-                    <div>
-                        {members.map((m) => (
-                            <div className="membersList">
-                                <p>{m}</p>
+                    <Grid container>
+                        <Grid xs={6}>
+                            <div className="information" >
+                                <p style={{ fontSize: 20 }} >
+                                    <b style={{ textDecoration: 'underline' }}>Interest:</b> {interest}
+                                </p>
+                                <p style={{ fontSize: 20 }}><b style={{ textDecoration: 'underline' }}>Location:</b> {location}</p>
+                                <p style={{ fontSize: 20 }}><b style={{ textDecoration: 'underline' }}>Meeting time: </b> {dateTime.toUTCString()}</p>
                             </div>
-                        ))}
-                    </div>
-                    <Button className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
+                        </Grid>
+                        <Grid xs={6}>
+                            <div className="memberBox">
+                                <h2 style={{ fontFamily: 'Archivo', textDecoration: 'underline' }}><b>Members:</b></h2>
+                                <div>
+                                    {members.map((m) => (
+                                        <div className="membersList">
+                                            <p>{m}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </Grid>
+                        <Grid>
+                            <div style={{ alignItems: 'center', justifyContent: 'center', fontFamily: 'Archivo', margin: 100 }}>
+                                <h2 style={{ fontFamily: 'Archivo', textDecoration: 'underline' }}>Decription</h2>
+                                <p>{description}</p>
+                            </div>
+                        </Grid>
+                    </Grid>
                 </div>
             </div>
             <div id="showAdmin">
-                <Button variant="contained" onClick={showAdminButton}>Show Admin Priviliges</Button>
+                <Button id='btnID' variant="contained" onClick={showAdminButton}>Show Admin Priviliges</Button>
             </div>
-            <div id="admin">
-                <div className="text">
-                    <Button variant="contained" onClick={hideAdminButton}>Hide Admin Priviliges</Button>
-                    <h2>Gruppeleder</h2>
-                    <p>These functions are hidden for regular members</p>
-                    <Button variant="contained" onClick={goToMatching}>Enter Matching</Button>
+            <GroupOwnerPanel
+                hideAdminButton={hideAdminButton}
+                updateGroupDetails={updateGroupDetails}
+                removeUserButton={removeUserButton}
+                setNewDate={setNewDate}
+                sendNewDescription={sendNewDescription}
+                requests={requests}
+                leaveGroup={leaveGroup}
+                addUserButton={addUserButton}
+                setDateTime={setDateTime}
+                dateTime={dateTime}
+                acceptRequestButton={acceptRequestButton}
+            />
 
-                    <div className="update-details">
-                        <h3>Update Group Details</h3>
-                        <input placeholder="Enter a group name" id="groupNameInput" />
-                        <input placeholder="Enter a new interest" id="interestInput" />
-                        <input placeholder="Enter a new location" id="locationInput" />
-                    </div>
-                    <button onClick={updateGroupDetails}>Send</button>
-
-
-                </div>
-                <div className="remove-users">
-                    <h3>Remove users</h3>
-                    <input placeholder="Enter user-mail" id="removeUserInput" />
-                    <button onClick={removeUserButton}>Remove</button>
-                </div>
-                <div className="remove-users">
-                    <h3>Add users</h3>
-                    <input placeholder="Enter user-mail" id="addUserInput" />
-                    <button onClick={addUserButton}>Add</button>
-                </div>
-                <div>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <DateTimePicker
-                            renderInput={(props) => <TextField {...props} />}
-                            label="DateTimePicker"
-                            value={dateTime}
-                            onChange={(newValue) => {
-                                setDateTime(newValue);
-                            }}
-                        />
-                    </LocalizationProvider>
-                    <button onClick={setNewDate}>Send</button>
-                </div>
-
-                <GroupOwnerPanel
-                    hideAdminButton={hideAdminButton}
-                    updateGroupDetails={updateGroupDetails}
-                    removeUserButton={removeUserButton}
-                    setNewDate={setNewDate}
-                    sendNewDescription={sendNewDescription}
-                    requests={requests}
-                    leaveGroup={leaveGroup}
-                    addUserButton={addUserButton}
-                    setDateTime={setDateTime}
-                    dateTime={dateTime}
-                    acceptRequestButton={acceptRequestButton}
-                />
-            </div>
-        </div>
+        </div >
     )
 }

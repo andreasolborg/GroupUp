@@ -22,6 +22,44 @@
     background-color: #DDEEF5;
     margin: 15px;
     padding-top: 15px;
+    align-items: center;
+}
+
+.outerDiv{
+    align-items: center;
+    text-align: center;
+}
+
+.header{
+    padding-bottom: 2%;
+    background-color: #DDEEF5;
+    border-radius: 15px 15px 0px 0px;
+    height: 200px;
+}
+
+.groupPage{
+    align-items: center;
+}
+
+.groupBox{
+    background-color: white;
+    margin-top: 1%;
+    border-radius: 15px;
+    width: 80%;
+    justify-content: center;
+}
+
+.information{
+    font-family: 'Archivo';
+    padding-top: 10%;
+    
+}
+
+.memberBox{
+    background-color: #DDEEF5;
+    border-radius: 15px;
+    margin: 8%;
+    padding: 2%;
 }
 
 #des-container {
