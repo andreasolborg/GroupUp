@@ -1,10 +1,8 @@
 import React from "react";
 import Navbar from "../../components/navbar";
 import Grid from '@mui/material/Grid';
-import Card from "../../components/Card";
+import Card from "../../components/groupCard";
 import { makeStyles } from "@material-ui/core";
-import cards from "../../components/Card";
-import Box from '@mui/material/Box'; 
 
 
 const useStyles = makeStyles({
@@ -14,9 +12,9 @@ const useStyles = makeStyles({
   alignItems: "stretch",
   display: "flex",
   justifyContent: "center",
-  xs: "auto", 
-  sm: 6,
-  md: 4
+  xs: 12, 
+  md: 6,
+  lg: 4
   } 
 })
 
@@ -56,6 +54,7 @@ function Matches() {
   return (
     <><div className="matches">
     <div><Navbar></Navbar></div>
+
     <Grid container spacing = {5} className={classes.gridContainer}>
       {mediaCards.map((card, i) => {
             return (
@@ -65,6 +64,7 @@ function Matches() {
             );
           })}
     </Grid>
+    
     </div></>
     
   );

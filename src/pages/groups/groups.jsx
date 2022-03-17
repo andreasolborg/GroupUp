@@ -5,15 +5,15 @@ import { db } from "../../firestore";
 import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion } from 'firebase/firestore'
 import { useNavigate } from "react-router-dom";
 import { getBottomNavigationUtilityClass, TextField } from "@mui/material";
-import Card from "./card";
-import { CardList } from "./cardlist";
+import MediaCard from "./card";
+import CardList from "./cardlist";
 import "./card.css";
 import Button from '@material-ui/core/Button';
 import Navbar from "../../components/navbar";
 import DateTimePicker from 'react-datetime-picker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-
+import { makeStyles } from "@material-ui/core";
 
 
 export default function Groups() {
@@ -111,38 +111,41 @@ export default function Groups() {
     }
 
 
+
+
     return <div className="topOfGroups">
         <Navbar></Navbar>
-        <h1>GROUPS PAGE</h1>
-        <input id="searchInput" placeholder="search by interest..." onChange={() => { searchBarChanged() }} />
-        <input id="locationSearchInput" placeholder="search by location..." onChange={() => { searchBarChanged() }} />
-        <div>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DateTimePicker
-                    renderInput={(props) => <TextField {...props} />}
-                    label="DateTimePicker"
-                    value={startTime}
-                    onChange={(newValue) => {
-                        setStartTime(newValue);
-                    }}
-                />
-            </LocalizationProvider>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DateTimePicker
-                    renderInput={(props) => <TextField {...props} />}
-                    label="DateTimePicker"
-                    value={endTime}
-                    onChange={(newValue) => {
-                        setEndTime(newValue);
-                    }}
-                />
-            </LocalizationProvider>
-            <button id="filterByTimeButton" onClick={filterByTime}>Apply Time Filter</button>
-            <button onClick={() => cancelTimeFilter()}>Remove time filter</button>
+            <div className="filterGroups">
+                <h1>GROUPS PAGE</h1>
+                <input id="searchInput" placeholder="search by interest..." onChange={() => { searchBarChanged() }} />
+                <input id="locationSearchInput" placeholder="search by location..." onChange={() => { searchBarChanged() }} />
+                <div>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <DateTimePicker
+                            renderInput={(props) => <TextField {...props} />}
+                            label="DateTimePicker"
+                            value={startTime}
+                            onChange={(newValue) => {
+                                setStartTime(newValue);
+                            }}
+                        />
+                    </LocalizationProvider>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <DateTimePicker
+                            renderInput={(props) => <TextField {...props} />}
+                            label="DateTimePicker"
+                            value={endTime}
+                            onChange={(newValue) => {
+                                setEndTime(newValue);
+                            }}
+                        />
+                    </LocalizationProvider>
+                    <button id="filterByTimeButton" onClick={filterByTime}>Apply Time Filter</button>
+                    <button onClick={() => cancelTimeFilter()}>Remove time filter</button>
+                </div>
+            </div>
+            <div className="cardBackground">
+            <CardList groups={groupTemp} />
         </div>
-        <div>
-
-        </div>
-        <CardList groups={groupTemp} />
     </div>
 }

@@ -16,6 +16,7 @@ import DateTimePicker from 'react-datetime-picker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import TextField from '@material-ui/core/TextField';
+import GroupOwnerPanel from "./groupOwnerPanel";
 
 //This page holds information on a particular group. 
 
@@ -105,7 +106,7 @@ export default function Group() {
             setLocation(groupDocSnap.data().location);
             setInterest(groupDocSnap.data().interest);
             setGroupName(groupDocSnap.data().groupName);
-            setDateTime(new Date(groupDocSnap.data().datetime.seconds*1000));
+            setDateTime(new Date(groupDocSnap.data().datetime.seconds * 1000));
             setDescription(groupDocSnap.data().description);
         };
         getOwner();
@@ -238,7 +239,7 @@ export default function Group() {
 
     const sendNewDescription = async () => {
         const areaString = document.getElementById("des").value;
-        if (areaString === ""){
+        if (areaString === "") {
             console.log("Empty area, returning");
             return;
         }
@@ -268,26 +269,26 @@ export default function Group() {
     return (
         <div id="parent">
             <div>
-            <Navbar></Navbar>
-            <div id="regular">
-            <h1>{groupName}</h1>
-            <h2>Owner: {owner}</h2>
-            <div id="desc">
-                <p>{description}</p>
-                </div>
-            <h2>Interest: {interest}</h2>
-            <h2>Location: {location}</h2>
-            <h2>Date and time: {dateTime.toUTCString()}</h2>
-            <h2>Members:</h2>
-            <div>
-                {members.map((m) => (
-                    <div className="membersList">
-                        <p>{m}</p>
+                <Navbar></Navbar>
+                <div id="regular">
+                    <h1>{groupName}</h1>
+                    <h2>Owner: {owner}</h2>
+                    <div id="desc">
+                        <p>{description}</p>
                     </div>
-                ))}
-            </div>
-            <Button className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
-            </div>
+                    <h2>Interest: {interest}</h2>
+                    <h2>Location: {location}</h2>
+                    <h2>Date and time: {dateTime.toUTCString()}</h2>
+                    <h2>Members:</h2>
+                    <div>
+                        {members.map((m) => (
+                            <div className="membersList">
+                                <p>{m}</p>
+                            </div>
+                        ))}
+                    </div>
+                    <Button className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
+                </div>
             </div>
             <div id="showAdmin">
                 <Button variant="contained" onClick={showAdminButton}>Show Admin Priviliges</Button>
@@ -333,24 +334,20 @@ export default function Group() {
                     <button onClick={setNewDate}>Send</button>
                 </div>
 
-                <div id="des-container">
-                    <textarea id="des" rows="5" placeholder="Enter new description"/>
-                    <button onClick={sendNewDescription}>Submit description</button>
-                </div>
+            <GroupOwnerPanel
+                hideAdminButton = { hideAdminButton }
+                updateGroupDetails = { updateGroupDetails }
+                removeUserButton = { removeUserButton }
+                setNewDate = { setNewDate }
+                sendNewDescription = { sendNewDescription }
+                requests = { requests }
+                leaveGroup = { leaveGroup }
+                addUserButton = { addUserButton }
+                setDateTime = { setDateTime }
+                dateTime = { dateTime }
+                acceptRequestButton = { acceptRequestButton }
+            />
 
-                <div className="text">
-                    <h2>The request queue</h2>
-                    {requests.map((r) => (
-                        <div className="membersList">
-                            <div className="text">
-                                <h3>{r}</h3>
-                                <button onClick={() => acceptRequestButton(r)}>Accept request</button>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                <Button variant="contained" className="obsButton" onClick={leaveGroup}>Delete Group</Button>
-            </div>
         </div>
     )
 }
