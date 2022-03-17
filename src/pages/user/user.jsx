@@ -3,7 +3,7 @@ import React from "react";
 import "./user.css";
 import Button from "@mui/material/Button";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { auth } from "../../firebase-config";
+import { auth, storage } from "../../firebase-config";
 import { db } from "../../firestore";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs, updateDoc, doc, deleteDoc, arrayRemove, where, query } from 'firebase/firestore'
