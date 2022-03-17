@@ -115,36 +115,37 @@ export default function Groups() {
 
     return <div className="topOfGroups">
         <Navbar></Navbar>
-        <div className="filterGroups">
-            <h1>GROUPS PAGE</h1>
-            <input id="searchInput" placeholder="search by interest..." onChange={() => { searchBarChanged() }} />
-            <input id="locationSearchInput" placeholder="search by location..." onChange={() => { searchBarChanged() }} />
-            <div>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <DateTimePicker
-                        renderInput={(props) => <TextField {...props} />}
-                        label="DateTimePicker"
-                        value={startTime}
-                        onChange={(newValue) => {
-                            setStartTime(newValue);
-                        }}
-                    />
-                </LocalizationProvider>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <DateTimePicker
-                        renderInput={(props) => <TextField {...props} />}
-                        label="DateTimePicker"
-                        value={endTime}
-                        onChange={(newValue) => {
-                            setEndTime(newValue);
-                        }}
-                    />
-                </LocalizationProvider>
-                <button id="filterByTimeButton" onClick={filterByTime}>Apply Time Filter</button>
-                <button onClick={() => cancelTimeFilter()}>Remove time filter</button>
+            <div className="filterGroups">
+                <h1>GROUPS PAGE</h1>
+                <input id="searchInput" placeholder="search by interest..." onChange={() => { searchBarChanged() }} />
+                <input id="locationSearchInput" placeholder="search by location..." onChange={() => { searchBarChanged() }} />
+                <div>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <DateTimePicker
+                            renderInput={(props) => <TextField {...props} />}
+                            label="DateTimePicker"
+                            value={startTime}
+                            onChange={(newValue) => {
+                                setStartTime(newValue);
+                            }}
+                        />
+                    </LocalizationProvider>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <DateTimePicker
+                            renderInput={(props) => <TextField {...props} />}
+                            label="DateTimePicker"
+                            value={endTime}
+                            onChange={(newValue) => {
+                                setEndTime(newValue);
+                            }}
+                        />
+                    </LocalizationProvider>
+                    <button id="filterByTimeButton" onClick={filterByTime}>Apply Time Filter</button>
+                    <button onClick={() => cancelTimeFilter()}>Remove time filter</button>
+                </div>
             </div>
+            <div className="cardBackground">
+            <CardList groups={groupTemp} />
         </div>
-        
-        <CardList groups={groupTemp} className="testDiv"/>
     </div>
 }

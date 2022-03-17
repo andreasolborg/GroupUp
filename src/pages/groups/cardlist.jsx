@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles({
     gridContainer: {
-    paddingTop: "20px",
+    paddingTop: "0px",
     direction: "column",
     alignItems: "stretch",
     display: "flex",
@@ -21,7 +21,7 @@ const useStyles = makeStyles({
 export default function CardList( {groups} ) {
     const classes = useStyles();
     return(
-        <Grid container spacing = {5} className={classes.gridContainer}>
+        <Grid container spacing = {4} className={classes.gridContainer}>
             {groups.map((group) => (
                 <Grid key={group.id} item>
                     <MediaCard group={group}></MediaCard>

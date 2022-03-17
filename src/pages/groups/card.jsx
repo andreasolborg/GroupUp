@@ -62,7 +62,7 @@ export const MediaCard = (props) => {
             props.group.members.map((m) => {
                 if (m == auth.currentUser.email) {
                     setFeedbackMessage("Already in group");
-                    setSeverity("error")
+                    setSeverity("error");
                     console.log("Already in group");
                     setOpen(true);
                     return;
@@ -70,7 +70,7 @@ export const MediaCard = (props) => {
             });
             key = true;
             setFeedbackMessage("Group request sent!");
-            setSeverity("success")
+            setSeverity("success");
             setOpen(true);
         }
 
@@ -89,7 +89,7 @@ export const MediaCard = (props) => {
             width: "700px",
             direction: "column",
             alignItems: "stretch",
-            display: "flex",
+            display: "inline-block",
             justifyContent: "center",
             xs: 12,
             md: 6,
@@ -101,6 +101,9 @@ export const MediaCard = (props) => {
         },
         media: {
             height: 140
+        },
+        content: {
+
         }
     })
 
@@ -111,7 +114,7 @@ export const MediaCard = (props) => {
             <Card className={classes.root}>
                 <CardActionArea>
                     <CardMedia className={classes.media} image="https://st.depositphotos.com/2325841/2529/i/600/depositphotos_25293855-stock-photo-multi-ethnic-group-thumbs-up.jpg" />
-                    <CardContent>
+                    <CardContent className={classes.content}>
                         <Typography gutterBottom variant="h5" component="h2">
                             {props.group.groupName}
                         </Typography>

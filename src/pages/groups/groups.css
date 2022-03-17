@@ -1,15 +1,39 @@
-.topOfGroups{
-    align-items: center;
-    background-color: violet;
+.testDiv{
+
 }
 
+/* hele diven */
+.topOfGroups{
+    align-items: center;
+}
+
+/* kortene */
+.cardBackground{
+    background-color: #FCFDFD;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-bottom: 25px;
+    margin-bottom: 10px;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+    box-shadow: 5px 5px 5px rgb(194, 194, 194), 
+    -5px 5px 15px rgb(194, 194, 194), 5px 5px 15px rgb(194, 194, 194);   
+}
+
+/* bakgrunn på øverste "GROUPS PAGE" BAREN */
 .filterGroups{
     align-items: center;
-    background-color: greenyellow;
+    background-color: #FCFDFD;
+    border-top-right-radius: 25px;
+     box-shadow: 5px 5px 5px rgb(194, 194, 194), 
+    -5px 5px 15px rgb(194, 194, 194), 5px 5px 15px rgb(194, 194, 194);
+    border-top-left-radius: 25px;
     text-align: center;
-    margin-left: 100px;
-    margin-right: 100px;
+    margin-left: 10%;
+    margin-right: 10%;
     margin-top: 25px;
-    padding-top: 10px;;
-
+    margin-bottom: 25px;
+    padding-top: 10px;
+    padding-bottom: 25px;
+    
 }
