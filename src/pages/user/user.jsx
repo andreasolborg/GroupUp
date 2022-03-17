@@ -51,7 +51,7 @@ export default function User() {
         })
       }; */
 
-    
+
 
 
     const getName = async (currentUser) => {
@@ -190,31 +190,40 @@ export default function User() {
 
     const handleImageChange = (e) => {
         if (e.target.files[0]) {
-          setImage(e.target.files[0]);
+            setImage(e.target.files[0]);
         }
-      };
-    
-      const handleSubmit = () => {
+    };
+
+    const handleSubmit = () => {
         const imageRef = ref(storage, imageName);
 
         uploadBytes(imageRef, image)
-          .then(() => {
-            getDownloadURL(imageRef)
-              .then((url) => {
-                setUrl(url);
-              })
-              .catch((error) => {
-                console.log(error.message, "error getting the image url");
-              });
-            setImage(null);
-          })
-          .catch((error) => {
-            console.log(error.message);
-          });
-          console.log(url);
-console.log(setUrl);
-      };
+            .then(() => {
+                getDownloadURL(imageRef)
+                    .then((url) => {
+                        setUrl(url);
+                    })
+                    .catch((error) => {
+                        console.log(error.message, "error getting the image url");
+                    });
+                setImage(null);
+            })
+            .catch((error) => {
+                console.log(error.message);
+            });
+        console.log(url);
+        console.log(setUrl);
+    };
 
+
+    const uploadProfileImage = () => {
+        var input = document.createElement('input');
+        input.type = 'file';
+        input.click();
+        input.onchange = e => {
+            handleImageChange(e);
+        }
+    }
 
 
 
@@ -228,9 +237,9 @@ console.log(setUrl);
 
 
 
-<Avatar src={url} sx={{ width: 150, height: 150 }} />
-      <input type="file" onChange={handleImageChange} />
-      <button onClick={handleSubmit}>Submit</button>
+                <Avatar onClick={uploadProfileImage} src={url} sx={{ width: 150, height: 150 }} />
+                {/*<input type="file" onChange={handleImageChange} />*/}
+                <button onClick={handleSubmit}>Submit</button>
 
 
                 {/*                 <AccountCircleIcon
