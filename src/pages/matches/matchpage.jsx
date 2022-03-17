@@ -47,6 +47,7 @@ export default function Matchpage() {
         setGroups(tempGroups);
     }
 
+
     /**
      * Current thought: Keep 2 arrays in firestore: 1) regular matches 2) gold matches. 
      * The two arrays should be maintained more or less the same, but with different priority protocol.
@@ -54,7 +55,7 @@ export default function Matchpage() {
      * 
      * @param {boolean} isGoldMatch 
      */
-    const matchWithGoup = async (isGold) => {
+    const matchWithGroup = async (isGold) => {
         //Get id of group on head
         const gref = doc(db, "groups", displayedGroup.id);
 
@@ -62,16 +63,16 @@ export default function Matchpage() {
             await updateDoc(gref, {
                 goldmatches: arrayUnion(id)
             });
+            console.log("gold match");
+            setMatches(false, true);
         } else {
             await updateDoc(gref, {
                 regmatches: arrayUnion(id)
             });
+            console.log("reg match");
+            setMatches(true, false);
         }
-        checkMutualMatch(id, displayedGroup.id);
-
-        const tempGroup = displayedGroup;
-        
-        updateDisplayedGroup()
+        checkMutualMatch(id, displayedGroup.id);        
     }
 
 
@@ -83,30 +84,27 @@ export default function Matchpage() {
         dict["interest"] = group.interest;
         dict["description"] = group.description;
         dict["time"] = getTimestampString(group.datetime);
-        dict["regMatch"] = await isMatched(group.id);
-        dict["goldMatch"] = await isGoldMatched(group.id);
+        dict["regMatch"] = await isMatched(group.id, false);
+        dict["goldMatch"] = await isMatched(group.id, true);
 
         setDisplayedGroup(dict);
     }
 
-    async function isMatched(otherGroupId) {
-        const otherGroupRef = doc(db, "groups", otherGroupId);
-        const otherGroupSnap = await getDoc(otherGroupRef);
 
-        console.log("RegMatched: ", otherGroupSnap.data().regmatches.includes(id));
+    const isMatched = async (otherGroupId, isGold) => {
+        try {
+            const otherGroupRef = doc(db, "groups", otherGroupId);
+            const otherGroupSnap = await getDoc(otherGroupRef);    
 
-        return otherGroupSnap.data().regmatches.includes(id);
+            if (isGold) {
+                return otherGroupSnap.data().goldmatches.includes(id);
+            }
+            return otherGroupSnap.data().regmatches.includes(id);
+    
+        } catch (error) {
+            return false;
+        }
     }
-
-    const isGoldMatched = async (otherGroupId) => {
-        const otherGroupRef = doc(db, "groups", otherGroupId);
-        const otherGroupSnap = await getDoc(otherGroupRef);
-
-        console.log("GoldMatches: ", otherGroupSnap.data().goldmatches.includes(id));
-
-        return otherGroupSnap.data().goldmatches.includes(id);
-    }
-
 
     const checkMutualMatch = async (ownGroupId, otherGroupId) => {
         const myGroupRef = doc(db, "groups", ownGroupId);
@@ -125,7 +123,11 @@ export default function Matchpage() {
     }
 
     const nextGroup = () => {
-        updateDisplayedGroup(groups.shift());
+        if (groups.length > 0) {
+            updateDisplayedGroup(groups.shift());
+            return;
+        }
+        updateGroups();
     }
 
     const unmatchButton = async () => {
@@ -133,18 +135,26 @@ export default function Matchpage() {
         await updateDoc(gref, {
             goldmatches: arrayRemove(id),
             regmatches: arrayRemove(id)
-        }).then(() => {
-
         });
-        document.getElementById("isMatched").innerHTML = "";
+        setMatches(false, false);
     }
 
-    const logButton = () => {
-        console.log("LOGGER! Size: ", groups.length);
-        groups.map((m) => {
-            console.log("LOG: ", m.groupName);
-        });
+    
+    const setMatches = (reg, gold) => {
+        const tempGroup = {...displayedGroup};
+
+        if (typeof(reg) !== "boolean" || typeof(gold) !== "boolean") {
+            console.log("match must be a boolean");
+            return;
+        }
+        console.log("reg: ", reg);
+
+        tempGroup["regMatch"] = reg;
+        tempGroup["goldMatch"] = gold;
+
+        setDisplayedGroup(tempGroup);
     }
+
 
     const getTimestampString = (timestamp) => {
         let date = new Date(timestamp * 1000);
@@ -167,10 +177,9 @@ export default function Matchpage() {
                 <h2 id="goldMatch"> {displayedGroup.goldMatch ? "Already matched with gold" : ""} </h2>
             </div>
             <button onClick={nextGroup}>Next group</button>
-            <button onClick={() => { matchWithGoup(true) }}>Match with GOLD</button>
-            <button onClick={() => { matchWithGoup(false) }}>Match with Regular</button>
+            <button onClick={() => { matchWithGroup(true) }}>Match with GOLD</button>
+            <button onClick={() => { matchWithGroup(false) }}>Match with Regular</button>
             <button onClick={() => { unmatchButton() }}>Unmatch (gold and regular)</button>
-            <button onClick={() => { logButton() }}>Logger</button>
         </div>
     )
 }
