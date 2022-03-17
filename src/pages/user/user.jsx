@@ -76,7 +76,7 @@ export default function User() {
         }
         getName(); */
 
-
+        console.log("HEISANN");
         onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
 
@@ -174,7 +174,8 @@ export default function User() {
 
     const [image, setImage] = useState(null);
     const [url, setUrl] = useState(null);
-    const imageName = "/profile/" + auth.currentUser.email + "ProfileImage";
+    const [imageName, setImageName] = useState("");
+    
 
 
     useEffect(() => {
@@ -185,7 +186,8 @@ export default function User() {
             });
         }
         getPicture();
-    })
+        setImageName("/profile/" + user.email + "ProfileImage");
+    }); 
 
 
     const handleImageChange = (e) => {
