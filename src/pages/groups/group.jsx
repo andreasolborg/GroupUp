@@ -17,6 +17,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import TextField from '@material-ui/core/TextField';
 import GroupOwnerPanel from "./groupOwnerPanel";
+import { Grid } from "@mui/material";
 
 //This page holds information on a particular group. 
 
@@ -264,27 +265,44 @@ export default function Group() {
     // <Button onClick={getAdminElements} variant="contained">Admin</Button>
 
     return (
-        <div id="parent">
-            <div>
-                <Navbar></Navbar>
-                <div id="regular">
-                    <h1>{groupName}</h1>
-                    <h2>Owner: {owner}</h2>
-                    <div id="desc">
-                        <p>{description}</p>
+        <div className="outerDiv">
+            <Navbar></Navbar>
+            <div className="groupPage" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <div className="groupBox"  >
+                    <div className="header">
+                        <Grid container>
+                            <Grid xs={9}>
+                                <h1 style={{ marginTop: 60 }}>{groupName}</h1>
+                                <p style={{ color: "grey", fontFamily: 'Archivo' }} >Owner: {owner}</p>
+                            </Grid>
+                            <Grid xs={3} style={{ alignItems: "center", justifyContent: "center" }}>
+                                <Button style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
+                            </Grid>
+                        </Grid>
                     </div>
-                    <h2>Interest: {interest}</h2>
-                    <h2>Location: {location}</h2>
-                    <h2>Date and time: {dateTime.toUTCString()}</h2>
-                    <h2>Members:</h2>
-                    <div>
-                        {members.map((m) => (
-                            <div className="membersList">
-                                <p>{m}</p>
+                    <Grid container>
+                        <Grid xs={6}>
+                            <h2>Interest: {interest}</h2>
+                            <h2>Location: {location}</h2>
+                            <h2>Meeting time: {dateTime.toUTCString()}</h2>
+                        </Grid>
+                        <Grid xs={6}>
+                            <h2>Members:</h2>
+                            <div>
+                                {members.map((m) => (
+                                    <div className="membersList">
+                                        <p>{m}</p>
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
-                    <Button className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
+                        </Grid>
+                        <Grid>
+                            <div style={{ alignItems: 'center', justifyContent: 'center', fontFamily: 'Archivo', margin: 100 }}>
+                                <h2 style={{ fontFamily: 'Archivo', textDecoration: 'underline' }}>Decription</h2>
+                                <p>{description}</p>
+                            </div>
+                        </Grid>
+                    </Grid>
                 </div>
             </div>
             <div id="showAdmin">
@@ -292,19 +310,19 @@ export default function Group() {
             </div>
 
             <GroupOwnerPanel
-                hideAdminButton = { hideAdminButton }
-                updateGroupDetails = { updateGroupDetails }
-                removeUserButton = { removeUserButton }
-                setNewDate = { setNewDate }
-                sendNewDescription = { sendNewDescription }
-                requests = { requests }
-                leaveGroup = { leaveGroup }
-                addUserButton = { addUserButton }
-                setDateTime = { setDateTime }
-                dateTime = { dateTime }
-                acceptRequestButton = { acceptRequestButton }
+                hideAdminButton={hideAdminButton}
+                updateGroupDetails={updateGroupDetails}
+                removeUserButton={removeUserButton}
+                setNewDate={setNewDate}
+                sendNewDescription={sendNewDescription}
+                requests={requests}
+                leaveGroup={leaveGroup}
+                addUserButton={addUserButton}
+                setDateTime={setDateTime}
+                dateTime={dateTime}
+                acceptRequestButton={acceptRequestButton}
             />
 
-        </div>
+        </div >
     )
 }
