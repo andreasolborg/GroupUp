@@ -115,13 +115,9 @@ export default function Matchpage() {
         const myGroupSnap = await getDoc(myGroupRef);
         const otherGroupSnap = await getDoc(otherGroupRef);
 
-        if ((myGroupSnap.data().goldmatches.includes(otherGroupId) || otherGroupSnap.data().goldmatches.includes(ownGroupId)) &&
-            (myGroupSnap.data().regmatches.includes(otherGroupId) || otherGroupSnap.data().regmatches.includes(ownGroupId))) {
+        if ((myGroupSnap.data().goldmatches.includes(otherGroupId) || myGroupSnap.data().regmatches.includes(otherGroupId)) &&
+            (otherGroupSnap.data().regmatches.includes(ownGroupId) || otherGroupSnap.data().goldmatches.includes(ownGroupId))) {
             console.log("MUTUAL MATCH");
-            await addDoc(collection(db, "matches"), {
-                id1: ownGroupId,
-                id2: otherGroupId,
-            });
             await updateDoc(doc(db, "groups", ownGroupId), {
                 mutualmatches: arrayUnion(otherGroupId),
             });
