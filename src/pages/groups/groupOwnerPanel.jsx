@@ -16,6 +16,7 @@ export default function GroupOwnerPanel({
     removeUserButton,
     setNewDate,
     sendNewDescription,
+    goldmatches,
     requests,
     leaveGroup,
     addUserButton,
@@ -105,6 +106,7 @@ export default function GroupOwnerPanel({
                 <Button id="btnID" variant='contained' onClick={sendNewDescription} >Submit description</Button>
             </div>
             </Grid>
+           
             <Grid xs={6} direction="row">
             <div className="text">
                 <h2>The request queue</h2>
@@ -113,6 +115,19 @@ export default function GroupOwnerPanel({
                         <div className="text">
                             <h3>{r}</h3>
                             <Button id="btnID" variant='contained' onClick={() => acceptRequestButton(r)} >Accept request</Button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+            </Grid>
+
+            <Grid xs={6}>
+            <div >
+                <h2>Goldmatch requests</h2>
+                {goldmatches.map((g) => (
+                    <div className="membersList">
+                        <div className="text">
+                            <h3>{g}</h3>
                         </div>
                     </div>
                 ))}

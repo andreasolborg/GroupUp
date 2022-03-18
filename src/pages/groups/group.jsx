@@ -47,6 +47,7 @@ export default function Group() {
     const [requests, setRequests] = useState([]);
     const [dateTime, setDateTime] = useState(new Date());
     const [description, setDescription] = useState("");
+    const [golds, setGolds] = useState([]);
 
     const groupRef = doc(db, "groups", id);
 
@@ -109,6 +110,7 @@ export default function Group() {
             setGroupName(groupDocSnap.data().groupName);
             setDateTime(new Date(groupDocSnap.data().datetime.seconds * 1000));
             setDescription(groupDocSnap.data().description);
+            setGolds(groupDocSnap.data().goldmatches);
         };
         getOwner();
     }, []);
@@ -324,6 +326,7 @@ export default function Group() {
                 removeUserButton={removeUserButton}
                 setNewDate={setNewDate}
                 sendNewDescription={sendNewDescription}
+                goldmatches={golds}
                 requests={requests}
                 leaveGroup={leaveGroup}
                 addUserButton={addUserButton}
