@@ -319,6 +319,7 @@ export default function Group() {
             </div>
             <GroupOwnerPanel
                 hideAdminButton={hideAdminButton}
+                enterMatchingButton={goToMatching}
                 updateGroupDetails={updateGroupDetails}
                 removeUserButton={removeUserButton}
                 setNewDate={setNewDate}

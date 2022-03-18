@@ -11,6 +11,7 @@ import { Grid } from '@mui/material';
 
 export default function GroupOwnerPanel({
     hideAdminButton,
+    enterMatchingButton,
     updateGroupDetails,
     removeUserButton,
     setNewDate,
@@ -29,6 +30,7 @@ export default function GroupOwnerPanel({
             <div className="text">
                 <Button id="btnID" variant="contained" onClick={hideAdminButton} >Hide Admin Priviliges</Button>
                 <Button id="btnID" variant="contained" className="obsButton" onClick={leaveGroup} >Delete Group</Button>
+                <Button id="btnID" variant="contained" className="obsButton" onClick={enterMatchingButton} >Enter Matching</Button>
                 <h2>Gruppeleder</h2>
                 <p>These functions are hidden for regular members</p>
             </div>
