@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import { auth } from "../../firebase-config";
 import Navbar from "../../components/navbar";
 import { db } from "../../firestore";
-import { collection, arrayRemove, getDocs, updateDoc, doc, getDoc, arrayUnion } from 'firebase/firestore'
+import Button from '@material-ui/core/Button';
+import { query, where, collection, arrayRemove, getDocs, updateDoc, doc, getDoc, arrayUnion, documentId } from 'firebase/firestore'
 import "./matchpage.css";
 
 
@@ -32,14 +33,15 @@ export default function Matchpage() {
      */
     useEffect(() => {
         updateGroups();
-    }, []); 
+    }, []);
 
 
     /**
      * Sets the starting values for the groups and displayedgroup hooks
      */
     const updateGroups = async () => {
-        const querySnapshot = await getDocs(groupsCollectionReference)
+        const qq = query(groupsCollectionReference, where(documentId(), "!=", id));
+        const querySnapshot = await getDocs(qq);
 
         const tempGroups = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
 
@@ -72,7 +74,7 @@ export default function Matchpage() {
             console.log("reg match");
             setMatches(true, false);
         }
-        checkMutualMatch(id, displayedGroup.id);        
+        checkMutualMatch(id, displayedGroup.id);
     }
 
 
@@ -94,13 +96,13 @@ export default function Matchpage() {
     const isMatched = async (otherGroupId, isGold) => {
         try {
             const otherGroupRef = doc(db, "groups", otherGroupId);
-            const otherGroupSnap = await getDoc(otherGroupRef);    
+            const otherGroupSnap = await getDoc(otherGroupRef);
 
             if (isGold) {
                 return otherGroupSnap.data().goldmatches.includes(id);
             }
             return otherGroupSnap.data().regmatches.includes(id);
-    
+
         } catch (error) {
             return false;
         }
@@ -139,11 +141,11 @@ export default function Matchpage() {
         setMatches(false, false);
     }
 
-    
-    const setMatches = (reg, gold) => {
-        const tempGroup = {...displayedGroup};
 
-        if (typeof(reg) !== "boolean" || typeof(gold) !== "boolean") {
+    const setMatches = (reg, gold) => {
+        const tempGroup = { ...displayedGroup };
+
+        if (typeof (reg) !== "boolean" || typeof (gold) !== "boolean") {
             console.log("match must be a boolean");
             return;
         }
@@ -157,7 +159,7 @@ export default function Matchpage() {
 
 
     const getTimestampString = (timestamp) => {
-        let date = new Date(timestamp * 1000);
+        let date = new Date(timestamp.seconds * 1000);
 
         return date.toUTCString();
     }
@@ -165,8 +167,8 @@ export default function Matchpage() {
 
     return (
         <div>
-            <Navbar/>
-            <h2>testing</h2>
+            <Navbar />
+            <h2 id="title">MATCH WITH GROUPS</h2>
 
             <div id="matchcard">
                 <h1 id="gname">{displayedGroup.groupName}</h1>
@@ -176,10 +178,12 @@ export default function Matchpage() {
                 <h2 id="regMatch">{displayedGroup.regMatch ? "Already matched" : ""}</h2>
                 <h2 id="goldMatch"> {displayedGroup.goldMatch ? "Already matched with gold" : ""} </h2>
             </div>
-            <button onClick={nextGroup}>Next group</button>
-            <button onClick={() => { matchWithGroup(true) }}>Match with GOLD</button>
-            <button onClick={() => { matchWithGroup(false) }}>Match with Regular</button>
-            <button onClick={() => { unmatchButton() }}>Unmatch (gold and regular)</button>
+            <div id="matchcard">
+                <Button id="muibutton" variant="outlined" onClick={nextGroup}>Next group</Button>
+                <Button id="muibutton" variant="outlined" onClick={() => { matchWithGroup(true) }}>Match with GOLD</Button>
+                <Button id="muibutton" variant="outlined" onClick={() => { matchWithGroup(false) }}>Match with Regular</Button>
+                <Button id="muibutton" variant="outlined" onClick={() => { unmatchButton() }}>Unmatch (gold and regular)</Button>
+            </div>
         </div>
     )
 }
