@@ -5,7 +5,7 @@ import { auth } from "../../firebase-config";
 import Navbar from "../../components/navbar";
 import { db } from "../../firestore";
 import Button from '@material-ui/core/Button';
-import { query, where, collection, arrayRemove, getDocs, updateDoc, doc, getDoc, arrayUnion, documentId } from 'firebase/firestore'
+import { query, where, collection, arrayRemove, getDocs, updateDoc, doc, addDoc, setDoc, getDoc, arrayUnion, documentId } from 'firebase/firestore'
 import "./matchpage.css";
 
 
@@ -115,10 +115,19 @@ export default function Matchpage() {
         const myGroupSnap = await getDoc(myGroupRef);
         const otherGroupSnap = await getDoc(otherGroupRef);
 
-        if (myGroupSnap.data().goldmatches.includes(otherGroupId) && otherGroupSnap.data().goldmatches.includes(ownGroupId)) {
-            console.log("MUTUAL GOLD MATCH");
-        } else if (myGroupSnap.data().regmatches.includes(otherGroupId) && otherGroupSnap.data().regmatches.includes(ownGroupId)) {
-            console.log("MUTUAL REGULAR MATCH");
+        if ((myGroupSnap.data().goldmatches.includes(otherGroupId) || otherGroupSnap.data().goldmatches.includes(ownGroupId)) &&
+            (myGroupSnap.data().regmatches.includes(otherGroupId) || otherGroupSnap.data().regmatches.includes(ownGroupId))) {
+            console.log("MUTUAL MATCH");
+            await addDoc(collection(db, "matches"), {
+                id1: ownGroupId,
+                id2: otherGroupId,
+            });
+            await updateDoc(doc(db, "groups", ownGroupId), {
+                mutualmatches: arrayUnion(otherGroupId),
+            });
+            await updateDoc(doc(db, "groups", otherGroupId), {
+                mutualmatches: arrayUnion(ownGroupId),
+            });
         } else {
             console.log("Not a mutual match");
         }

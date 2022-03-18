@@ -3,6 +3,15 @@ import Navbar from "../../components/navbar";
 import Grid from '@mui/material/Grid';
 import Card from "../../components/groupCard";
 import { makeStyles } from "@material-ui/core";
+import { useState, useEffect } from "react";
+import { db } from "../../firestore";
+import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion } from 'firebase/firestore'
+import { useNavigate } from "react-router-dom";
+import { getBottomNavigationUtilityClass, TextField } from "@mui/material";
+import Button from '@material-ui/core/Button';
+import DateTimePicker from 'react-datetime-picker';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
 
 const useStyles = makeStyles({
@@ -50,6 +59,21 @@ const mediaCards = [
 
 
 function Matches() {
+
+  const [groups, setGroups] = useState([]);
+
+  const groupsCollectionReference = collection(db, "groups");
+
+  useEffect(() => {
+    const getGroups = async () => {
+      const querySnapshot = await getDocs(groupsCollectionReference);
+      setGroups(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    }
+    getGroups();
+  })
+
+
+
   const classes = useStyles();
   return (
     <><div className="matches">
