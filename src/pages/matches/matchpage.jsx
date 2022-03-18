@@ -5,7 +5,7 @@ import { auth } from "../../firebase-config";
 import Navbar from "../../components/navbar";
 import { db } from "../../firestore";
 import Button from '@material-ui/core/Button';
-import { collection, arrayRemove, getDocs, updateDoc, doc, getDoc, arrayUnion } from 'firebase/firestore'
+import { query, where, collection, arrayRemove, getDocs, updateDoc, doc, getDoc, arrayUnion, documentId } from 'firebase/firestore'
 import "./matchpage.css";
 
 
@@ -40,7 +40,8 @@ export default function Matchpage() {
      * Sets the starting values for the groups and displayedgroup hooks
      */
     const updateGroups = async () => {
-        const querySnapshot = await getDocs(groupsCollectionReference)
+        const qq = query(groupsCollectionReference, where(documentId(), "!=", id));
+        const querySnapshot = await getDocs(qq);
 
         const tempGroups = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
 
