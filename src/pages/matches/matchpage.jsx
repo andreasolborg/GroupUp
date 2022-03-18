@@ -159,7 +159,7 @@ export default function Matchpage() {
 
 
     const getTimestampString = (timestamp) => {
-        let date = new Date(timestamp * 1000);
+        let date = new Date(timestamp.seconds * 1000);
 
         return date.toUTCString();
     }
