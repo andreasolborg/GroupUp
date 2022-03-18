@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core";
 import { useState, useEffect } from "react";
 import { db } from "../../firestore";
 import { auth } from "../../firebase-config";
-import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion } from 'firebase/firestore'
+import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion, documentId } from 'firebase/firestore'
 import { useNavigate } from "react-router-dom";
 import { getBottomNavigationUtilityClass, TextField } from "@mui/material";
 import Button from '@material-ui/core/Button';
@@ -18,15 +18,15 @@ import "./matches.css";
 
 const useStyles = makeStyles({
   gridContainer: {
-  paddingTop: "20px",
-  direction: "column",
-  alignItems: "stretch",
-  display: "flex",
-  justifyContent: "center",
-  xs: 12, 
-  md: 6,
-  lg: 4
-  } 
+    paddingTop: "20px",
+    direction: "column",
+    alignItems: "stretch",
+    display: "flex",
+    justifyContent: "center",
+    xs: 12,
+    md: 6,
+    lg: 4
+  }
 })
 
 const mediaCards = [
@@ -74,8 +74,17 @@ export default function Matches() {
         if ((d.data().members.includes(auth.currentUser.email)) || (d.data().owner == auth.currentUser.email)) {
           arr.push(d);
         }
-        setGroups(arr.map((doc) => ({ ...doc.data(), id: doc.id })));
       });
+
+      var tempArr = [];
+      arr.map((g) => {
+        g.data().mutualmatches.map((m) => {
+          tempArr.push(m);
+        });
+      });
+
+      const querySnap = await getDocs(query(collection(db, "groups"), where(documentId(), "in", tempArr)));
+      setGroups(querySnap.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     }
     getGroups();
   }, []);
@@ -85,10 +94,10 @@ export default function Matches() {
   const classes = useStyles();
   return (
     <><div className="matches">
-    <div><Navbar></Navbar></div>
-    <h1 className="title">Your Matches</h1>
-    <CardList groups={groups}/>
-{/*
+      <div><Navbar></Navbar></div>
+      <h1 className="title">Your Matches</h1>
+      <CardList groups={groups} />
+      {/*
     <Grid container spacing = {5} className={classes.gridContainer}>
       {groups.map((card, i) => {
             return (
@@ -100,7 +109,7 @@ export default function Matches() {
     </Grid>
         */}
     </div></>
-    
+
   );
 }
 
