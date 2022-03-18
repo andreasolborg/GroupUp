@@ -168,7 +168,7 @@ export default function Matchpage() {
     return (
         <div>
             <Navbar />
-            <h2 id="matchcard">MATCH WITH GROUPS</h2>
+            <h2 id="title">MATCH WITH GROUPS</h2>
 
             <div id="matchcard">
                 <h1 id="gname">{displayedGroup.groupName}</h1>
