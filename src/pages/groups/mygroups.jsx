@@ -8,7 +8,7 @@ import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc,
 import { useNavigate } from "react-router-dom";
 import CardList from "./cardlist";
 import Navbar from "../../components/navbar";
-
+import './myGroups.css'
 
 export default function MyGroups () {
     const [joinedGroups, setJoinedGroups] = useState([]);
@@ -40,13 +40,13 @@ export default function MyGroups () {
     return (
         <div>
             <Navbar></Navbar>
+            <div className="wholeHomePage"> 
             <h1>MY GROUPS</h1>
-            <br/>
-            <br/>
             <h2>Joined Groups</h2>
             <CardList groups={joinedGroups}/>
             <h2>Owned Groups</h2>
             <CardList groups={ownedGroups}/>
+            </div>
         </div>
     )
 }

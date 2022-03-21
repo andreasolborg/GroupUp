@@ -1,0 +1,19 @@
+body{
+    text-align: center;
+}
+
+.wholeHomePage{
+    background-color: #FCFDFD;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-bottom: 25px;
+    margin-bottom: 10px;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+    box-shadow: 5px 5px 5px rgb(194, 194, 194), 
+    -5px 5px 15px rgb(194, 194, 194), 5px 5px 15px rgb(194, 194, 194);   
+}
+
+h1{
+    padding-top: 3%;
+}

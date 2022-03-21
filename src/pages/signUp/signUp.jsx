@@ -19,11 +19,13 @@ import Name from './name';
 import Gender from './gender';
 import Age from './age';
 import Email from './email';
+import './signUp.css'
 
 //import Alert from '@material-ui/lab/Alert';
 import LocalizationProvider, { MuiPickersAdapterContext } from '@mui/lab/LocalizationProvider';
 
 export default function SignUp() {
+  const imageLogo = require('./../../image/Logo.png');
 
   const [interests, setInterests] = useState([]);
 
@@ -81,12 +83,20 @@ export default function SignUp() {
   };
 
   return (
+    <div className='wholesignUp'>
+
+      <div className='imagesignUp'>
+        <img className='imageLogo' src={imageLogo} />
+      </div>
+
+      <div className='signUpPart'>
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
+      <Container 
+      component="main" maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 2,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -159,5 +169,7 @@ export default function SignUp() {
         </Box>
       </Container>
     </ThemeProvider>
+    </div>
+    </div>
   );
 }

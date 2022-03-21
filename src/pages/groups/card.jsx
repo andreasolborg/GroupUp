@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { auth } from "../../firebase-config";
+import { auth, storage } from "../../firebase-config";
 import { db } from "../../firestore";
 import { collection, arrayRemove, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion } from 'firebase/firestore'
 import { getBottomNavigationUtilityClass } from "@mui/material";
@@ -17,6 +17,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@mui/material/Grid';
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
 
 export const MediaCard = (props) => {
     const [reloader, setReloader] = useState([]);
@@ -109,15 +111,48 @@ export const MediaCard = (props) => {
 
     const classes = useStyles();
 
+
+    const imageName = (`/groups/${props.group.groupName}_${props.group.owner}_`);
+    //const imageRef = ref(storage, imageName);
+    const [files, setFiles] = useState();
+
+    useEffect(() => {
+        const fetchImages = async () => {
+            let result = await storage.ref().child('/groups/' + props.group.groupName + '_' + props.group.owner + '_').listAll();
+            let urlPromises = result.items.map((imageRef) =>
+                imageRef.getDownloadURL()
+            );
+            console.log(Promise.all(urlPromises));
+            return Promise.all(urlPromises);
+        };
+
+        const loadImages = async () => {
+            const urls = await fetchImages();
+            setFiles(urls);
+        };
+        loadImages();
+    }, []);
+
+    console.log(files + " skal være files");
+    console.log(setFiles + " skal være setfiles");
+
+
+
     return (
         <div>
             <Card className={classes.root}>
                 <CardActionArea>
+
+                {
+}
+
                     <CardMedia className={classes.media} image="https://st.depositphotos.com/2325841/2529/i/600/depositphotos_25293855-stock-photo-multi-ethnic-group-thumbs-up.jpg" />
                     <CardContent className={classes.content}>
                         <Typography gutterBottom variant="h5" component="h2">
                             {props.group.groupName}
+
                         </Typography>
+
                         <Typography variant="body2" color="textSecondary" component="p">
                             {props.group.interest}
                         </Typography>

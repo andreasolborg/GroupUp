@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 import Button from "@mui/material/Button";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { auth } from "../../firebase-config";
+import { auth, storage } from "../../firebase-config";
 import { db } from "../../firestore";
 import { signOut, onAuthStateChanged, deleteUser } from "firebase/auth";
 import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, arrayRemove, arrayUnion, where } from 'firebase/firestore'
@@ -14,6 +14,10 @@ import PopUp from "../../components/popup";
 import Navbar from "../../components/navbar";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import Avatar from '@mui/material/Avatar'
+
+
 
 
 import DateTimePicker from 'react-datetime-picker';
@@ -21,7 +25,6 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
 export default function CreateGroup() {
-    
     const [user, setUser] = useState({});
     const navi = useNavigate();
     const [open, setOpen] = useState(false);
@@ -29,13 +32,13 @@ export default function CreateGroup() {
     const handleClick = () => {
         setOpen(true);
     };
-    
+
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
             return;
-          }
+        }
         setOpen(false);
-      };
+    };
 
     const [errorGroupName, setErrorGroupName] = useState(false);
     const [errorInterest, setErrorInterest] = useState(false);
@@ -69,7 +72,7 @@ export default function CreateGroup() {
         const membersArray = document.getElementById("enterFriendInput").value.split(", ");
 
         if (!checkInputsForValidation()) {
-     
+
             setOpen(true);
             return;
         }
@@ -111,12 +114,12 @@ export default function CreateGroup() {
         }
     }
 
-  
+
     const checkGroupName = () => {
         if (document.getElementById("groupNameInput").value === "") {
             setErrorGroupName(true);
             return false;
-        } 
+        }
         setErrorGroupName(false);
         return true;
     }
@@ -140,6 +143,67 @@ export default function CreateGroup() {
     }
 
 
+
+    const [image, setImage] = useState(null);
+    const [url, setUrl] = useState(null);
+    const [imageName, setImageName] = useState("");
+
+
+    useEffect(() => {
+        const getPicture = async () => {
+            const imageRef = ref(storage, imageName);
+            getDownloadURL(imageRef).then((url) => {
+                setUrl(url);
+            });
+        }
+        getPicture();
+                  const groupName = document.getElementById("groupNameInput").value;
+                //const combined = groupName + auth.user.email
+        setImageName(`/groups/${groupName}_${auth.currentUser.email}_`);
+    });
+
+    const handleImageChange = (e) => {
+        if (e.target.files[0]) {
+            setImage(e.target.files[0]);
+
+        }
+    };
+
+    const handleSubmit = () => {
+        const imageRef = ref(storage, imageName);
+
+        uploadBytes(imageRef, image)
+            .then(() => {
+                getDownloadURL(imageRef)
+                    .then((url) => {
+                        setUrl(url);
+                    })
+                    .catch((error) => {
+                        console.log(error.message, "error getting the image url");
+                    });
+                setImage(null);
+            })
+            .catch((error) => {
+                console.log(error.message);
+            });
+        console.log(url);
+        console.log(setUrl);
+    };
+
+    const uploadProfileImage = () => {
+        var input = document.createElement('input');
+        input.type = 'file';
+        input.click();
+        input.onchange = e => {
+            handleImageChange(e);
+        }
+
+    }
+
+
+
+
+
     return (
         <div>
             <Navbar></Navbar>
@@ -153,8 +217,9 @@ export default function CreateGroup() {
                     <TextField error={errorInterest} placeholder="enter interest*" variant="standard" id="groupInterest" />
                     <TextField placeholder="enter email of friend" variant="standard" id="enterFriendInput" />
                     <TextField error={errorLocation} placeholder="enter a location*" variant="standard" id="locationInput" />
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <LocalizationProvider id="setTimes" dateAdapter={AdapterDateFns}>
                         <DateTimePicker
+                            id="setTime"
                             renderInput={(props) => <TextField {...props} />}
                             label="DateTimePicker"
                             value={dateTime}
@@ -164,9 +229,19 @@ export default function CreateGroup() {
                             }}
                         />
                     </LocalizationProvider>
-                    <textarea id="des" rows="5" placeholder="Enter a description of your group"/>
-                    <Button onClick={createGroupButton} variant="outlined">Create group</Button>
-                    <PopUp open={open} severity = {"error"} feedbackMessage = {"Missing fields"} handleClose = {handleClose}>
+                    <div id="bottomPart">
+                        <textarea id="des" rows="5" placeholder="Enter a description of your group" />
+
+                        <Avatar onClick={uploadProfileImage} id="userIcon" variant="square" src={url} sx={{ width: 150, height: 150 }} />
+                        {/*<input type="file" onChange={handleImageChange} />*/}
+                        <div>
+                        <Button id="submitBtn" onClick={handleSubmit}>confirm new Image</Button>
+                        </div>
+                        <Button onClick={createGroupButton} sx={{
+    width: 300,
+  }} variant="outlined">Create group</Button>
+                    </div>
+                    <PopUp open={open} severity={"error"} feedbackMessage={"Missing fields"} handleClose={handleClose}>
                     </PopUp>
                 </div>
             </div>

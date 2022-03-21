@@ -6,14 +6,25 @@
     box-shadow:0px 0px 15px -5px;
     transition: 0.3s;
     animation: ease-in;
-    border-radius: 15px;
+    border-radius: 5px;
     background-color: beige;
     margin: auto;
-    width: 80%;
+    width: 100%;
+    margin-bottom: 30px;
 }
 
+
+#bottomPart{
+    display: block;
+}
+
+#submitBtn{
+    margin-bottom: 5%;
+}
+
+
 .groupForm{
-    margin: 5% 10%;
+    margin: 5% 20%;
     display: block;
     background-color:whitesmoke;
     padding: 3%;
@@ -22,7 +33,7 @@
 .backBtn{
     position: relative;
     float:left;
-
+    left: 1%;
 
 
 }
@@ -35,5 +46,4 @@ groupForm>div{
     display: block;
     margin: 2% 1%;
 }
-#textInput{
-}
+

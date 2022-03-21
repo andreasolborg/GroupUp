@@ -79,10 +79,26 @@ export default function User() {
     }
 
     function addInterest() {
+        console.log(interest , "i addInterest");
         if (!interests.includes(interest) && interest.trim().length != 0) {
-            setInterests(interests => [...interests, interest]);
+            setInterests(interests => {
+                return [...interests, interest];
+            });
+            console.log(interests , "i interests");
         }
     }
+
+    useEffect(() => {
+        const addInterest = async () => {
+            const profile = await getDocs(profileCollectionReference);
+            profile.data().interest.map((interest) => {
+                setInterests((interests) => [...interests, interest]);
+            });
+        }
+        addInterest();
+    }, []);
+
+
 
     function removeInterest() {
         let tempList = [...interests];
@@ -93,6 +109,11 @@ export default function User() {
         tempList.splice(index, 1);
         setInterests(tempList);
     }
+
+
+
+
+
 
     useEffect(() => {
         onAuthStateChanged(auth, (currentUser) => {
@@ -105,6 +126,10 @@ export default function User() {
 
             getUserInfo(currentUser);
         });
+        interests.onChange = () =>{
+            console.log("interests er endret");
+        }
+
     }, []);
 
 
@@ -208,7 +233,8 @@ export default function User() {
 
     const handleImageChange = (e) => {
         if (e.target.files[0]) {
-            setImage(e.target.files[0]);    
+            setImage(e.target.files[0]);   
+            
         }
     };
 
@@ -246,6 +272,7 @@ export default function User() {
 
 
 
+
     return (
         <><Navbar className="navbar"></Navbar>
             <div className="user">
@@ -256,9 +283,9 @@ export default function User() {
 
 
 
-                <Avatar onClick={uploadProfileImage} src={url} sx={{ width: 150, height: 150 }} />
+                <Avatar onClick={uploadProfileImage} id="userIcon" src={url} sx={{ width: 150, height: 150 }} />
                 {/*<input type="file" onChange={handleImageChange} />*/}
-                <button onClick={handleSubmit}>Upload Image</button>
+                <Button id="submitBtn" onClick={handleSubmit}>confirm new Image</Button>
 
 
                 {/*                 <AccountCircleIcon
@@ -272,9 +299,6 @@ export default function User() {
                     </Button>
                     <Button variant="contained" id="btnLogOut" onClick={goToMyGroups}>
                         My groups
-                    </Button>
-                    <Button variant="contained" id="btnLogOut" onClick={() => removeUserFromAllGroups(auth.currentUser.email)}>
-                        Remove User from joined groups
                     </Button>
                     <Button variant="contained" id="btnLogOut" onClick={createGroup}>
                         Create group
@@ -308,13 +332,16 @@ export default function User() {
                         Remove
                     </Button>
                 </div>
-
+                <Button variant="contained" id="btnLogOut" onClick={() => removeUserFromAllGroups(auth.currentUser.email)}>
+                        Remove me from joined groups
+                    </Button>
                 <Button variant="contained" id="btnLogOut" onClick={logout}>
                     Log out
                 </Button>
                 <Button variant="contained" id="btnLogOut" onClick={deleteUser}>
                     Delete User
                 </Button>
+
 
             </div></>
     );

@@ -16,8 +16,25 @@ body{
 h1{
     font-family: 'Archivo', sans-serif;  
     color: black;
+    font-size: 5ch;
     
 }
+
+#userIcon{
+    margin: auto;
+    margin-bottom: 0.8%;
+}
+
+#userIcon:hover{
+    border: 1px solid black;
+    cursor: grab;
+}
+#submitBtn{
+    background-color:#e7f0f3;
+    font-size: small;
+}
+
+
 
 .top-part{
     border-radius: 10%;
@@ -66,4 +83,6 @@ color: black;
     background-color: #DDEEF5;
     margin: 3%;
     color: black;
+    border-color: black;
+    padding: 1%;
 }
