@@ -120,9 +120,13 @@ export default function Matchpage() {
             console.log("MUTUAL MATCH");
             await updateDoc(doc(db, "groups", ownGroupId), {
                 mutualmatches: arrayUnion(otherGroupId),
+                regmatches: arrayRemove(otherGroupId),
+                goldmatches: arrayRemove(otherGroupId)
             });
             await updateDoc(doc(db, "groups", otherGroupId), {
                 mutualmatches: arrayUnion(ownGroupId),
+                regmatches: arrayRemove(ownGroupId),
+                goldmatches: arrayRemove(ownGroupId)
             });
         } else {
             console.log("Not a mutual match");
