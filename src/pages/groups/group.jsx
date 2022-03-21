@@ -8,7 +8,7 @@ import Card from "./card";
 import { CardList } from "./cardlist";
 import Button from '@material-ui/core/Button';
 
-import { collection, arrayRemove, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion } from 'firebase/firestore'
+import { collection, arrayRemove, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion, documentId } from 'firebase/firestore'
 import { ClassNames } from "@emotion/react";
 import "./group.css";
 import Navbar from "../../components/navbar";
@@ -47,6 +47,7 @@ export default function Group() {
     const [requests, setRequests] = useState([]);
     const [dateTime, setDateTime] = useState(new Date());
     const [description, setDescription] = useState("");
+    const [golds, setGolds] = useState([]);
 
     const groupRef = doc(db, "groups", id);
 
@@ -109,6 +110,10 @@ export default function Group() {
             setGroupName(groupDocSnap.data().groupName);
             setDateTime(new Date(groupDocSnap.data().datetime.seconds * 1000));
             setDescription(groupDocSnap.data().description);
+            
+            const queryOnGolds = query(collection(db, "groups"), where(documentId(), "in", groupDocSnap.data().goldmatches));
+            const qogSnapshot = await getDocs(queryOnGolds);
+            setGolds(qogSnapshot.docs.map((doc) => ({...doc.data(), id: doc.id})));
         };
         getOwner();
     }, []);
@@ -318,12 +323,14 @@ export default function Group() {
                 <Button id='btnID' variant="contained" onClick={showAdminButton}>Show Admin Priviliges</Button>
             </div>
             <GroupOwnerPanel
+                ownGroupId={id}
                 hideAdminButton={hideAdminButton}
                 enterMatchingButton={goToMatching}
                 updateGroupDetails={updateGroupDetails}
                 removeUserButton={removeUserButton}
                 setNewDate={setNewDate}
                 sendNewDescription={sendNewDescription}
+                goldmatches={golds}
                 requests={requests}
                 leaveGroup={leaveGroup}
                 addUserButton={addUserButton}

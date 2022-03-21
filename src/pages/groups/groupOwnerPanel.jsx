@@ -7,21 +7,55 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { Grid } from '@mui/material';
-
+import { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
+import { isMatchWithOptions } from 'date-fns/fp';
+import { db } from "../../firestore";
+import { collection, arrayRemove, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion, documentId } from 'firebase/firestore'
 
 export default function GroupOwnerPanel({
+    ownGroupId,
     hideAdminButton,
     enterMatchingButton,
     updateGroupDetails,
     removeUserButton,
     setNewDate,
     sendNewDescription,
+    goldmatches,
     requests,
     leaveGroup,
     addUserButton,
     setDateTime,
     dateTime,
     acceptRequestButton }) {
+
+
+
+ 
+
+    const matchWith = async (group) => {
+
+        //Update mutualmatches and remove pending
+        await updateDoc(doc(db, "groups", ownGroupId), {
+            mutualmatches: arrayUnion(group.id),
+            goldmatches: arrayRemove(group.id),
+            regmatches: arrayRemove(group.id)
+        });
+        await updateDoc(doc(db, "groups", group.id), {
+            mutualmatches: arrayUnion(ownGroupId),
+            goldmatches: arrayRemove(ownGroupId),
+            regmatches: arrayRemove(ownGroupId)
+        });
+        window.location.reload(false);
+     
+    }
+
+    const deleteRequest = async (group) => {
+        await updateDoc(doc(db, "groups", ownGroupId), {
+            goldmatches: arrayRemove(group.id)
+        });
+        window.location.reload(false);
+    }
 
     return (
         
@@ -105,6 +139,7 @@ export default function GroupOwnerPanel({
                 <Button id="btnID" variant='contained' onClick={sendNewDescription} >Submit description</Button>
             </div>
             </Grid>
+           
             <Grid xs={6} direction="row">
             <div className="text">
                 <h2>The request queue</h2>
@@ -113,6 +148,21 @@ export default function GroupOwnerPanel({
                         <div className="text">
                             <h3>{r}</h3>
                             <Button id="btnID" variant='contained' onClick={() => acceptRequestButton(r)} >Accept request</Button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+            </Grid>
+
+            <Grid xs={6}>
+            <div >
+                <h2>Goldmatch requests</h2>
+                <h3>You have {goldmatches.length} goldmatch(es)!</h3>
+                {goldmatches.map((g) => (
+                    <div className="membersList">
+                        <div className="goldmatchElement">
+                            <button className="goldmatchElement" onClick={() => matchWith(g)}>Match with: {g.groupName}</button>
+                            <button className="goldmatchElement" onClick={() => deleteRequest(g)}>Delete request</button>
                         </div>
                     </div>
                 ))}

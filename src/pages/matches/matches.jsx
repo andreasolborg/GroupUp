@@ -3,19 +3,30 @@ import Navbar from "../../components/navbar";
 import Grid from '@mui/material/Grid';
 import Card from "../../components/groupCard";
 import { makeStyles } from "@material-ui/core";
-
+import { useState, useEffect } from "react";
+import { db } from "../../firestore";
+import { auth } from "../../firebase-config";
+import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion, documentId } from 'firebase/firestore'
+import { useNavigate } from "react-router-dom";
+import { getBottomNavigationUtilityClass, TextField } from "@mui/material";
+import Button from '@material-ui/core/Button';
+import DateTimePicker from 'react-datetime-picker';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import CardList from "../groups/cardlist";
+import "./matches.css";
 
 const useStyles = makeStyles({
   gridContainer: {
-  paddingTop: "20px",
-  direction: "column",
-  alignItems: "stretch",
-  display: "flex",
-  justifyContent: "center",
-  xs: 12, 
-  md: 6,
-  lg: 4
-  } 
+    paddingTop: "20px",
+    direction: "column",
+    alignItems: "stretch",
+    display: "flex",
+    justifyContent: "center",
+    xs: 12,
+    md: 6,
+    lg: 4
+  }
 })
 
 const mediaCards = [
@@ -49,14 +60,46 @@ const mediaCards = [
 ];
 
 
-function Matches() {
+export default function Matches() {
+
+  const [groups, setGroups] = useState([]);
+
+  const groupsCollectionReference = collection(db, "groups");
+  var arr = [];
+
+  useEffect(() => {
+    const getGroups = async () => {
+      const dd = await getDocs(groupsCollectionReference);
+      dd.docs.map((d) => {
+        if ((d.data().members.includes(auth.currentUser.email)) || (d.data().owner == auth.currentUser.email)) {
+          arr.push(d);
+        }
+      });
+
+      var tempArr = [];
+      arr.map((g) => {
+        g.data().mutualmatches.map((m) => {
+          tempArr.push(m);
+        });
+      });
+
+      const querySnap = await getDocs(query(collection(db, "groups"), where(documentId(), "in", tempArr)));
+      setGroups(querySnap.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    }
+    getGroups();
+  }, []);
+
+
+
   const classes = useStyles();
   return (
     <><div className="matches">
-    <div><Navbar></Navbar></div>
-
+      <div><Navbar></Navbar></div>
+      <h1 className="title">Your Matches</h1>
+      <CardList groups={groups} />
+      {/*
     <Grid container spacing = {5} className={classes.gridContainer}>
-      {mediaCards.map((card, i) => {
+      {groups.map((card, i) => {
             return (
               <Grid key={i} item>
                 <Card {...card} />
@@ -64,10 +107,9 @@ function Matches() {
             );
           })}
     </Grid>
-    
+        */}
     </div></>
-    
+
   );
 }
 
-export default Matches;
