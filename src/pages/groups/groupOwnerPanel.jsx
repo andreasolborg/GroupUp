@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { isMatchWithOptions } from 'date-fns/fp';
 import { db } from "../../firestore";
 import { storage } from "../../firebase-config";
-import { ref, uploadBytes, getDownloadURL, getStorage } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL, getStorage, deleteObject } from "firebase/storage";
 import { collection, arrayRemove, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion, documentId } from 'firebase/firestore'
 
 export default function GroupOwnerPanel({
@@ -67,6 +67,8 @@ export default function GroupOwnerPanel({
 
     /**
      * Upload image to storage
+     * 
+     * NEEDS FUNCTION TO OVERRIDE CURRENT IMAGE
      */
     const handleImageButton = () => {
         var input = document.createElement('input');
@@ -77,11 +79,22 @@ export default function GroupOwnerPanel({
                 setImage(e.target.files[0]);
             }
         }
-        const storage = getStorage();
-        const storageRef = ref(storage, "/group/some-child.jpg");
+        const storageRef = ref(storage, "/group/"+ownGroupId);
         uploadBytes(storageRef, image).then((snap) => {
             console.log("UPLAODED FILE");
         });
+    }
+
+    const resetImageButton = () => {
+        const imref = ref(storage, "/group/"+ownGroupId+".jpeg");
+        deleteObject(imref).then(() => {
+            console.log("SUccessfully deleted file");
+        }).catch((error) => {
+            console.log("Error in deletion");
+        });
+
+
+        window.location.reload(false);
     }
 
 
@@ -93,7 +106,8 @@ export default function GroupOwnerPanel({
                 <Button id="btnID" variant="contained" onClick={hideAdminButton} >Hide Admin Priviliges</Button>
                 <Button id="btnID" variant="contained" className="obsButton" onClick={leaveGroup} >Delete Group</Button>
                 <Button id="btnID" variant="contained" className="obsButton" onClick={enterMatchingButton} >Enter Matching</Button>
-                <Button id="btnID" variant="contained" className="obsButton" onClick={handleImageButton} >Upload Image</Button>
+                <Button id="btnID" variant="contained" className="obsButton" onClick={handleImageButton} >Upload Image (jpeg)</Button>
+                <Button id="btnID" variant="contained" className="obsButton" onClick={resetImageButton} >Reset image</Button>
                 <h2>Gruppeleder</h2>
                 <p>These functions are hidden for regular members</p>
             </div>

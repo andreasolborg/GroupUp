@@ -7,7 +7,7 @@ import { getBottomNavigationUtilityClass } from "@mui/material";
 import Card from "./card";
 import { CardList } from "./cardlist";
 import Button from '@material-ui/core/Button';
-
+import Avatar from '@mui/material/Avatar'
 import { collection, arrayRemove, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion, documentId } from 'firebase/firestore'
 import { ClassNames } from "@emotion/react";
 import "./group.css";
@@ -19,6 +19,8 @@ import TextField from '@material-ui/core/TextField';
 import GroupOwnerPanel from "./groupOwnerPanel";
 import { Grid } from "@mui/material";
 import { DomainVerificationTwoTone } from "@mui/icons-material";
+import { storage } from "../../firebase-config";
+import { ref, uploadBytes, getDownloadURL, getStorage } from "firebase/storage";
 
 //This page holds information on a particular group. 
 
@@ -124,6 +126,28 @@ export default function Group() {
             setGolds(qogSnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
         };
         getOwner();
+    }, []);
+
+    const [url, setUrl] = useState("");
+
+    useEffect(() => {
+        const loadImage = () => {
+
+            const pathReference = ref(storage, "/group/"+id);
+            var temp = "";
+            getDownloadURL(pathReference).then((url) => {
+                //insert url into img tag in html
+                setUrl(url);
+                temp = url;
+            });
+            if (temp == ""){
+                const pathRef = ref(storage, "/group/zlatan.jpeg");
+                getDownloadURL(pathRef).then((url) => {
+                    setUrl(url);
+                });
+             }
+        }
+        loadImage();
     }, []);
 
 
@@ -291,6 +315,8 @@ export default function Group() {
                 <div className="groupBox"  >
                     <div className="header">
                         <Grid container>
+                        <img id="banner" src={url}/>
+
                             <Grid xs={9}>
                                 <h1 style={{ marginTop: 60 }}>{groupName}</h1>
                             </Grid>
@@ -303,6 +329,7 @@ export default function Group() {
                     <Grid container>
                         <Grid xs={6}>
                             <div className="information" >
+                            <h1 style={{ marginTop: 60 }}>{groupName}</h1>
                                 <p style={{ fontSize: 20 }} >
                                     <b style={{ textDecoration: 'underline' }}>Interest:</b> {interest}
                                 </p>
