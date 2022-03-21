@@ -18,6 +18,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import TextField from '@material-ui/core/TextField';
 import GroupOwnerPanel from "./groupOwnerPanel";
 import { Grid } from "@mui/material";
+import { DomainVerificationTwoTone } from "@mui/icons-material";
 
 //This page holds information on a particular group. 
 
@@ -59,9 +60,19 @@ export default function Group() {
         const getMembers = async () => {
             const groupDocsnap = await getDoc(groupRef);
 
+            var bool = false;
+            if (groupDocsnap.data().owner == auth.currentUser.email) {
+                bool = true;
+            }
             groupDocsnap.data().members.map((m) => {
                 setMembers((members) => [...members, m]);
+                if (m == auth.currentUser.email){
+                    bool = true;
+                }
             });
+            if (bool){
+                document.getElementById("btnID").style = "visibility: visible";
+            }
         }
         getMembers();
     }, []);
@@ -285,7 +296,7 @@ export default function Group() {
                             </Grid>
                             <Grid xs={3} style={{ alignItems: "center", justifyContent: "center" }}>
                                 <Button id='btnID' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
-                                <Button id='btnID' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => contactButton()}>Contact</Button>
+                                <Button id='contactButton' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => contactButton()}>Contact</Button>
                             </Grid>
                         </Grid>
                     </div>
