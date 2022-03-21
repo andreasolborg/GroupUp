@@ -118,6 +118,13 @@
     background-color: #c6d7dd;
     color: black;
    margin: 10px;
+   visibility: hidden;
+}
+
+#contactButton {
+    background-color: #c6d7dd;
+    color: black;
+   margin: 10px;
 }
 
 #goldmatchElement{
