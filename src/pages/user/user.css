@@ -33,8 +33,17 @@ h1{
 .avatar{
     padding: 0% 0%;
     display:block;
+    text-align: center;
+}
+
+#ava{
     align-items: center;
     justify-content: center;
+    text-align: center;
+    margin: 0 auto;
+}
+#av {
+    align-items: center;
     text-align: center;
 }
 
