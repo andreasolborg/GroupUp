@@ -71,7 +71,7 @@ export default function Group() {
                 }
             });
             if (bool){
-                document.getElementById("btnID").style = "visibility: visible";
+                document.getElementById("leaveButton").style = "visibility: visible";
             }
         }
         getMembers();
@@ -295,7 +295,7 @@ export default function Group() {
                                 <h1 style={{ marginTop: 60 }}>{groupName}</h1>
                             </Grid>
                             <Grid xs={3} style={{ alignItems: "center", justifyContent: "center" }}>
-                                <Button id='btnID' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
+                                <Button id='leaveButton' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
                                 <Button id='contactButton' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => contactButton()}>Contact</Button>
                             </Grid>
                         </Grid>

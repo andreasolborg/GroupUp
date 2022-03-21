@@ -118,6 +118,12 @@
     background-color: #c6d7dd;
     color: black;
    margin: 10px;
+}
+
+#leaveButton{
+    background-color: #c6d7dd;
+    color: black;
+   margin: 10px;
    visibility: hidden;
 }
 
