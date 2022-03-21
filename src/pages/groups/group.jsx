@@ -100,20 +100,17 @@ export default function Group() {
                 return;
             }
             const groupDocSnap = await getDoc(groupRef);
-            if (groupDocSnap.data().owner === auth.currentUser.email) {
-                setOwner("(You own this group)");
-            } else {
-                setOwner(groupDocSnap.data().owner);
-            }
+
+            setOwner(groupDocSnap.data().owner);
             setLocation(groupDocSnap.data().location);
             setInterest(groupDocSnap.data().interest);
             setGroupName(groupDocSnap.data().groupName);
             setDateTime(new Date(groupDocSnap.data().datetime.seconds * 1000));
             setDescription(groupDocSnap.data().description);
-            
+
             const queryOnGolds = query(collection(db, "groups"), where(documentId(), "in", groupDocSnap.data().goldmatches));
             const qogSnapshot = await getDocs(queryOnGolds);
-            setGolds(qogSnapshot.docs.map((doc) => ({...doc.data(), id: doc.id})));
+            setGolds(qogSnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
         };
         getOwner();
     }, []);
@@ -270,21 +267,25 @@ export default function Group() {
         navi("/matchpage/" + id);
     }
 
+    const contactButton = () => {
+        window.confirm("E-Mail of owner: " + owner);
+    }
+
     // <Button onClick={getAdminElements} variant="contained">Admin</Button>
 
     return (
         <div className="outerDiv">
-            <Navbar></Navbar>
+            <Navbar />
             <div className="groupPage" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <div className="groupBox"  >
                     <div className="header">
                         <Grid container>
                             <Grid xs={9}>
                                 <h1 style={{ marginTop: 60 }}>{groupName}</h1>
-                                <p style={{ color: "grey", fontFamily: 'Archivo' }} >Owner: {owner}</p>
                             </Grid>
                             <Grid xs={3} style={{ alignItems: "center", justifyContent: "center" }}>
                                 <Button id='btnID' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
+                                <Button id='btnID' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => contactButton()}>Contact</Button>
                             </Grid>
                         </Grid>
                     </div>
