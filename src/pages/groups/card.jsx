@@ -113,7 +113,7 @@ export const MediaCard = (props) => {
         <div>
             <Card className={classes.root}>
                 <CardActionArea>
-                    <CardMedia className={classes.media} image="https://st.depositphotos.com/2325841/2529/i/600/depositphotos_25293855-stock-photo-multi-ethnic-group-thumbs-up.jpg" />
+                    <CardMedia className={classes.media} image="https://media.istockphoto.com/photos/group-multiracial-people-having-fun-outdoor-happy-mixed-race-friends-picture-id1211345565?k=20&m=1211345565&s=612x612&w=0&h=Gg65DvzedP7YDo6XFbB-8-f7U7m5zHm1OPO3uIiVFgo=" />
                     <CardContent className={classes.content}>
                         <Typography gutterBottom variant="h5" component="h2">
                             {props.group.groupName}

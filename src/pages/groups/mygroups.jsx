@@ -7,7 +7,9 @@ import { signOut, onAuthStateChanged, deleteUser } from "firebase/auth";
 import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion } from 'firebase/firestore'
 import { useNavigate } from "react-router-dom";
 import CardList from "./cardlist";
+import "./mygroups.css";
 import Navbar from "../../components/navbar";
+import { Grid } from "@mui/material";
 
 
 export default function MyGroups () {
@@ -38,15 +40,15 @@ export default function MyGroups () {
 
 
     return (
-        <div>
-            <Navbar></Navbar>
+        <div><Navbar></Navbar>
+        <div className="wrapper">
             <h1>MY GROUPS</h1>
-            <br/>
-            <br/>
             <h2>Joined Groups</h2>
             <CardList groups={joinedGroups}/>
             <h2>Owned Groups</h2>
             <CardList groups={ownedGroups}/>
+
+        </div>
         </div>
     )
 }

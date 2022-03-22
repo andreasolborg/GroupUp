@@ -30,23 +30,36 @@
     text-align: center;
 }
 
-.header{
+.blueSplitBar{
     padding-bottom: 2%;
     background-color: #DDEEF5;
-    border-radius: 15px 15px 0px 0px;
+    height: 10px;
+    max-width: 100%;
+}
+
+#banner {
+    border-radius: 5px 5px 0px 0px;
     height: 400px;
+    display: flex;
+    overflow:'hidden';
+    width: 100%;
+    padding-bottom: 0%;
+ /*dette fiksa at bildet fløyt utenfor*/
 }
 
 .groupPage{
     align-items: center;
+    margin: 0% 15% 2%; 
 }
 
 .groupBox{
     background-color: white;
-    margin-top: 1%;
-    border-radius: 15px;
-    width: 80%;
+    margin-top: 2%;
+    border-radius: 5px;
+    width: 100%;
     justify-content: center;
+    box-shadow: 1px 3px 5px rgba(0,0,0,0.2);
+    
 }
 
 .information{
@@ -114,14 +127,6 @@
     margin: 25px;
 }
 
-#banner {
-    border-radius: 15px 15px 0px 0px;
-    height: 400px;
-    width: 80%;
-    padding-bottom: 2%;
-    position: absolute;  
-    object-fit: fill;
-}
 
 #btnID {
     background-color: #c6d7dd;

@@ -113,8 +113,10 @@ export default function Groups() {
 
 
 
-    return <div className="topOfGroups">
+    return(
+        <div className="outerDiv">
         <Navbar></Navbar>
+        <div className="wrapper">
             <div className="filterGroups">
                 <h1>GROUPS PAGE</h1>
                 <input id="searchInput" placeholder="search by interest..." onChange={() => { searchBarChanged() }} />
@@ -148,4 +150,6 @@ export default function Groups() {
             <CardList groups={groupTemp} />
         </div>
     </div>
+    </div>
+    )
 }
