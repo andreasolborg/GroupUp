@@ -9,7 +9,7 @@
 
 /* kortene */
 .cardBackground{
-    background-color: #DDEEF5;
+    background-color: white;
     margin-left: 10%;
     margin-right: 10%;
     padding-bottom: 25px;
@@ -52,3 +52,4 @@
 #searchInput {
     margin-left: 20px;
 }
+

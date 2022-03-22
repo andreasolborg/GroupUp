@@ -10,7 +10,7 @@ import CardList from "./cardlist";
 import "./card.css";
 import Button from '@material-ui/core/Button';
 import Navbar from "../../components/navbar";
-import DateTimePicker from '@mui/lab/DateTimePicker';
+import DateTimePicker from 'react-datetime-picker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import { makeStyles } from "@material-ui/core";
@@ -117,8 +117,12 @@ export default function Groups() {
         <Navbar></Navbar>
             <div className="filterGroups">
                 <h1>GROUPS PAGE</h1>
+                
                 <TextField variant="standard" id="searchInput" placeholder="search by interest..." onChange={() => { searchBarChanged() }} />
+                <br/>
+                <br/>
                 <TextField variant="standard" id="locationSearchInput" placeholder="search by location..." onChange={() => { searchBarChanged() }} />
+
                 <br/>
                 <br/>
                 <div>
