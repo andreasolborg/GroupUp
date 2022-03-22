@@ -191,27 +191,27 @@ export default function User() {
     const [image, setImage] = useState(null);
     const [url, setUrl] = useState(null);
     const [imageName, setImageName] = useState("");
-    
+
 
 
     useEffect(() => {
         const getPicture = async () => {
-            const imageRef = ref(storage, "/profile/"+auth.currentUser.email);
+            const imageRef = ref(storage, "/profile/" + auth.currentUser.email);
             var temp = "";
             getDownloadURL(imageRef).then((url) => {
                 //insert url into img tag in html
                 setUrl(url);
                 temp = url;
             });
-            if (temp == ""){
+            if (temp == "") {
                 const pathRef = ref(storage, "/profile/groupPic.jpeg");
                 getDownloadURL(pathRef).then((url) => {
                     setUrl(url);
                 });
-             }
+            }
         }
         getPicture();
-    }, []); 
+    }, []);
 
 
     const uploadProfileImage = () => {
@@ -223,7 +223,7 @@ export default function User() {
                 setImage(e.target.files[0]);
             }
         }
-        const storageRef = ref(storage, "/profile/"+auth.currentUser.email);
+        const storageRef = ref(storage, "/profile/" + auth.currentUser.email);
         uploadBytes(storageRef, image).then((snap) => {
             console.log("UPLAODED FILE");
         });
@@ -235,13 +235,13 @@ export default function User() {
         <><Navbar className="navbar"></Navbar>
             <div className="user">
                 <div className="top-part">
-                    <h1 className="username">{name}</h1>
+                    <h1 className="username"> {name} </h1>
                 </div>
 
 
 
                 <div id="av">
-                <Avatar id="ava" onClick={uploadProfileImage} src={url} sx={{ width: 150, height: 150 }} />
+                    <Avatar id="ava" onClick={uploadProfileImage} src={url} sx={{ width: 150, height: 150 }} />
                 </div>
                 <div>
                     <Button variant="contained" id="btnLogOut" onClick={goToGroups}>
@@ -267,7 +267,6 @@ export default function User() {
                     <h3>Change interest:</h3>
                     <div className="newInterest">
                         <div>
-                            <p>Interest:</p>
                             <TextField i
                                 d="filled-basic"
                                 label="f.eks. fotball"
