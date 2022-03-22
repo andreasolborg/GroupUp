@@ -38,18 +38,12 @@
     
 }
 
-#filterByTimeButton {
+#filterButtons {
     margin: 15px;
     background-color: #c6d7dd;
 }
 
-#removeFilterTimeBtn {
-    margin: 15px;
-    background-color: #c6d7dd;
 
-}
 
-#searchInput {
-    margin-left: 20px;
-}
+
 
