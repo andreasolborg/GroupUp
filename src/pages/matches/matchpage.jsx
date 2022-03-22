@@ -7,10 +7,11 @@ import { db } from "../../firestore";
 import Button from '@material-ui/core/Button';
 import { query, where, collection, arrayRemove, getDocs, updateDoc, doc, addDoc, setDoc, getDoc, arrayUnion, documentId } from 'firebase/firestore'
 import "./matchpage.css";
+import { MatchCard } from "./components/matchCard";
+import { Grid } from "@mui/material";
 
 
 /**
- * KNOWN ERROR: Refreshing the page fucks it up
  * 
  * @returns 
  */
@@ -24,6 +25,8 @@ export default function Matchpage() {
     const [groups, setGroups] = useState([]);
 
     const [displayedGroup, setDisplayedGroup] = useState({});
+
+    const [group, setGroup] = useState({});
 
 
     /**
@@ -79,13 +82,10 @@ export default function Matchpage() {
 
 
     const updateDisplayedGroup = async (group) => {
+        setGroup(group);
         let dict = new Object();
 
         dict["id"] = group.id;
-        dict["groupName"] = group.groupName;
-        dict["interest"] = group.interest;
-        dict["description"] = group.description;
-        dict["time"] = getTimestampString(group.datetime);
         dict["regMatch"] = await isMatched(group.id, false);
         dict["goldMatch"] = await isMatched(group.id, true);
 
@@ -175,24 +175,33 @@ export default function Matchpage() {
 
 
     return (
-        <div>
+        <>
             <Navbar />
-            <h2 id="title">MATCH WITH GROUPS</h2>
-
-            <div id="matchcard">
-                <h1 id="gname">{displayedGroup.groupName}</h1>
-                <h2 id="ginterest">{displayedGroup.interest}</h2>
-                <p id="gdescription">{displayedGroup.description}</p>
-                <h2 id="gdate">{displayedGroup.time}</h2>
-                <h2 id="regMatch">{displayedGroup.regMatch ? "Already matched" : ""}</h2>
-                <h2 id="goldMatch"> {displayedGroup.goldMatch ? "Already matched with gold" : ""} </h2>
+            <br />
+            <div className='matchPage'>
+                <div className='topPart'>
+                    <h1 id="title">MATCH WITH GROUPS</h1>
+                </div>
+                <br />
+                <Grid container>
+                    <Grid xs={4} />
+                    <Grid xs={4}>
+                        <MatchCard className="matchcard" group={group} />
+                    </Grid>
+                    <Grid id='btns' xs={4}>
+                        <Button id="muibutton" variant="contained" onClick={() => { matchWithGroup(false) }}>Match with Regular</Button>
+                        <Button id="muibutton" style={{ backgroundColor: '#e6be7f' }} variant="contained" onClick={() => { matchWithGroup(true) }}>Match with GOLD</Button>
+                        <Button id="muibutton" variant="contained" onClick={() => { unmatchButton() }}>Unmatch (gold and regular)</Button>
+                    </Grid>
+                </Grid>
+                <div >
+                    <h2 id="regMatch">{displayedGroup.regMatch ? "Already matched" : ""}</h2>
+                    <h2 id="goldMatch"> {displayedGroup.goldMatch ? "Already matched with gold" : ""} </h2>
+                </div>
+                <div id="matchcard">
+                    <Button style={{ size: 'large' }} id="muibutton" variant="contained" onClick={nextGroup}>Next group</Button>
+                </div>
             </div>
-            <div id="matchcard">
-                <Button id="muibutton" variant="outlined" onClick={nextGroup}>Next group</Button>
-                <Button id="muibutton" variant="outlined" onClick={() => { matchWithGroup(true) }}>Match with GOLD</Button>
-                <Button id="muibutton" variant="outlined" onClick={() => { matchWithGroup(false) }}>Match with Regular</Button>
-                <Button id="muibutton" variant="outlined" onClick={() => { unmatchButton() }}>Unmatch (gold and regular)</Button>
-            </div>
-        </div>
+        </>
     )
 }
