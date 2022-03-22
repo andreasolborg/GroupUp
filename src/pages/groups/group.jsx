@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { auth } from "../../firebase-config";
 import { db } from "../../firestore";
-import { getBottomNavigationUtilityClass } from "@mui/material";
+import { getBottomNavigationUtilityClass, Rating } from "@mui/material";
 import Card from "./card";
 import { CardList } from "./cardlist";
 import Button from '@material-ui/core/Button';
@@ -308,6 +308,45 @@ export default function Group() {
 
     // <Button onClick={getAdminElements} variant="contained">Admin</Button>
 
+    const [rating, setRating] = useState(3);
+
+    const handleRatingChange = (e) => {
+        setRating(e.target.value);
+        addRating(e.target.value);
+    }
+
+    const addRating = async (value) => {
+        const dict = {};
+
+        let keyString = "ratings." + auth.currentUser.email.replaceAll(".", "-");
+        dict[keyString] = value;
+
+        await updateDoc(groupRef, dict);
+
+        let test = await getAverageRating();
+        console.log(test);
+    }
+
+    const getAverageRating = async () => {
+        const docRef = doc(db, "groups", id)
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            const ratings = Object.values(docSnap.data().ratings);
+            
+            let sum = 0;
+            ratings.forEach(rating => {
+                sum += rating;
+            });
+
+            return sum/ratings.length;
+        }
+        else {
+            console.log("No such document");
+            return 0;
+        }
+    }
+
     return (
         <div className="outerDiv">
             <Navbar />
@@ -335,6 +374,7 @@ export default function Group() {
                                 </p>
                                 <p style={{ fontSize: 20 }}><b style={{ textDecoration: 'underline' }}>Location:</b> {location}</p>
                                 <p style={{ fontSize: 20 }}><b style={{ textDecoration: 'underline' }}>Meeting time: </b> {dateTime.toUTCString()}</p>
+                                <Rating precision={0.5} value={rating} onChange={handleRatingChange}/>
                             </div>
                         </Grid>
                         <Grid xs={6}>
