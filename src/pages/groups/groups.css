@@ -9,7 +9,7 @@
 
 /* kortene */
 .cardBackground{
-    background-color: #FCFDFD;
+    background-color: white;
     margin-left: 10%;
     margin-right: 10%;
     padding-bottom: 25px;
@@ -23,7 +23,7 @@
 /* bakgrunn på øverste "GROUPS PAGE" BAREN */
 .filterGroups{
     align-items: center;
-    background-color: #FCFDFD;
+    background-color: #DDEEF5;
     border-top-right-radius: 25px;
      box-shadow: 5px 5px 5px rgb(194, 194, 194), 
     -5px 5px 15px rgb(194, 194, 194), 5px 5px 15px rgb(194, 194, 194);
@@ -37,3 +37,19 @@
     padding-bottom: 25px;
     
 }
+
+#filterByTimeButton {
+    margin: 15px;
+    background-color: #c6d7dd;
+}
+
+#removeFilterTimeBtn {
+    margin: 15px;
+    background-color: #c6d7dd;
+
+}
+
+#searchInput {
+    margin-left: 20px;
+}
+
