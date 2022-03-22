@@ -189,7 +189,7 @@ export default function User() {
 
 
     const [image, setImage] = useState(null);
-    const [url, setUrl] = useState(null);
+    const [url, setUrl] = useState("");
     const [imageName, setImageName] = useState("");
 
 
@@ -212,8 +212,8 @@ export default function User() {
         }
         getPicture();
     }, []);
-
-
+    
+   
     const uploadProfileImage = () => {
         var input = document.createElement('input');
         input.type = 'file';

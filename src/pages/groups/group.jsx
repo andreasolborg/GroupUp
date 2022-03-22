@@ -68,11 +68,11 @@ export default function Group() {
             }
             groupDocsnap.data().members.map((m) => {
                 setMembers((members) => [...members, m]);
-                if (m == auth.currentUser.email){
+                if (m == auth.currentUser.email) {
                     bool = true;
                 }
             });
-            if (bool){
+            if (bool) {
                 document.getElementById("leaveButton").style = "visibility: visible";
             }
         }
@@ -127,28 +127,47 @@ export default function Group() {
         };
         getOwner();
     }, []);
-
     const [url, setUrl] = useState("");
 
     useEffect(() => {
         const loadImage = () => {
-
-            const pathReference = ref(storage, "/group/"+id);
+            const pathReference = ref(storage, "/group/" + id);
             var temp = "";
             getDownloadURL(pathReference).then((url) => {
                 //insert url into img tag in html
                 setUrl(url);
-                temp = url;
+            }).catch((error) => {
+                switch (error.code) {
+                    case 'storage/object-not-found':
+                        // File doesn't exist
+                        getStandardImage();
+                        break;
+                    case 'storage/unauthorized':
+                        // User doesn't have permission to access the object
+                        break;
+                    case 'storage/canceled':
+                        // User canceled the upload
+                        break;
+
+                    // ...
+
+                    case 'storage/unknown':
+                        // Unknown error occurred, inspect the server response
+                        break;
+                }
+
             });
-            if (temp == ""){
-                const pathRef = ref(storage, "/group/zlatan.jpeg");
-                getDownloadURL(pathRef).then((url) => {
-                    setUrl(url);
-                });
-             }
         }
+
         loadImage();
     }, []);
+
+    const getStandardImage = () => {
+        const pathRef = ref(storage, "/group/zlatan.jpeg");
+        getDownloadURL(pathRef).then((url) => {
+            setUrl(url);
+        });
+    }
 
 
     /**
@@ -315,7 +334,7 @@ export default function Group() {
                 <div className="groupBox"  >
                     <div className="header">
                         <Grid container>
-                        <img id="banner" src={url}/>
+                            <img id="banner" src={url} />
 
                             <Grid xs={9}>
                                 <h1 style={{ marginTop: 60 }}>{groupName}</h1>
@@ -329,7 +348,7 @@ export default function Group() {
                     <Grid container>
                         <Grid xs={6}>
                             <div className="information" >
-                            <h1 style={{ marginTop: 60 }}>{groupName}</h1>
+                                <h1 style={{ marginTop: 60 }}>{groupName}</h1>
                                 <p style={{ fontSize: 20 }} >
                                     <b style={{ textDecoration: 'underline' }}>Interest:</b> {interest}
                                 </p>
