@@ -174,6 +174,5 @@ export default function Groups() {
             <CardList groups={groupTemp} />
         </div>
     </div>
-    </div>
     )
 }
