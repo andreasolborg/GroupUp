@@ -1,5 +1,5 @@
-.testDiv{
-
+.wrapper{
+    box-shadow: 1px 3px 5px rgba(0,0,0,0.2);
 }
 
 /* hele diven */
@@ -9,30 +9,19 @@
 
 /* kortene */
 .cardBackground{
-    background-color: white;
-    margin-left: 10%;
-    margin-right: 10%;
+    background-color: #FCFDFD;
+    margin: 0% 10% 2%;
     padding-bottom: 25px;
-    margin-bottom: 10px;
     border-bottom-right-radius: 25px;
     border-bottom-left-radius: 25px;
-    box-shadow: 5px 5px 5px rgb(194, 194, 194), 
-    -5px 5px 15px rgb(194, 194, 194), 5px 5px 15px rgb(194, 194, 194);   
 }
 
 /* bakgrunn på øverste "GROUPS PAGE" BAREN */
 .filterGroups{
     align-items: center;
-    background-color: #DDEEF5;
-    border-top-right-radius: 25px;
-     box-shadow: 5px 5px 5px rgb(194, 194, 194), 
-    -5px 5px 15px rgb(194, 194, 194), 5px 5px 15px rgb(194, 194, 194);
-    border-top-left-radius: 25px;
+    background-color: #FCFDFD;
     text-align: center;
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-top: 25px;
-    margin-bottom: 25px;
+    margin: 0% 15% 2%;
     padding-top: 10px;
     padding-bottom: 25px;
     
@@ -42,7 +31,6 @@
     margin: 15px;
     background-color: #c6d7dd;
 }
-
 
 
 

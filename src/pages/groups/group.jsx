@@ -313,18 +313,8 @@ export default function Group() {
             <Navbar />
             <div className="groupPage" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <div className="groupBox"  >
-                    <div className="header">
-                        <Grid container>
-                        <img id="banner" src={url}/>
-
-                            <Grid xs={9}>
-                                <h1 style={{ marginTop: 60 }}>{groupName}</h1>
-                            </Grid>
-                            <Grid xs={3} style={{ alignItems: "center", justifyContent: "center" }}>
-                                <Button id='leaveButton' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
-                                <Button id='contactButton' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => contactButton()}>Contact</Button>
-                            </Grid>
-                        </Grid>
+                <img id="banner" src={url}/>
+                    <div className="blueSplitBar">
                     </div>
                     <Grid container>
                         <Grid xs={6}>
@@ -355,6 +345,10 @@ export default function Group() {
                                 <p>{description}</p>
                             </div>
                         </Grid>
+                    </Grid>
+                    <Grid xs={3} style={{ alignItems: "center", justifyContent: "center" }}>
+                                <Button id='leaveButton' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
+                                <Button id='contactButton' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => contactButton()}>Contact</Button>
                     </Grid>
                 </div>
             </div>

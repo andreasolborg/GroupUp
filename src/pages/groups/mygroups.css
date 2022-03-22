@@ -1,0 +1,10 @@
+.wrapper {
+    align-items: center;
+    text-align: center;
+    background-color: #FCFDFD;
+    margin: 25px 10% 2%;
+    border-radius: 5px;
+    padding-top: 10px;
+    padding-bottom: 50px;
+    box-shadow: 1px 3px 5px rgba(0,0,0,0.2);
+}

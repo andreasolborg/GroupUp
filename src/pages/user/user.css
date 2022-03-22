@@ -4,13 +4,13 @@ body{
 
 .user{
     background-color: #FCFDFD;
-    margin: 0% 15%;
+    box-shadow: 1px 3px 5px rgba(0,0,0,0.2);
+    margin: 0% 15% 2%;
     align-items: center;
     justify-content: center;
     text-align: center;
     font-family: 'Archivo', sans-serif;
     color: black;
-    
 }
 
 h1{

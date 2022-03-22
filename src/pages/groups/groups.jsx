@@ -125,7 +125,8 @@ export default function Groups() {
 
 
 
-    return <div className="topOfGroups">
+    return(
+        <div className="outerDiv">
         <Navbar></Navbar>
         <div className="filterGroups">
             <h1>GROUPS PAGE</h1>
@@ -173,4 +174,6 @@ export default function Groups() {
             <CardList groups={groupTemp} />
         </div>
     </div>
+    </div>
+    )
 }
