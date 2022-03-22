@@ -17,6 +17,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@mui/material/Grid';
+import { storage } from "../../firebase-config";
+import { ref, uploadBytes, getDownloadURL, getStorage } from "firebase/storage";
 
 export const MediaCard = (props) => {
     const [reloader, setReloader] = useState([]);
@@ -109,35 +111,79 @@ export const MediaCard = (props) => {
 
     const classes = useStyles();
 
-    return (
-        <div>
-            <Card className={classes.root}>
-                <CardActionArea>
-                    <CardMedia className={classes.media} image="https://st.depositphotos.com/2325841/2529/i/600/depositphotos_25293855-stock-photo-multi-ethnic-group-thumbs-up.jpg" />
-                    <CardContent className={classes.content}>
-                        <Typography gutterBottom variant="h5" component="h2">
-                            {props.group.groupName}
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                            {props.group.interest}
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                            {props.group.location}
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                            {new Date(props.group.datetime.seconds*1000).toUTCString()}
-                        </Typography>
-                    </CardContent>
-                </CardActionArea>
-                <CardActions className={classes.button}>
-                    <div className="card-buttons">
-                        <Button id="visitGroupButton" onClick={() => { enterGroup(props.group.id) }} variant="outlined">Visit group</Button>
-                        <Button id="requestButton" onClick={() => { requestToJoin() }} variant="outlined">Request to join group</Button>
-                        <PopUp open={open} severity={severity} feedbackMessage={feedbackMessage} handleClose={handleClose}>
-                        </PopUp>
-                    </div>
-                </CardActions>
-            </Card>
-        </div>
-    );
+    const [url, setUrl] = useState("");
+
+    useEffect(() => {
+        const loadImage = () => {
+            const pathReference = ref(storage, "/group/" + props.group.id);
+            var temp = "";
+            getDownloadURL(pathReference).then((url) => {
+                //insert url into img tag in html
+                setUrl(url);
+            }).catch((error) => {
+                switch (error.code) {
+                    case 'storage/object-not-found':
+                        // File doesn't exist
+                        getStandardImage();
+                        break;
+                    case 'storage/unauthorized':
+                        // User doesn't have permission to access the object
+                        break;
+                    case 'storage/canceled':
+                        // User canceled the upload
+                        break;
+
+                    // ...
+
+                    case 'storage/unknown':
+                        // Unknown error occurred, inspect the server response
+                        break;
+                }
+            
+            });
+}
+
+loadImage();
+    }, []);
+
+const getStandardImage = () => {
+    const pathRef = ref(storage, "/group/zlatan.jpeg");
+    getDownloadURL(pathRef).then((url) => {
+        setUrl(url);
+    });
+}
+
+
+
+return (
+    <div>
+        <Card className={classes.root}>
+            <CardActionArea>
+                <CardMedia className={classes.media} image={url} />
+                <CardContent className={classes.content}>
+                    <Typography gutterBottom variant="h5" component="h2">
+                        {props.group.groupName}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p">
+                        {props.group.interest}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p">
+                        {props.group.location}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p">
+                        {new Date(props.group.datetime.seconds * 1000).toUTCString()}
+                    </Typography>
+                </CardContent>
+            </CardActionArea>
+            <CardActions className={classes.button}>
+                <div className="card-buttons">
+                    <Button id="visitGroupButton" onClick={() => { enterGroup(props.group.id) }} variant="outlined">Visit group</Button>
+                    <Button id="requestButton" onClick={() => { requestToJoin() }} variant="outlined">Request to join group</Button>
+                    <PopUp open={open} severity={severity} feedbackMessage={feedbackMessage} handleClose={handleClose}>
+                    </PopUp>
+                </div>
+            </CardActions>
+        </Card>
+    </div>
+);
 }
