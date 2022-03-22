@@ -196,42 +196,22 @@ export default function User() {
 
     useEffect(() => {
         const getPicture = async () => {
-            const imageRef = ref(storage, imageName);
+            const imageRef = ref(storage, "/profile/"+auth.currentUser.email);
+            var temp = "";
             getDownloadURL(imageRef).then((url) => {
+                //insert url into img tag in html
                 setUrl(url);
+                temp = url;
             });
+            if (temp == ""){
+                const pathRef = ref(storage, "/profile/groupPic.jpeg");
+                getDownloadURL(pathRef).then((url) => {
+                    setUrl(url);
+                });
+             }
         }
         getPicture();
-        setImageName("/profile/" + user.email + "ProfileImage");
-    }); 
-
-
-    const handleImageChange = (e) => {
-        if (e.target.files[0]) {
-            setImage(e.target.files[0]);    
-        }
-    };
-
-    const handleSubmit = () => {
-        const imageRef = ref(storage, imageName);
-
-        uploadBytes(imageRef, image)
-            .then(() => {
-                getDownloadURL(imageRef)
-                    .then((url) => {
-                        setUrl(url);
-                    })
-                    .catch((error) => {
-                        console.log(error.message, "error getting the image url");
-                    });
-                setImage(null);
-            })
-            .catch((error) => {
-                console.log(error.message);
-            });
-        console.log(url);
-        console.log(setUrl);
-    };
+    }, []); 
 
 
     const uploadProfileImage = () => {
@@ -239,9 +219,14 @@ export default function User() {
         input.type = 'file';
         input.click();
         input.onchange = e => {
-            handleImageChange(e);
+            if (e.target.files[0]) {
+                setImage(e.target.files[0]);
+            }
         }
-
+        const storageRef = ref(storage, "/profile/"+auth.currentUser.email);
+        uploadBytes(storageRef, image).then((snap) => {
+            console.log("UPLAODED FILE");
+        });
     }
 
 
@@ -255,17 +240,9 @@ export default function User() {
 
 
 
-
-                <Avatar onClick={uploadProfileImage} src={url} sx={{ width: 150, height: 150 }} />
-                {/*<input type="file" onChange={handleImageChange} />*/}
-                <button onClick={handleSubmit}>Upload Image</button>
-
-
-                {/*                 <AccountCircleIcon
-                    className="avatar"
-                    sx={{ width: 86, height: 86 }}
-                ></AccountCircleIcon>
- */}
+                <div id="av">
+                <Avatar id="ava" onClick={uploadProfileImage} src={url} sx={{ width: 150, height: 150 }} />
+                </div>
                 <div>
                     <Button variant="contained" id="btnLogOut" onClick={goToGroups}>
                         All groups
