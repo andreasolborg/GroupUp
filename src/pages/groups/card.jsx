@@ -125,7 +125,7 @@ export const MediaCard = (props) => {
                             {props.group.location}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
-                            {props.group.owner}
+                            {new Date(props.group.datetime.seconds*1000).toUTCString()}
                         </Typography>
                     </CardContent>
                 </CardActionArea>
