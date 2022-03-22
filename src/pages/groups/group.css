@@ -34,7 +34,7 @@
     padding-bottom: 2%;
     background-color: #DDEEF5;
     border-radius: 15px 15px 0px 0px;
-    height: 200px;
+    height: 400px;
 }
 
 .groupPage{
@@ -114,8 +114,35 @@
     margin: 25px;
 }
 
+#banner {
+    border-radius: 15px 15px 0px 0px;
+    height: 400px;
+    width: 80%;
+    padding-bottom: 2%;
+    position: absolute;  
+    object-fit: fill;
+}
+
 #btnID {
     background-color: #c6d7dd;
     color: black;
    margin: 10px;
+}
+
+#leaveButton{
+    background-color: #c6d7dd;
+    color: black;
+   margin: 10px;
+   visibility: hidden;
+}
+
+#contactButton {
+    background-color: #c6d7dd;
+    color: black;
+   margin: 10px;
+}
+
+#goldmatchElement{
+    display: inline;
+
 }

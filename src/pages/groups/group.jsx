@@ -7,8 +7,8 @@ import { getBottomNavigationUtilityClass } from "@mui/material";
 import Card from "./card";
 import { CardList } from "./cardlist";
 import Button from '@material-ui/core/Button';
-
-import { collection, arrayRemove, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion } from 'firebase/firestore'
+import Avatar from '@mui/material/Avatar'
+import { collection, arrayRemove, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion, documentId } from 'firebase/firestore'
 import { ClassNames } from "@emotion/react";
 import "./group.css";
 import Navbar from "../../components/navbar";
@@ -18,6 +18,9 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import TextField from '@material-ui/core/TextField';
 import GroupOwnerPanel from "./groupOwnerPanel";
 import { Grid } from "@mui/material";
+import { DomainVerificationTwoTone } from "@mui/icons-material";
+import { storage } from "../../firebase-config";
+import { ref, uploadBytes, getDownloadURL, getStorage } from "firebase/storage";
 
 //This page holds information on a particular group. 
 
@@ -47,6 +50,7 @@ export default function Group() {
     const [requests, setRequests] = useState([]);
     const [dateTime, setDateTime] = useState(new Date());
     const [description, setDescription] = useState("");
+    const [golds, setGolds] = useState([]);
 
     const groupRef = doc(db, "groups", id);
 
@@ -58,9 +62,19 @@ export default function Group() {
         const getMembers = async () => {
             const groupDocsnap = await getDoc(groupRef);
 
+            var bool = false;
+            if (groupDocsnap.data().owner == auth.currentUser.email) {
+                bool = true;
+            }
             groupDocsnap.data().members.map((m) => {
                 setMembers((members) => [...members, m]);
+                if (m == auth.currentUser.email){
+                    bool = true;
+                }
             });
+            if (bool){
+                document.getElementById("leaveButton").style = "visibility: visible";
+            }
         }
         getMembers();
     }, []);
@@ -99,18 +113,41 @@ export default function Group() {
                 return;
             }
             const groupDocSnap = await getDoc(groupRef);
-            if (groupDocSnap.data().owner === auth.currentUser.email) {
-                setOwner("(You own this group)");
-            } else {
-                setOwner(groupDocSnap.data().owner);
-            }
+
+            setOwner(groupDocSnap.data().owner);
             setLocation(groupDocSnap.data().location);
             setInterest(groupDocSnap.data().interest);
             setGroupName(groupDocSnap.data().groupName);
             setDateTime(new Date(groupDocSnap.data().datetime.seconds * 1000));
             setDescription(groupDocSnap.data().description);
+
+            const queryOnGolds = query(collection(db, "groups"), where(documentId(), "in", groupDocSnap.data().goldmatches));
+            const qogSnapshot = await getDocs(queryOnGolds);
+            setGolds(qogSnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
         };
         getOwner();
+    }, []);
+
+    const [url, setUrl] = useState("");
+
+    useEffect(() => {
+        const loadImage = () => {
+
+            const pathReference = ref(storage, "/group/"+id);
+            var temp = "";
+            getDownloadURL(pathReference).then((url) => {
+                //insert url into img tag in html
+                setUrl(url);
+                temp = url;
+            });
+            if (temp == ""){
+                const pathRef = ref(storage, "/group/zlatan.jpeg");
+                getDownloadURL(pathRef).then((url) => {
+                    setUrl(url);
+                });
+             }
+        }
+        loadImage();
     }, []);
 
 
@@ -265,27 +302,34 @@ export default function Group() {
         navi("/matchpage/" + id);
     }
 
+    const contactButton = () => {
+        window.confirm("E-Mail of owner: " + owner);
+    }
+
     // <Button onClick={getAdminElements} variant="contained">Admin</Button>
 
     return (
         <div className="outerDiv">
-            <Navbar></Navbar>
+            <Navbar />
             <div className="groupPage" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <div className="groupBox"  >
                     <div className="header">
                         <Grid container>
+                        <img id="banner" src={url}/>
+
                             <Grid xs={9}>
                                 <h1 style={{ marginTop: 60 }}>{groupName}</h1>
-                                <p style={{ color: "grey", fontFamily: 'Archivo' }} >Owner: {owner}</p>
                             </Grid>
                             <Grid xs={3} style={{ alignItems: "center", justifyContent: "center" }}>
-                                <Button id='btnID' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
+                                <Button id='leaveButton' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
+                                <Button id='contactButton' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => contactButton()}>Contact</Button>
                             </Grid>
                         </Grid>
                     </div>
                     <Grid container>
                         <Grid xs={6}>
                             <div className="information" >
+                            <h1 style={{ marginTop: 60 }}>{groupName}</h1>
                                 <p style={{ fontSize: 20 }} >
                                     <b style={{ textDecoration: 'underline' }}>Interest:</b> {interest}
                                 </p>
@@ -318,12 +362,14 @@ export default function Group() {
                 <Button id='btnID' variant="contained" onClick={showAdminButton}>Show Admin Priviliges</Button>
             </div>
             <GroupOwnerPanel
+                ownGroupId={id}
                 hideAdminButton={hideAdminButton}
                 enterMatchingButton={goToMatching}
                 updateGroupDetails={updateGroupDetails}
                 removeUserButton={removeUserButton}
                 setNewDate={setNewDate}
                 sendNewDescription={sendNewDescription}
+                goldmatches={golds}
                 requests={requests}
                 leaveGroup={leaveGroup}
                 addUserButton={addUserButton}
