@@ -79,14 +79,14 @@ export default function GroupOwnerPanel({
                 setImage(e.target.files[0]);
             }
         }
-        const storageRef = ref(storage, "/group/"+ownGroupId);
+        const storageRef = ref(storage, "/group/" + ownGroupId);
         uploadBytes(storageRef, image).then((snap) => {
             console.log("UPLAODED FILE");
         });
     }
 
     const resetImageButton = () => {
-        const imref = ref(storage, "/group/"+ownGroupId+".jpeg");
+        const imref = ref(storage, "/group/" + ownGroupId + ".jpeg");
         deleteObject(imref).then(() => {
             console.log("SUccessfully deleted file");
         }).catch((error) => {
@@ -105,7 +105,6 @@ export default function GroupOwnerPanel({
             <div className="text">
                 <Button id="btnID" variant="contained" onClick={hideAdminButton} >Hide Admin Priviliges</Button>
                 <Button id="btnID" variant="contained" className="obsButton" onClick={leaveGroup} >Delete Group</Button>
-                <Button id="btnID" variant="contained" className="obsButton" onClick={enterMatchingButton} >Enter Matching</Button>
                 <Button id="btnID" variant="contained" className="obsButton" onClick={handleImageButton} >Upload Image (jpeg)</Button>
                 <Button id="btnID" variant="contained" className="obsButton" onClick={resetImageButton} >Reset image</Button>
                 <h2>Gruppeleder</h2>
@@ -175,7 +174,7 @@ export default function GroupOwnerPanel({
                     <Button id="btnID" variant='contained' onClick={setNewDate} >Send</Button>
                 </Grid>
 
-                <Grid xs={6}  >
+                <Grid xs={4}  >
                     <div id="des-container">
                         <TextareaAutosize id="des" minRows="5" placeholder="Enter new description" style={{ width: 200, backgroundColor: 'white' }} />
                         <br />
@@ -183,7 +182,8 @@ export default function GroupOwnerPanel({
                     </div>
                 </Grid>
 
-                <Grid xs={6} direction="row">
+                <Grid xs={4} direction="row">
+                    <Button style={{ size: 'large' }} variant="outlined" className="obsButton" onClick={enterMatchingButton} >Find groups to match with</Button>
                     <div className="text">
                         <h2>The request queue</h2>
                         {requests.map((r) => (
@@ -197,22 +197,22 @@ export default function GroupOwnerPanel({
                     </div>
                 </Grid>
 
-                <Grid xs={6}>
+                <Grid xs={4}>
                     <div >
                         <h2>Goldmatch requests</h2>
                         <h3>You have {goldmatches.length} goldmatch(es)!</h3>
                         {goldmatches.map((g) => (
                             <div className="membersList">
                                 <div className="goldmatchElement">
-                                    <button className="goldmatchElement" onClick={() => matchWith(g)}>Match with: {g.groupName}</button>
-                                    <button className="goldmatchElement" onClick={() => deleteRequest(g)}>Delete request</button>
+                                    <Button id="btnID" variant='contained' onClick={() => matchWith(g)}>Match with: {g.groupName}</Button>
+                                    <Button id="btnID" variant='contained' onClick={() => deleteRequest(g)}>Delete request</Button>
                                 </div>
                             </div>
                         ))}
                     </div>
                 </Grid>
             </Grid>
-        </div>
+        </div >
 
 
 
