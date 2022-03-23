@@ -13,9 +13,6 @@ const useStyles = makeStyles({
   }
 })
 
-
-
-
 function Groups() {
   const classes = useStyles();
   return (

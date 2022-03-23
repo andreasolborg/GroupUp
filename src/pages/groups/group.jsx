@@ -3,24 +3,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { auth } from "../../firebase-config";
 import { db } from "../../firestore";
-import { getBottomNavigationUtilityClass, Rating } from "@mui/material";
-import Card from "./card";
-import { CardList } from "./cardlist";
 import Button from '@material-ui/core/Button';
-import Avatar from '@mui/material/Avatar'
-import { collection, arrayRemove, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion, documentId } from 'firebase/firestore'
-import { ClassNames } from "@emotion/react";
+import { collection, arrayRemove, getDocs, updateDoc, doc, deleteDoc, getDoc, query, where, arrayUnion, documentId } from 'firebase/firestore'
 import "./group.css";
 import Navbar from "../../components/navbar";
-import DateTimePicker from 'react-datetime-picker';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import TextField from '@material-ui/core/TextField';
 import GroupOwnerPanel from "./groupOwnerPanel";
 import { Grid } from "@mui/material";
-import { DomainVerificationTwoTone } from "@mui/icons-material";
 import { storage } from "../../firebase-config";
-import { ref, uploadBytes, getDownloadURL, getStorage } from "firebase/storage";
+import { ref, getDownloadURL } from "firebase/storage";
+import GroupRating from "./groupRating";
 
 //This page holds information on a particular group. 
 
@@ -308,55 +299,16 @@ export default function Group() {
 
     // <Button onClick={getAdminElements} variant="contained">Admin</Button>
 
-    const [rating, setRating] = useState(3);
-
-    const handleRatingChange = (e) => {
-        setRating(e.target.value);
-        addRating(e.target.value);
-    }
-
-    const addRating = async (value) => {
-        const dict = {};
-
-        let keyString = "ratings." + auth.currentUser.email.replaceAll(".", "-");
-        dict[keyString] = value;
-
-        await updateDoc(groupRef, dict);
-
-        let test = await getAverageRating();
-        console.log(test);
-    }
-
-    const getAverageRating = async () => {
-        const docRef = doc(db, "groups", id)
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-            const ratings = Object.values(docSnap.data().ratings);
-            
-            let sum = 0;
-            ratings.forEach(rating => {
-                sum += rating;
-            });
-
-            return sum/ratings.length;
-        }
-        else {
-            console.log("No such document");
-            return 0;
-        }
-    }
-
     return (
         <div className="outerDiv">
-            <Navbar />
+            <Navbar/>
             <div className="groupPage" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <div className="groupBox"  >
+                <div className="groupBox" >
                 <img id="banner" src={url}/>
                     <div className="blueSplitBar">
                     </div>
                     <Grid container>
-                        <Grid xs={6}>
+                        <Grid item xs={6}>
                             <div className="information" >
                             <h1 style={{ marginTop: 60 }}>{groupName}</h1>
                                 <p style={{ fontSize: 20 }} >
@@ -364,10 +316,10 @@ export default function Group() {
                                 </p>
                                 <p style={{ fontSize: 20 }}><b style={{ textDecoration: 'underline' }}>Location:</b> {location}</p>
                                 <p style={{ fontSize: 20 }}><b style={{ textDecoration: 'underline' }}>Meeting time: </b> {dateTime.toUTCString()}</p>
-                                <Rating precision={0.5} value={rating} onChange={handleRatingChange}/>
+                                <GroupRating groupId={id}/>
                             </div>
                         </Grid>
-                        <Grid xs={6}>
+                        <Grid item xs={6}>
                             <div className="memberBox">
                                 <h2 style={{ fontFamily: 'Archivo', textDecoration: 'underline' }}><b>Members:</b></h2>
                                 <div>
@@ -381,12 +333,12 @@ export default function Group() {
                         </Grid>
                         <Grid>
                             <div style={{ alignItems: 'center', justifyContent: 'center', fontFamily: 'Archivo', margin: 100 }}>
-                                <h2 style={{ fontFamily: 'Archivo', textDecoration: 'underline' }}>Decription</h2>
+                                <h2 style={{ fontFamily: 'Archivo', textDecoration: 'underline' }}>Description</h2>
                                 <p>{description}</p>
                             </div>
                         </Grid>
                     </Grid>
-                    <Grid xs={3} style={{ alignItems: "center", justifyContent: "center" }}>
+                    <Grid item xs={3} style={{ alignItems: "center", justifyContent: "center" }}>
                                 <Button id='leaveButton' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
                                 <Button id='contactButton' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => contactButton()}>Contact</Button>
                     </Grid>
