@@ -2,17 +2,15 @@ import { useState, useEffect } from "react";
 import React from "react";
 import "./user.css";
 import Button from "@mui/material/Button";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { auth, storage } from "../../firebase-config";
 import { db } from "../../firestore";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs, updateDoc, doc, deleteDoc, arrayRemove, where, query } from 'firebase/firestore'
 import { useNavigate } from "react-router-dom";
 import TextField from '@material-ui/core/TextField';
-import Navbar from "../../components/navbar";
 import Avatar from '@mui/material/Avatar'
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-
+import Navbar from "../../components/navbar";
 
 export default function User() {
 
@@ -24,45 +22,6 @@ export default function User() {
     const [interests, setInterests] = useState([]);
     const [interest, setInterest] = useState("");
 
-    const [open, setOpen] = useState(false);
-
-    const handleClick = () => {
-        setOpen(true);
-    };
-
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        setOpen(false);
-    };
-
-
-    /**
-     * Hook for loading the list of profiles from firebase.
-     * Currently not in use?
-     */
-
-    /*
-    useEffect(() => {
-        const getProfiles = async () => {
-          const data = await getDocs(profileCollectionReference);
-          setProfiles(data.docs.map((doc) => ({...doc.data(), id: doc.id})))
-        };
-        getProfiles();
-      }, []); 
-      */
-
-    /*
-    const getProfiles = async () => {
-        const data = await getDocs(profileCollectionReference);
-        setProfiles(data.docs.map((doc) => ({...doc.data(), id: doc.id})))
-        data.forEach((t) => {
-            console.log(t.id);
-            console.log(t.data());
-            console.log(t.data().testAge);
-        })
-      }; */
 
     const getUserInfo = async (currentUser) => {
         const data = await getDocs(profileCollectionReference);
@@ -230,19 +189,19 @@ export default function User() {
     }
 
 
-
     return (
-        <><Navbar className="navbar"></Navbar>
+        <>
+        <Navbar/>
             <div className="user">
-                <div className="top-part">
-                    <h1 className="username"> {name} </h1>
-                </div>
 
+                <h1 className="username"> {name} </h1>
 
 
                 <div id="av">
                     <Avatar id="ava" onClick={uploadProfileImage} src={url} sx={{ width: 150, height: 150 }} />
                 </div>
+
+
                 <div>
                     <Button variant="contained" id="btnLogOut" onClick={goToGroups}>
                         All groups
@@ -257,6 +216,8 @@ export default function User() {
                         Create group
                     </Button>
                 </div>
+
+
                 <div className="interests">
                     <h3>My Interests:</h3>
                     <div className="myInterests">
@@ -285,13 +246,18 @@ export default function User() {
                     </Button>
                 </div>
 
+
                 <Button variant="contained" id="btnLogOut" onClick={logout}>
                     Log out
                 </Button>
+
+
                 <Button variant="contained" id="btnLogOut" onClick={deleteUser}>
                     Delete User
                 </Button>
 
-            </div></>
+            </div>
+            
+        </>
     );
 };

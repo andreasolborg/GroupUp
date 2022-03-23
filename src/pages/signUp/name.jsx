@@ -11,7 +11,6 @@ export default function Name({ errorFirst, setErrorFirst, errorLast, setErrorLas
         setErrorLast(!isValidName(e.target.value));
     }
 
-
     return (
         <>
             <Grid item xs={12} sm={6}>
