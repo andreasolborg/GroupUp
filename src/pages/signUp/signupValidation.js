@@ -6,7 +6,7 @@
  */
 export const isStrongPassword = (password) => {
     if (password.length < 6) {
-      return false;
+        return false;
     }
 
     let numCounter = 0;
@@ -57,4 +57,4 @@ export const isValidName = (string) => {
  */
 export const isAdult = (age) => {
     return (age >= 18);
-  }
+}

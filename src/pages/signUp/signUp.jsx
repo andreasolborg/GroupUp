@@ -67,7 +67,7 @@ export default function SignUp() {
         data.get("email"),
         interests,
         data.get("password")
-      ).catch( error => {
+      ).catch(error => {
         setEmailError(true)
       });
 
@@ -101,36 +101,36 @@ export default function SignUp() {
             <Grid container spacing={2}>
 
               <Name
-                errorFirst={ firstNameError }
-                setErrorFirst={ setFirstNameError }
-                errorLast={ lastNameError }
-                setErrorLast={ setLastNameError }
+                errorFirst={firstNameError}
+                setErrorFirst={setFirstNameError}
+                errorLast={lastNameError}
+                setErrorLast={setLastNameError}
               />
 
-              <Gender/>
+              <Gender />
 
-              <Interests 
-                interests={ interests } 
-                setInterests={ setInterests } 
-                error = { interestsError }
-                setError = { setInterestsError }
+              <Interests
+                interests={interests}
+                setInterests={setInterests}
+                error={interestsError}
+                setError={setInterestsError}
               />
 
               <Age
-                error = { ageError }
-                setError = { setAgeError }
+                error={ageError}
+                setError={setAgeError}
               />
 
               <Email
-                error = { emailError }
-                setError = { setEmailError }
+                error={emailError}
+                setError={setEmailError}
               />
 
               <Passwords
-                error={ passwordError }
-                setError = { setPasswordError}
-                confirmError = { confirmPasswordError }
-                setConfirmError = { setConfirmPasswordError }
+                error={passwordError}
+                setError={setPasswordError}
+                confirmError={confirmPasswordError}
+                setConfirmError={setConfirmPasswordError}
               />
 
             </Grid>
