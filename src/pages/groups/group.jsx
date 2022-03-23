@@ -3,24 +3,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { auth } from "../../firebase-config";
 import { db } from "../../firestore";
-import { getBottomNavigationUtilityClass } from "@mui/material";
-import Card from "./card";
-import { CardList } from "./cardlist";
 import Button from '@material-ui/core/Button';
-import Avatar from '@mui/material/Avatar'
-import { collection, arrayRemove, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion, documentId } from 'firebase/firestore'
-import { ClassNames } from "@emotion/react";
+import { collection, arrayRemove, getDocs, updateDoc, doc, deleteDoc, getDoc, query, where, arrayUnion, documentId } from 'firebase/firestore'
 import "./group.css";
 import Navbar from "../../components/navbar";
-import DateTimePicker from 'react-datetime-picker';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import TextField from '@material-ui/core/TextField';
 import GroupOwnerPanel from "./groupOwnerPanel";
 import { Grid } from "@mui/material";
-import { DomainVerificationTwoTone } from "@mui/icons-material";
 import { storage } from "../../firebase-config";
-import { ref, uploadBytes, getDownloadURL, getStorage } from "firebase/storage";
+import { ref, getDownloadURL } from "firebase/storage";
+import GroupRating from "./groupRating";
 
 //This page holds information on a particular group. 
 
@@ -310,14 +301,14 @@ export default function Group() {
 
     return (
         <div className="outerDiv">
-            <Navbar />
+            <Navbar/>
             <div className="groupPage" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <div className="groupBox"  >
+                <div className="groupBox" >
                 <img id="banner" src={url}/>
                     <div className="blueSplitBar">
                     </div>
                     <Grid container>
-                        <Grid xs={6}>
+                        <Grid item xs={6}>
                             <div className="information" >
                             <h1 style={{ marginTop: 60 }}>{groupName}</h1>
                                 <p style={{ fontSize: 20 }} >
@@ -325,9 +316,10 @@ export default function Group() {
                                 </p>
                                 <p style={{ fontSize: 20 }}><b style={{ textDecoration: 'underline' }}>Location:</b> {location}</p>
                                 <p style={{ fontSize: 20 }}><b style={{ textDecoration: 'underline' }}>Meeting time: </b> {dateTime.toUTCString()}</p>
+                                <GroupRating groupId={id}/>
                             </div>
                         </Grid>
-                        <Grid xs={6}>
+                        <Grid item xs={6}>
                             <div className="memberBox">
                                 <h2 style={{ fontFamily: 'Archivo', textDecoration: 'underline' }}><b>Members:</b></h2>
                                 <div>
@@ -341,12 +333,12 @@ export default function Group() {
                         </Grid>
                         <Grid>
                             <div style={{ alignItems: 'center', justifyContent: 'center', fontFamily: 'Archivo', margin: 100 }}>
-                                <h2 style={{ fontFamily: 'Archivo', textDecoration: 'underline' }}>Decription</h2>
+                                <h2 style={{ fontFamily: 'Archivo', textDecoration: 'underline' }}>Description</h2>
                                 <p>{description}</p>
                             </div>
                         </Grid>
                     </Grid>
-                    <Grid xs={3} style={{ alignItems: "center", justifyContent: "center" }}>
+                    <Grid item xs={3} style={{ alignItems: "center", justifyContent: "center" }}>
                                 <Button id='leaveButton' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
                                 <Button id='contactButton' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => contactButton()}>Contact</Button>
                     </Grid>

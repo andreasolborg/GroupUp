@@ -111,7 +111,7 @@ export default function GroupOwnerPanel({
                 <p>These functions are hidden for regular members</p>
             </div>
             <Grid container>
-                <Grid xs={3}>
+                <Grid item xs={3}>
                     <div className="update-details">
                         <h3>Update Group Details</h3>
                         <TextField placeholder="Enter a group name" id="groupNameInput" variant='standard' />
@@ -124,7 +124,7 @@ export default function GroupOwnerPanel({
                     <Button id="btnID" variant="contained" onClick={updateGroupDetails} >Send</Button>
                 </Grid>
 
-                <Grid xs={3}>
+                <Grid item xs={3}>
                     <div className="remove-users">
                         <h3>Remove users</h3>
                         <TextField variant='standard' placeholder="Enter user-mail" id="removeUserInput"
@@ -140,7 +140,7 @@ export default function GroupOwnerPanel({
                         />
                     </div>
                 </Grid>
-                <Grid xs={3}>
+                <Grid item xs={3}>
                     <div className="remove-users">
                         <h3>Add users</h3>
                         <TextField variant='standard' placeholder="Enter user-mail" id="addUserInput"
@@ -156,7 +156,7 @@ export default function GroupOwnerPanel({
                         />
                     </div>
                 </Grid>
-                <Grid xs={3}>
+                <Grid item xs={3}>
                     <div>
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DateTimePicker
@@ -174,7 +174,7 @@ export default function GroupOwnerPanel({
                     <Button id="btnID" variant='contained' onClick={setNewDate} >Send</Button>
                 </Grid>
 
-                <Grid xs={4}  >
+                <Grid item xs={4}  >
                     <div id="des-container">
                         <TextareaAutosize id="des" minRows="5" placeholder="Enter new description" style={{ width: 200, backgroundColor: 'white' }} />
                         <br />
@@ -182,7 +182,7 @@ export default function GroupOwnerPanel({
                     </div>
                 </Grid>
 
-                <Grid xs={4} direction="row">
+                <Grid item xs={4}>
                     <Button style={{ size: 'large' }} variant="outlined" className="obsButton" onClick={enterMatchingButton} >Find groups to match with</Button>
                     <div className="text">
                         <h2>The request queue</h2>
@@ -197,7 +197,7 @@ export default function GroupOwnerPanel({
                     </div>
                 </Grid>
 
-                <Grid xs={4}>
+                <Grid item xs={4}>
                     <div >
                         <h2>Goldmatch requests</h2>
                         <h3>You have {goldmatches.length} goldmatch(es)!</h3>
