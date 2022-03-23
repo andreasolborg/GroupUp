@@ -9,6 +9,7 @@ import { signOut, onAuthStateChanged, deleteUser } from "firebase/auth";
 import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, arrayRemove, arrayUnion, where } from 'firebase/firestore'
 import { useNavigate } from "react-router-dom";
 import TextField from '@material-ui/core/TextField';
+import TextareaAutosize from '@mui/material/TextareaAutosize';
 import "./creategroup.css";
 import PopUp from "../../components/popup";
 import Navbar from "../../components/navbar";
@@ -16,7 +17,7 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
 
-import DateTimePicker from 'react-datetime-picker';
+import DateTimePicker from '@mui/lab/DateTimePicker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
@@ -156,7 +157,7 @@ export default function CreateGroup() {
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DateTimePicker
                             renderInput={(props) => <TextField {...props} />}
-                            label="DateTimePicker"
+                            label="Enter date and time"
                             value={dateTime}
                             onChange={(newValue) => {
                                 setDateTime(newValue);
@@ -164,8 +165,10 @@ export default function CreateGroup() {
                             }}
                         />
                     </LocalizationProvider>
-                    <textarea id="des" rows="5" placeholder="Enter a description of your group"/>
-                    <Button onClick={createGroupButton} variant="outlined">Create group</Button>
+                    <TextareaAutosize id="des" minRows="5" placeholder="Enter a description of your group"/>
+                    <br/>
+                    <br/>
+                    <Button onClick={createGroupButton} variant="outlined" style={{backgroundColor:'#c6d7dd', color:'black'}}>Create group</Button>
                     <PopUp open={open} severity = {"error"} feedbackMessage = {"Missing fields"} handleClose = {handleClose}>
                     </PopUp>
                 </div>

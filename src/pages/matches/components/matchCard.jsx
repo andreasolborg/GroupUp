@@ -1,15 +1,14 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { auth } from "../../firebase-config";
-import { db } from "../../firestore";
+import { auth } from "../../../firebase-config";
+import { db } from "../../../firestore";
 import { collection, arrayRemove, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion } from 'firebase/firestore'
 import { getBottomNavigationUtilityClass } from "@mui/material";
-import { CardList } from "./cardlist";
 import Button from '@material-ui/core/Button';
-import "./card.css";
+import "./matchCard.css";
 import { makeStyles } from "@material-ui/core";
-import PopUp from "../../components/popup";
+import PopUp from "../../../components/popup";
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
@@ -18,7 +17,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@mui/material/Grid';
 
-export const MediaCard = (props) => {
+export const MatchCard = (props) => {
     const [reloader, setReloader] = useState([]);
     const navi = useNavigate();
     const [feedbackMessage, setFeedbackMessage] = useState("");
@@ -113,7 +112,7 @@ export const MediaCard = (props) => {
         <div>
             <Card className={classes.root}>
                 <CardActionArea>
-                    <CardMedia className={classes.media} image="https://media.istockphoto.com/photos/group-multiracial-people-having-fun-outdoor-happy-mixed-race-friends-picture-id1211345565?k=20&m=1211345565&s=612x612&w=0&h=Gg65DvzedP7YDo6XFbB-8-f7U7m5zHm1OPO3uIiVFgo=" />
+                    <CardMedia className={classes.media} image="https://st.depositphotos.com/2325841/2529/i/600/depositphotos_25293855-stock-photo-multi-ethnic-group-thumbs-up.jpg" />
                     <CardContent className={classes.content}>
                         <Typography gutterBottom variant="h5" component="h2">
                             {props.group.groupName}
@@ -125,14 +124,12 @@ export const MediaCard = (props) => {
                             {props.group.location}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
-                            {new Date(props.group.datetime.seconds*1000).toUTCString()}
+                            {props.group.owner}
                         </Typography>
                     </CardContent>
                 </CardActionArea>
                 <CardActions className={classes.button}>
                     <div className="card-buttons">
-                        <Button id="visitGroupButton" onClick={() => { enterGroup(props.group.id) }} variant="outlined">Visit group</Button>
-                        <Button id="requestButton" onClick={() => { requestToJoin() }} variant="outlined">Request to join group</Button>
                         <PopUp open={open} severity={severity} feedbackMessage={feedbackMessage} handleClose={handleClose}>
                         </PopUp>
                     </div>

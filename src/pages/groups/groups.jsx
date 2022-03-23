@@ -27,6 +27,7 @@ export default function Groups() {
 
     const groupsCollectionReference = collection(db, "groups");
     const navi = useNavigate();
+    
 
     const goToMain = () => {
         navi("/user");
@@ -110,20 +111,43 @@ export default function Groups() {
         return new Promise(resolve => setTimeout(resolve, time));
     }
 
+    const hideFilterButton = () => {
+        document.getElementById("divForGroupsFilter").style = "display: none";
+        document.getElementById("showFilterFunction").style = "display: inline-block";
+
+    }
+
+    const showFilterButton = () => {
+        document.getElementById("divForGroupsFilter").style = "display: inline-block";
+        document.getElementById("showFilterFunction").style = "display: none";
+    }
 
 
 
-    return <div className="topOfGroups">
+
+    return(
+        <div className="outerDiv">
         <Navbar></Navbar>
-            <div className="filterGroups">
-                <h1>GROUPS PAGE</h1>
-                <input id="searchInput" placeholder="search by interest..." onChange={() => { searchBarChanged() }} />
-                <input id="locationSearchInput" placeholder="search by location..." onChange={() => { searchBarChanged() }} />
+        <div className="filterGroups">
+            <h1>GROUPS PAGE</h1>
+            <div id="showFilterFunction">
+                <Button id="filterButtons" variant="contained" onClick={showFilterButton}>Filter groups</Button>
+            </div>
+            <div id="divForGroupsFilter" style={{display:'none'}}>
+                <Button id="filterButtons" variant="contained" onClick={hideFilterButton}>Hide filter function</Button>
+                <br/>
+                <TextField variant="standard" id="searchInput" placeholder="search by interest..." onChange={() => { searchBarChanged() }} />
+                <br />
+                <br />
+                <TextField variant="standard" id="locationSearchInput" placeholder="search by location..." onChange={() => { searchBarChanged() }} />
+
+                <br />
+                <br />
                 <div>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DateTimePicker
                             renderInput={(props) => <TextField {...props} />}
-                            label="DateTimePicker"
+                            label="Start time"
                             value={startTime}
                             onChange={(newValue) => {
                                 setStartTime(newValue);
@@ -133,19 +157,22 @@ export default function Groups() {
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DateTimePicker
                             renderInput={(props) => <TextField {...props} />}
-                            label="DateTimePicker"
+                            label="End time"
                             value={endTime}
                             onChange={(newValue) => {
                                 setEndTime(newValue);
                             }}
                         />
                     </LocalizationProvider>
-                    <button id="filterByTimeButton" onClick={filterByTime}>Apply Time Filter</button>
-                    <button onClick={() => cancelTimeFilter()}>Remove time filter</button>
+                    <br />
+                    <Button variant="contained" id="filterButtons" onClick={filterByTime}>Apply Time Filter</Button>
+                    <Button variant="contained" id="filterButtons" onClick={() => cancelTimeFilter()}>Remove time filter</Button>
                 </div>
             </div>
-            <div className="cardBackground">
+        </div>
+        <div className="cardBackground">
             <CardList groups={groupTemp} />
         </div>
     </div>
+    )
 }

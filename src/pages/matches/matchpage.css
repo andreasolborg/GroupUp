@@ -1,31 +1,27 @@
-#matchcard {
-    padding: 20px;
-    font-family: 'Archivo', sans-serif;
-    overflow: hidden;
-    box-shadow:0px 0px 15px -5px;
-    transition: 0.3s;
-    animation: ease-in;
-    border-radius: 15px;
-    background-color: lightblue;
-    margin-top: 30px;
-    margin: auto;
-    width: 60%;
+.topPart{
+    border-radius: 15px 15px 0px 0px;
+    background-color: #DDEEF5;
+    padding: 10px;
+}
+
+.matchPage{
+    background-color: #FCFDFD;
+    margin: 0% 15% 2%;
     text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Archivo', sans-serif;
+    color: black;
+    border-radius: 15px;
+    
+}
+
+.matchcard {
+    font-family: 'Archivo', sans-serif;
 }
 
 #title {
-    padding: 20px;
-    overflow: hidden;
-    box-shadow:0px 0px 15px -5px;
-    transition: 0.3s;
-    animation: ease-in;
-    border-radius: 15px;
-    background-color: lightblue;
-    margin-top: 30px;
-    margin: auto;
-    width: 60%;
-    text-align: center;
-    font-weight: bolder;
+    font-family: 'Archivo', sans-serif;
 }
 
 #isMatched{
@@ -33,8 +29,11 @@
 }
 
 #muibutton{
-    padding: 10px;
-    margin: 10px;
-    animation: ease-in;
-    border-width: 4px;
+    background-color: #DDEEF5;
+    margin: 3%;
+    color: black;
+}
+
+#btns{
+    margin-top: 50px;
 }
