@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -21,7 +21,12 @@ export default function Login() {
   const imageLogo = require('./../../images/Logo.png');
   const nav = useNavigate();
 
+  const  [error, setError] = useState(false);
 
+
+  /**
+   * Automatically routes to the user page if logged in
+   */
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
@@ -31,6 +36,11 @@ export default function Login() {
   }, []);
 
 
+  /**
+   * Signs in if the login information is correct
+   * 
+   * @param {HTML form} event 
+   */
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
@@ -40,6 +50,7 @@ export default function Login() {
       );
 
     } catch (error) {
+      setError(true);
       console.log(error.message);
     }
   };
@@ -99,6 +110,8 @@ export default function Login() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                error={error}
+                helperText={error ? "Invalid username or password" : ""}
               />
               <Button
                 type="submit"
@@ -108,7 +121,6 @@ export default function Login() {
                 sx={{ mt: 3, mb: 2 }}
               >
                 Sign In
-
               </Button >
               <Grid container>
                 <Grid item xs>

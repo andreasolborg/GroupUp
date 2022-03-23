@@ -20,9 +20,6 @@ import Gender from './gender';
 import Age from './age';
 import Email from './email';
 
-//import Alert from '@material-ui/lab/Alert';
-import LocalizationProvider, { MuiPickersAdapterContext } from '@mui/lab/LocalizationProvider';
-
 export default function SignUp() {
 
   const [interests, setInterests] = useState([]);
@@ -37,10 +34,6 @@ export default function SignUp() {
 
   const theme = createTheme();
   const nav = useNavigate();
-
-  const checkAge = async() =>{
-
-  }
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
@@ -74,9 +67,12 @@ export default function SignUp() {
         data.get("email"),
         interests,
         data.get("password")
-      );
+      ).catch( error => {
+        setEmailError(true)
+      });
+
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
     }
   };
 

@@ -18,7 +18,7 @@ export default function Email( {error, setError} ) {
             autoComplete="email"
             onChange={ checkInput }
             error = { error }
-            helperText= { error ? "Invalid email adress" : "" }
+            helperText= { error ? "Invalid email or already in use" : "" }
             />
         </Grid>
     );

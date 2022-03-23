@@ -19,7 +19,7 @@ export default function Age( { error, setError } ) {
             autoComplete='age'
             onChange={ checkInput }
             error = { error }
-            helperText = {error ? "You must be an adult to use this website" : "" }
+            helperText = {error ? "You must be at least 18 to use this website" : "" }
             />
         </Grid>
     );

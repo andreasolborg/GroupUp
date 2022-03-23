@@ -50,7 +50,7 @@ export const isValidName = (string) => {
 }
 
 /**
- * Checks if int is at least 17.
+ * Checks if int is at least 18.
  * 
  * @param {int} age 
  * @returns A boolean value indicating whether age is at least 18.
