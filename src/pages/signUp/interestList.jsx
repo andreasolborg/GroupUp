@@ -7,7 +7,7 @@ export default function InterestList( {interests} ) {
         <ul>
         <ListSubheader>{"Interests:"}</ListSubheader>
         {interests.map((item) => (
-            <ListItem key={`item-${item}`}>
+            <ListItem key={`interest-${item}`}>
             <ListItemText primary={item} />
             </ListItem>
         ))}
