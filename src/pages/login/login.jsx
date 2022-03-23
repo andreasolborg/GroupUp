@@ -8,23 +8,28 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { auth } from "../../firebase-config";
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { NavLink, useNavigate } from 'react-router-dom';
-import './login.css'
 import { Paper } from '@mui/material';
 
 
-const theme = createTheme();
-
 export default function Login() {
 
-
+  const theme = createTheme();
   const imageLogo = require('./../../images/Logo.png');
-
   const nav = useNavigate();
+
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        nav("/user");
+      }
+    });
+  }, []);
+
 
   const handleSubmit = async (event) => {
     try {
@@ -38,15 +43,6 @@ export default function Login() {
       console.log(error.message);
     }
   };
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        console.log(auth.currentUser);
-        nav("/user");
-      }
-    });
-  }, []);
 
 
   return (
@@ -110,7 +106,6 @@ export default function Login() {
                 variant="contained"
                 style={{ backgroundColor: '#005A86', color: "white" }}
                 sx={{ mt: 3, mb: 2 }}
-
               >
                 Sign In
 
