@@ -207,18 +207,17 @@ export default function User() {
                     </Button>
                 </div>
 
-
                 <div className="interests">
                     <h3>My Interests:</h3>
                     <div className="myInterests">
                         {interests.map((item) => (
-                            <p>{item}</p>
+                            <p key={`Interest: ${item}`}>{item}</p>
                         ))}
                     </div>
                     <h3>Change interest:</h3>
                     <div className="newInterest">
                         <div>
-                            <TextField i
+                            <TextField
                                 d="filled-basic"
                                 label="f.eks. fotball"
                                 variant="filled"

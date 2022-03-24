@@ -323,7 +323,7 @@ export default function Group() {
                                 <h2 style={{ fontFamily: 'Archivo', textDecoration: 'underline' }}><b>Members:</b></h2>
                                 <div>
                                     {members.map((m) => (
-                                        <div className="membersList">
+                                        <div className="membersList" key={`Member: ${m}`}>
                                             <p>{m}</p>
                                         </div>
                                     ))}
@@ -362,7 +362,6 @@ export default function Group() {
                 dateTime={dateTime}
                 acceptRequestButton={acceptRequestButton}
             />
-
         </div >
     )
 }

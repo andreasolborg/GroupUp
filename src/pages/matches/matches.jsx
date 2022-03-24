@@ -54,9 +54,6 @@ const mediaCards = [
     description:
       'Langrenn er en konkurranseidrett utviklet fra skigåing. Langrenn utøves på to hovedmåter, klassisk stil og fristil. Når en løper går klassisk, følger skiene et spor, og som regel legges det festesmurning under skiene for at de ikke så lett skal gli når de skyves bakover for fremdrift.',
   },
-
-
-
 ];
 
 

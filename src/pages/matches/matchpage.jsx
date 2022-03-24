@@ -181,11 +181,11 @@ export default function Matchpage() {
                 </div>
                 <br />
                 <Grid container>
-                    <Grid xs={4} />
-                    <Grid xs={4}>
+                    <Grid item xs={4} />
+                    <Grid item xs={4}>
                         <MatchCard className="matchcard" group={group} />
                     </Grid>
-                    <Grid id='btns' xs={4}>
+                    <Grid item id='btns' xs={4}>
                         <Button id="muibutton" variant="contained" onClick={() => { matchWithGroup(false) }}>Match with Regular</Button>
                         <Button id="muibutton" style={{ backgroundColor: '#e6be7f' }} variant="contained" onClick={() => { matchWithGroup(true) }}>Match with GOLD</Button>
                         <Button id="muibutton" variant="contained" onClick={() => { unmatchButton() }}>Unmatch (gold and regular)</Button>
