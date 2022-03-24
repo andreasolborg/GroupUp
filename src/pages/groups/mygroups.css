@@ -2,9 +2,21 @@
     align-items: center;
     text-align: center;
     background-color: #FCFDFD;
-    margin: 25px 10% 2%;
-    border-radius: 5px;
-    padding-top: 10px;
+    margin: 2% 15% 2%;
+    border-radius: 15px;
     padding-bottom: 50px;
     box-shadow: 1px 3px 5px rgba(0,0,0,0.2);
 }
+
+
+#myGroupsHeader {
+    background-color: #DDEEF5;
+    height: 100px;
+    margin-top: 0;
+    padding-top: 30px;
+    text-align: center;
+}
+/*
+#myGroups {
+    background-color: #FCFDFD;
+}*/
