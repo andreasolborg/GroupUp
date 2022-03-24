@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,8 +10,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { auth } from "../../firebase-config";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import { NavLink, useNavigate } from 'react-router-dom';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { NavLink } from 'react-router-dom';
 import { Paper } from '@mui/material';
 
 
@@ -19,22 +19,8 @@ export default function Login() {
 
   const theme = createTheme();
   const imageLogo = require('./../../images/Logo.png');
-  const nav = useNavigate();
 
   const  [error, setError] = useState(false);
-
-
-  /**
-   * Automatically routes to the user page if logged in
-   */
-  useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        nav("/user");
-      }
-    });
-  }, []);
-
 
   /**
    * Signs in if the login information is correct

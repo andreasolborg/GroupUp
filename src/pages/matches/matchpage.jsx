@@ -1,8 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { auth } from "../../firebase-config";
-import Navbar from "../../components/navbar";
 import { db } from "../../firestore";
 import Button from '@material-ui/core/Button';
 import { query, where, collection, arrayRemove, getDocs, updateDoc, doc, addDoc, setDoc, getDoc, arrayUnion, documentId } from 'firebase/firestore'
@@ -176,7 +174,6 @@ export default function Matchpage() {
 
     return (
         <>
-            <Navbar />
             <br />
             <div className='matchPage'>
                 <div className='topPart'>

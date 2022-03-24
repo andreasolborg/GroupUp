@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,9 +9,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { auth } from "../../firebase-config";
-import { onAuthStateChanged } from "firebase/auth";
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { createUser } from "../../firestore";
 import Interests from './interests';
 import Passwords from './passwords';
@@ -33,16 +31,6 @@ export default function SignUp() {
   const [emailError, setEmailError] = useState(false);
 
   const theme = createTheme();
-  const nav = useNavigate();
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        console.log(auth.currentUser);
-        nav("/user");
-      }
-    });
-  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

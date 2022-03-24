@@ -94,7 +94,6 @@ export default function Matches() {
   const classes = useStyles();
   return (
     <><div className="matches">
-      <div><Navbar></Navbar></div>
       <h1 className="title">Your Matches</h1>
       <CardList groups={groups} />
       {/*

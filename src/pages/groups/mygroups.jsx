@@ -40,7 +40,6 @@ export default function MyGroups () {
 
 
     return (
-        <div><Navbar></Navbar>
         <div className="wrapper">
             <h1>MY GROUPS</h1>
             <h2>Joined Groups</h2>
@@ -48,7 +47,6 @@ export default function MyGroups () {
             <h2>Owned Groups</h2>
             <CardList groups={ownedGroups}/>
 
-        </div>
         </div>
     )
 }

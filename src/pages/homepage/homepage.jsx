@@ -6,19 +6,21 @@ import Grid from "@mui/material/Grid";
 import { makeStyles } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 
-const useStyles = makeStyles( {
+
+const useStyles = makeStyles({
     gridContainer: {
         paddingTop: '16%',
-        paddingLeft: '35%', 
+        paddingLeft: '35%',
     }
 })
 
 
+export default function Homepage() {
 
-function Homepage() {
     const classes = useStyles();
+
     return (
-            <><Navbar className="navbar"></Navbar><div className="homepage">
+        <>
             <div className="filterBar">
                 <Grid container spacing={3}>
                     <Grid item xs>
@@ -37,7 +39,6 @@ function Homepage() {
                     <Card />
                 </Grid>
             </Grid>
-        </div></>
+        </>
     );
 };
-export default Homepage;

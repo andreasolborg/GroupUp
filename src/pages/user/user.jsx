@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 import TextField from '@material-ui/core/TextField';
 import Avatar from '@mui/material/Avatar'
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import Navbar from "../../components/navbar";
 
 export default function User() {
 
@@ -56,12 +55,6 @@ export default function User() {
     useEffect(() => {
         onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
-
-            if (!currentUser) {
-                console.log(auth.currentUser);
-                nav("/");
-            }
-
             getUserInfo(currentUser);
         });
     }, []);
@@ -191,12 +184,9 @@ export default function User() {
 
     return (
         <>
-        <Navbar/>
             <div className="user">
 
                 <h1 className="username"> {name} </h1>
-
-
                 <div id="av">
                     <Avatar id="ava" onClick={uploadProfileImage} src={url} sx={{ width: 150, height: 150 }} />
                 </div>
