@@ -4,7 +4,6 @@ import { Routes, Route, BrowserRouter, useLocation, Navigate } from 'react-route
 
 import Login from './pages/login/login';
 import User from './pages/user/user.jsx';
-import Homepage from './pages/homepage/homepage';
 import Matches from './pages/matches/matches';
 import Navbar from './components/navbar.jsx';
 import SignUp from './pages/signUp/signUp';
@@ -36,7 +35,6 @@ function App() {
         <Route path="/signUp" element={loggedIn ? <Navigate to="/home" replace /> : <SignUp />} />
 
         <Route path="/user" element={loggedIn ? <User /> : <Navigate to="/" replace />} />
-        <Route path="/home" element={loggedIn ? <Homepage /> : <Navigate to="/" replace />} />
         <Route path="/matches" element={loggedIn ? <Matches /> : <Navigate to="/" replace />} />
         <Route path="/groups" element={loggedIn ? <Groups /> : <Navigate to="/" replace />} />
         <Route path="/myGroups" element={loggedIn ? <MyGroups /> : <Navigate to="/" replace />} />
