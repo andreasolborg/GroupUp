@@ -32,7 +32,7 @@ export default function Navbar() {
     const path = window.location.pathname
 
     switch (path) {
-      case "/home":
+      case "/myGroups":
         return 0;
       case "/matches":
         return 1;
@@ -53,7 +53,7 @@ export default function Navbar() {
       <Tabs value={value} onChange={handleChange} aria-label="navbar">
         <Tab
           aria-label="home"
-          to="/home"
+          to="/myGroups"
           component={Link}
           id="navbarHome"
           icon={
