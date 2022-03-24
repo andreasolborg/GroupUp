@@ -40,7 +40,7 @@ export default function MyGroups() {
 
 
     return (
-        <div><Navbar></Navbar>
+        <div>
             <div className="wrapper">
                 <div id="myGroupsHeader">
                     <h1>MY GROUPS</h1>
