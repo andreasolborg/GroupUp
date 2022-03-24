@@ -140,46 +140,48 @@ export default function User() {
     }
 
 
-    const [image, setImage] = useState(null);
-    const [url, setUrl] = useState(null);
-    const [imageName, setImageName] = useState("");
+   //IMAGE STARTS HERE
+   const [image, setImage] = useState("");
+   const [url, setUrl] = useState(null);
+   const [imageName, setImageName] = useState("");
 
 
+   /**
+    * Upload image to storage
+    * 
+    */
+   const handleImageButton = () => {
+       var input = document.createElement('input');
+       input.type = 'file';
+       input.click();
+       input.onchange = e => {
+           if (e.target.files[0]) {
+               setImage(e.target.files[0]);
+               const metadata = {
+                   contentType: 'image/jpeg',
+                 };
+               const storageRef = ref(storage, "/group/"+ownGroupId);
+               uploadBytes(storageRef, e.target.files[0], metadata);
+           }
+       }
+      
+   }
 
-    useEffect(() => {
-        const getPicture = async () => {
-            const imageRef = ref(storage, "/profile/" + auth.currentUser.email);
-            var temp = "";
-            getDownloadURL(imageRef).then((url) => {
-                //insert url into img tag in html
-                setUrl(url);
-                temp = url;
-            });
-            if (temp == "") {
-                const pathRef = ref(storage, "/profile/groupPic.jpeg");
-                getDownloadURL(pathRef).then((url) => {
-                    setUrl(url);
-                });
-            }
-        }
-        getPicture();
-    }, []);
+   const resetImageButton = () => {
+       const imref = ref(storage, "/group/"+ownGroupId+".jpeg");
+       deleteObject(imref).then(() => {
+           console.log("SUccessfully deleted file");
+       }).catch((error) => {
+           console.log("Error in deletion");
+       });
 
 
-    const uploadProfileImage = () => {
-        var input = document.createElement('input');
-        input.type = 'file';
-        input.click();
-        input.onchange = e => {
-            if (e.target.files[0]) {
-                setImage(e.target.files[0]);
-            }
-        }
-        const storageRef = ref(storage, "/profile/" + auth.currentUser.email);
-        uploadBytes(storageRef, image).then((snap) => {
-            console.log("UPLAODED FILE");
-        });
-    }
+       window.location.reload(false);
+   }
+
+   //IMAGE ENDS HERE
+
+
 
 
     return (
