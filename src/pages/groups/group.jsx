@@ -119,28 +119,49 @@ export default function Group() {
         getOwner();
     }, []);
 
+   //IMAGE STARTS HERE   
+ 
+   const [imageFlag, setImageFlag] = useState(0);
     const [url, setUrl] = useState("");
 
-    useEffect(() => {
-        const loadImage = () => {
-
-            const pathReference = ref(storage, "/group/" + id);
-            var temp = "";
-            getDownloadURL(pathReference).then((url) => {
-                //insert url into img tag in html
-                setUrl(url);
-                temp = url;
-            });
-            if (temp == "") {
-                const pathRef = ref(storage, "/group/zlatan.jpeg");
-                getDownloadURL(pathRef).then((url) => {
-                    setUrl(url);
-                });
-            }
-        }
-        loadImage();
-    }, []);
-
+   useEffect(() => {
+       const getStandardImage = () => {
+           console.log("standardImageLoader invoked");
+           const pathRef = ref(storage, "/group/zlatan.jpeg");
+           getDownloadURL(pathRef).then((url) => {
+               setUrl(url);
+               setImageFlag((c) => (c++));
+           });
+       } 
+       getStandardImage();
+   }, []); 
+   
+       useEffect(() => {
+           const regularImageLoader = () => { 
+               console.log("regularImageLoader invoked");
+               const pathReference = ref(storage, "/group/" + id);
+               var temp = "";
+               getDownloadURL(pathReference).then((url) => {
+                   //insert url into img tag in html
+                   setUrl(url);
+               }).catch((error) => {
+                   switch (error.code) {
+                       case 'storage/object-not-found':
+                           break;
+                       case 'storage/unauthorized':
+                           break;
+                       case 'storage/canceled':
+                           break;
+                       case 'storage/unknown':
+                           break;
+                   }
+   
+               });
+   
+           }
+           regularImageLoader();
+       }, [imageFlag]);
+   
 
     /**
      * navigates back to the user-page with useNavigate()
