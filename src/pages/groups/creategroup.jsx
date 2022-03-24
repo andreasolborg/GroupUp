@@ -22,7 +22,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
 export default function CreateGroup() {
-    
+
     const [user, setUser] = useState({});
     const navi = useNavigate();
     const [open, setOpen] = useState(false);
@@ -30,13 +30,13 @@ export default function CreateGroup() {
     const handleClick = () => {
         setOpen(true);
     };
-    
+
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
             return;
-          }
+        }
         setOpen(false);
-      };
+    };
 
     const [errorGroupName, setErrorGroupName] = useState(false);
     const [errorInterest, setErrorInterest] = useState(false);
@@ -70,7 +70,7 @@ export default function CreateGroup() {
         const membersArray = document.getElementById("enterFriendInput").value.split(", ");
 
         if (!checkInputsForValidation()) {
-     
+
             setOpen(true);
             return;
         }
@@ -112,12 +112,12 @@ export default function CreateGroup() {
         }
     }
 
-  
+
     const checkGroupName = () => {
         if (document.getElementById("groupNameInput").value === "") {
             setErrorGroupName(true);
             return false;
-        } 
+        }
         setErrorGroupName(false);
         return true;
     }
@@ -143,20 +143,18 @@ export default function CreateGroup() {
 
     return (
         <div>
-            <Button onClick={goBackButton} variant="outlined" className="backBtn">Go Back</Button>
-
             <div className="groupForm">
-                <div><h1>CREATE GROUP</h1></div>
+                <div className="top"><h1>CREATE GROUP</h1></div>
                 <div className="allInputs">
 
                     <TextField error={errorGroupName} placeholder="enter group name*" variant="standard" id="groupNameInput" />
                     <TextField error={errorInterest} placeholder="enter interest*" variant="standard" id="groupInterest" />
                     <TextField placeholder="enter email of friend" variant="standard" id="enterFriendInput" />
                     <TextField error={errorLocation} placeholder="enter a location*" variant="standard" id="locationInput" />
+                    <p style={{ fontFamily: 'Archivo' }}>Meeting time: </p>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DateTimePicker
                             renderInput={(props) => <TextField {...props} />}
-                            label="Enter date and time"
                             value={dateTime}
                             onChange={(newValue) => {
                                 setDateTime(newValue);
@@ -164,11 +162,11 @@ export default function CreateGroup() {
                             }}
                         />
                     </LocalizationProvider>
-                    <TextareaAutosize id="des" minRows="5" placeholder="Enter a description of your group"/>
-                    <br/>
-                    <br/>
-                    <Button onClick={createGroupButton} variant="outlined" style={{backgroundColor:'#c6d7dd', color:'black'}}>Create group</Button>
-                    <PopUp open={open} severity = {"error"} feedbackMessage = {"Missing fields"} handleClose = {handleClose}>
+                    <TextareaAutosize id="des" minRows="5" placeholder="Enter a description of your group" />
+                    <br />
+                    <br />
+                    <Button onClick={createGroupButton} variant="outlined" style={{ backgroundColor: '#c6d7dd', color: 'black' }}>Create group</Button>
+                    <PopUp open={open} severity={"error"} feedbackMessage={"Missing fields"} handleClose={handleClose}>
                     </PopUp>
                 </div>
             </div>
