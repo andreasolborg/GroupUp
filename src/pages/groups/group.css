@@ -25,15 +25,15 @@
     align-items: center;
 }
 
-.outerDiv{
+#outerDiv{
     align-items: center;
     text-align: center;
 }
 
 .blueSplitBar{
-    padding-bottom: 2%;
+    padding-bottom: 3%;
     background-color: #DDEEF5;
-    height: 10px;
+    height: 20px;
     max-width: 100%;
 }
 
@@ -70,9 +70,12 @@
 
 .memberBox{
     background-color: #DDEEF5;
-    border-radius: 15px;
-    margin: 8%;
+    border-radius: 5px;
+    margin-top: 10%;
+    margin-left: 4%;
+    margin-right: 4%;
     padding: 2%;
+    box-shadow: 1px 3px 5px rgba(0,0,0,0.2);
 }
 
 #des-container {
@@ -80,6 +83,8 @@
     margin-right: 10px;
     margin-left: 10px;
 }
+
+
 
 #des {
     font-family: 'Archivo', sans-serif;
@@ -120,7 +125,6 @@
 }
 
 .obsButton {
-    margin: 20px;
 }
 
 .remove-users {
@@ -137,8 +141,10 @@
 #leaveButton{
     background-color: #c6d7dd;
     color: black;
-   margin: 10px;
-   visibility: hidden;
+    margin: 10px;
+    visibility: hidden;
+    top: 60%;
+    left: 34%;
 }
 
 #contactButton {

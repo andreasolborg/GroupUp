@@ -300,16 +300,17 @@ export default function Group() {
     // <Button onClick={getAdminElements} variant="contained">Admin</Button>
 
     return (
-        <div className="outerDiv">
+        <div id="outerDiv">
             <div className="groupPage" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <div className="groupBox" >
                     <img id="banner" src={url} />
                     <div className="blueSplitBar">
+                    <Button id='contactButton' style={{float: "right", marginRight: "2%"}} className="obsButton" variant="contained" onClick={() => contactButton()}>Contact</Button>
                     </div>
                     <Grid container>
                         <Grid item xs={6}>
                             <div className="information" >
-                                <h1 style={{ marginTop: 60 }}>{groupName}</h1>
+                                <h1 style={{ marginTop: 0 }}>{groupName}</h1>
                                 <p style={{ fontSize: 20 }} >
                                     <b style={{ textDecoration: 'underline' }}>Interest:</b> {interest}
                                 </p>
@@ -330,16 +331,15 @@ export default function Group() {
                                 </div>
                             </div>
                         </Grid>
-                        <Grid>
+                        <Grid item xs={6}>
                             <div style={{ alignItems: 'center', justifyContent: 'center', fontFamily: 'Archivo', margin: 100 }}>
                                 <h2 style={{ fontFamily: 'Archivo', textDecoration: 'underline' }}>Description</h2>
                                 <p>{description}</p>
                             </div>
                         </Grid>
-                    </Grid>
-                    <Grid item xs={3} style={{ alignItems: "center", justifyContent: "center" }}>
-                        <Button id='leaveButton' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
-                        <Button id='contactButton' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => contactButton()}>Contact</Button>
+                        <Grid item xs={6}>
+                            <Button id='leaveButton' className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
+                        </Grid>
                     </Grid>
                 </div>
             </div>

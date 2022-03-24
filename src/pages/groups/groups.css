@@ -1,5 +1,7 @@
-.wrapper{
+.outerDiv{
+    margin: 2% 15% 2%;
     box-shadow: 1px 3px 5px rgba(0,0,0,0.2);
+    border-radius: 5px;
 }
 
 /* hele diven */
@@ -10,20 +12,18 @@
 /* kortene */
 .cardBackground{
     background-color: #FCFDFD;
-    margin: 0% 15% 2%;
     padding-bottom: 25px;
-    border-bottom-right-radius: 25px;
-    border-bottom-left-radius: 25px;
 }
 
-/* bakgrunn på øverste "GROUPS PAGE" BAREN */
+
+/* bakgrunn på øverste "GROUPS PAGE" BAREN      margin: 2% 15% 2%; */
 .filterGroups{
     align-items: center;
     background-color:  #DDEEF5;
     text-align: center;
-    margin: 2% 15% 2%;
     padding-top: 10px;
     padding-bottom: 25px;
+    margin-bottom: 20px;
     
 }
 
