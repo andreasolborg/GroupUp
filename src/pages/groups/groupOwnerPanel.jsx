@@ -60,6 +60,7 @@ export default function GroupOwnerPanel({
     }
 
 
+    //IMAGE STARTS HERE
     const [image, setImage] = useState("");
     const [url, setUrl] = useState(null);
     const [imageName, setImageName] = useState("");
@@ -68,7 +69,6 @@ export default function GroupOwnerPanel({
     /**
      * Upload image to storage
      * 
-     * NEEDS FUNCTION TO OVERRIDE CURRENT IMAGE
      */
     const handleImageButton = () => {
         var input = document.createElement('input');
@@ -77,16 +77,18 @@ export default function GroupOwnerPanel({
         input.onchange = e => {
             if (e.target.files[0]) {
                 setImage(e.target.files[0]);
+                const metadata = {
+                    contentType: 'image/jpeg',
+                  };
+                const storageRef = ref(storage, "/group/"+ownGroupId);
+                uploadBytes(storageRef, e.target.files[0], metadata);
             }
         }
-        const storageRef = ref(storage, "/group/" + ownGroupId);
-        uploadBytes(storageRef, image).then((snap) => {
-            console.log("UPLAODED FILE");
-        });
+       
     }
 
     const resetImageButton = () => {
-        const imref = ref(storage, "/group/" + ownGroupId + ".jpeg");
+        const imref = ref(storage, "/group/"+ownGroupId+".jpeg");
         deleteObject(imref).then(() => {
             console.log("SUccessfully deleted file");
         }).catch((error) => {

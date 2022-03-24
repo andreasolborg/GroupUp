@@ -140,17 +140,51 @@ export default function User() {
     }
 
 
-   //IMAGE STARTS HERE
-   const [image, setImage] = useState("");
-   const [url, setUrl] = useState(null);
-   const [imageName, setImageName] = useState("");
+   //IMAGE START HERE
+   const [imageFlag, setImageFlag] = useState(0);
+   const [image, setImage] = useState(null);
+   const [url, setUrl] = useState("");
 
+   useEffect(() => {
+   const getStandardImage = () => {
+       console.log("standardImageLoader invoked");
+       const pathRef = ref(storage, "/profile/groupPic.jpeg");
+       getDownloadURL(pathRef).then((url) => {
+           setUrl(url);
+           setImageFlag((c) => (c++));
+       });
+   }
+   getStandardImage();
+}, []);
 
-   /**
-    * Upload image to storage
-    * 
-    */
-   const handleImageButton = () => {
+   useEffect(() => {
+       const regularImageLoader = () => { 
+           console.log("regularImageLoader invoked");
+           const pathReference = ref(storage, "/profile/" + auth.currentUser.email);
+           getDownloadURL(pathReference).then((url) => {
+               //insert url into img tag in html
+               setUrl(url);
+           }).catch((error) => {
+               switch (error.code) {
+                   case 'storage/object-not-found':
+                       break;
+                   case 'storage/unauthorized':
+                       break;
+                   case 'storage/canceled':
+                       break;
+                   case 'storage/unknown':
+                       break;
+               }
+
+           });
+
+       }
+       regularImageLoader();
+   }, [imageFlag]);
+
+   //////
+
+   const uploadProfileImage = () => {
        var input = document.createElement('input');
        input.type = 'file';
        input.click();
@@ -160,28 +194,14 @@ export default function User() {
                const metadata = {
                    contentType: 'image/jpeg',
                  };
-               const storageRef = ref(storage, "/group/"+ownGroupId);
+               const storageRef = ref(storage, "/profile/"+auth.currentUser.email);
                uploadBytes(storageRef, e.target.files[0], metadata);
            }
        }
       
    }
 
-   const resetImageButton = () => {
-       const imref = ref(storage, "/group/"+ownGroupId+".jpeg");
-       deleteObject(imref).then(() => {
-           console.log("SUccessfully deleted file");
-       }).catch((error) => {
-           console.log("Error in deletion");
-       });
-
-
-       window.location.reload(false);
-   }
-
    //IMAGE ENDS HERE
-
-
 
 
     return (
