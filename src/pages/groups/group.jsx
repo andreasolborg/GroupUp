@@ -59,11 +59,11 @@ export default function Group() {
             }
             groupDocsnap.data().members.map((m) => {
                 setMembers((members) => [...members, m]);
-                if (m == auth.currentUser.email){
+                if (m == auth.currentUser.email) {
                     bool = true;
                 }
             });
-            if (bool){
+            if (bool) {
                 document.getElementById("leaveButton").style = "visibility: visible";
             }
         }
@@ -124,19 +124,19 @@ export default function Group() {
     useEffect(() => {
         const loadImage = () => {
 
-            const pathReference = ref(storage, "/group/"+id);
+            const pathReference = ref(storage, "/group/" + id);
             var temp = "";
             getDownloadURL(pathReference).then((url) => {
                 //insert url into img tag in html
                 setUrl(url);
                 temp = url;
             });
-            if (temp == ""){
+            if (temp == "") {
                 const pathRef = ref(storage, "/group/zlatan.jpeg");
                 getDownloadURL(pathRef).then((url) => {
                     setUrl(url);
                 });
-             }
+            }
         }
         loadImage();
     }, []);
@@ -301,22 +301,21 @@ export default function Group() {
 
     return (
         <div className="outerDiv">
-            <Navbar/>
             <div className="groupPage" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <div className="groupBox" >
-                <img id="banner" src={url}/>
+                    <img id="banner" src={url} />
                     <div className="blueSplitBar">
                     </div>
                     <Grid container>
                         <Grid item xs={6}>
                             <div className="information" >
-                            <h1 style={{ marginTop: 60 }}>{groupName}</h1>
+                                <h1 style={{ marginTop: 60 }}>{groupName}</h1>
                                 <p style={{ fontSize: 20 }} >
                                     <b style={{ textDecoration: 'underline' }}>Interest:</b> {interest}
                                 </p>
                                 <p style={{ fontSize: 20 }}><b style={{ textDecoration: 'underline' }}>Location:</b> {location}</p>
                                 <p style={{ fontSize: 20 }}><b style={{ textDecoration: 'underline' }}>Meeting time: </b> {dateTime.toUTCString()}</p>
-                                <GroupRating groupId={id}/>
+                                <GroupRating groupId={id} />
                             </div>
                         </Grid>
                         <Grid item xs={6}>
@@ -324,7 +323,7 @@ export default function Group() {
                                 <h2 style={{ fontFamily: 'Archivo', textDecoration: 'underline' }}><b>Members:</b></h2>
                                 <div>
                                     {members.map((m) => (
-                                        <div className="membersList">
+                                        <div className="membersList" key={`Member: ${m}`}>
                                             <p>{m}</p>
                                         </div>
                                     ))}
@@ -339,8 +338,8 @@ export default function Group() {
                         </Grid>
                     </Grid>
                     <Grid item xs={3} style={{ alignItems: "center", justifyContent: "center" }}>
-                                <Button id='leaveButton' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
-                                <Button id='contactButton' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => contactButton()}>Contact</Button>
+                        <Button id='leaveButton' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
+                        <Button id='contactButton' style={{ marginTop: 50 }} className="obsButton" variant="contained" onClick={() => contactButton()}>Contact</Button>
                     </Grid>
                 </div>
             </div>
@@ -363,7 +362,6 @@ export default function Group() {
                 dateTime={dateTime}
                 acceptRequestButton={acceptRequestButton}
             />
-
         </div >
     )
 }

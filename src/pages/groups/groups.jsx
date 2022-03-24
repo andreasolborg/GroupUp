@@ -127,7 +127,6 @@ export default function Groups() {
 
     return(
         <div className="outerDiv">
-        <Navbar></Navbar>
         <div className="filterGroups">
             <h1>GROUPS PAGE</h1>
             <div id="showFilterFunction">

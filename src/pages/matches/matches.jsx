@@ -54,9 +54,6 @@ const mediaCards = [
     description:
       'Langrenn er en konkurranseidrett utviklet fra skigåing. Langrenn utøves på to hovedmåter, klassisk stil og fristil. Når en løper går klassisk, følger skiene et spor, og som regel legges det festesmurning under skiene for at de ikke så lett skal gli når de skyves bakover for fremdrift.',
   },
-
-
-
 ];
 
 
@@ -94,7 +91,6 @@ export default function Matches() {
   const classes = useStyles();
   return (
     <><div className="matches">
-      <div><Navbar></Navbar></div>
       <h1 className="title">Your Matches</h1>
       <CardList groups={groups} />
       {/*

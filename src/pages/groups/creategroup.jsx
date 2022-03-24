@@ -143,7 +143,6 @@ export default function CreateGroup() {
 
     return (
         <div>
-            <Navbar></Navbar>
             <Button onClick={goBackButton} variant="outlined" className="backBtn">Go Back</Button>
 
             <div className="groupForm">

@@ -1,8 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { auth } from "../../firebase-config";
-import Navbar from "../../components/navbar";
 import { db } from "../../firestore";
 import Button from '@material-ui/core/Button';
 import { query, where, collection, arrayRemove, getDocs, updateDoc, doc, addDoc, setDoc, getDoc, arrayUnion, documentId } from 'firebase/firestore'
@@ -176,7 +174,6 @@ export default function Matchpage() {
 
     return (
         <>
-            <Navbar />
             <br />
             <div className='matchPage'>
                 <div className='topPart'>
@@ -184,11 +181,11 @@ export default function Matchpage() {
                 </div>
                 <br />
                 <Grid container>
-                    <Grid xs={4} />
-                    <Grid xs={4}>
+                    <Grid item xs={4} />
+                    <Grid item xs={4}>
                         <MatchCard className="matchcard" group={group} />
                     </Grid>
-                    <Grid id='btns' xs={4}>
+                    <Grid item id='btns' xs={4}>
                         <Button id="muibutton" variant="contained" onClick={() => { matchWithGroup(false) }}>Match with Regular</Button>
                         <Button id="muibutton" style={{ backgroundColor: '#e6be7f' }} variant="contained" onClick={() => { matchWithGroup(true) }}>Match with GOLD</Button>
                         <Button id="muibutton" variant="contained" onClick={() => { unmatchButton() }}>Unmatch (gold and regular)</Button>

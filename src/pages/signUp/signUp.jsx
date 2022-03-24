@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,9 +9,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { auth } from "../../firebase-config";
-import { onAuthStateChanged } from "firebase/auth";
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { createUser } from "../../firestore";
 import Interests from './interests';
 import Passwords from './passwords';
@@ -19,9 +17,6 @@ import Name from './name';
 import Gender from './gender';
 import Age from './age';
 import Email from './email';
-
-//import Alert from '@material-ui/lab/Alert';
-import LocalizationProvider, { MuiPickersAdapterContext } from '@mui/lab/LocalizationProvider';
 
 export default function SignUp() {
 
@@ -36,20 +31,6 @@ export default function SignUp() {
   const [emailError, setEmailError] = useState(false);
 
   const theme = createTheme();
-  const nav = useNavigate();
-
-  const checkAge = async() =>{
-
-  }
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        console.log(auth.currentUser);
-        nav("/user");
-      }
-    });
-  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -74,9 +55,12 @@ export default function SignUp() {
         data.get("email"),
         interests,
         data.get("password")
-      );
+      ).catch(error => {
+        setEmailError(true)
+      });
+
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
     }
   };
 
@@ -105,36 +89,36 @@ export default function SignUp() {
             <Grid container spacing={2}>
 
               <Name
-                errorFirst={ firstNameError }
-                setErrorFirst={ setFirstNameError }
-                errorLast={ lastNameError }
-                setErrorLast={ setLastNameError }
+                errorFirst={firstNameError}
+                setErrorFirst={setFirstNameError}
+                errorLast={lastNameError}
+                setErrorLast={setLastNameError}
               />
 
-              <Gender/>
+              <Gender />
 
-              <Interests 
-                interests={ interests } 
-                setInterests={ setInterests } 
-                error = { interestsError }
-                setError = { setInterestsError }
+              <Interests
+                interests={interests}
+                setInterests={setInterests}
+                error={interestsError}
+                setError={setInterestsError}
               />
 
               <Age
-                error = { ageError }
-                setError = { setAgeError }
+                error={ageError}
+                setError={setAgeError}
               />
 
               <Email
-                error = { emailError }
-                setError = { setEmailError }
+                error={emailError}
+                setError={setEmailError}
               />
 
               <Passwords
-                error={ passwordError }
-                setError = { setPasswordError}
-                confirmError = { confirmPasswordError }
-                setConfirmError = { setConfirmPasswordError }
+                error={passwordError}
+                setError={setPasswordError}
+                confirmError={confirmPasswordError}
+                setConfirmError={setConfirmPasswordError}
               />
 
             </Grid>

@@ -187,9 +187,9 @@ export default function GroupOwnerPanel({
                     <div className="text">
                         <h2>The request queue</h2>
                         {requests.map((r) => (
-                            <div className="membersList">
+                            <div className="membersList" key={`Request: ${r}`}>
                                 <div className="text">
-                                    <h3>{r}</h3>
+                                    <h3  >{r}</h3>
                                     <Button id="btnID" variant='contained' onClick={() => acceptRequestButton(r)} >Accept request</Button>
                                 </div>
                             </div>
@@ -202,7 +202,7 @@ export default function GroupOwnerPanel({
                         <h2>Goldmatch requests</h2>
                         <h3>You have {goldmatches.length} goldmatch(es)!</h3>
                         {goldmatches.map((g) => (
-                            <div className="membersList">
+                            <div className="membersList" key={`GoldRequest: ${g}`}>
                                 <div className="goldmatchElement">
                                     <Button id="btnID" variant='contained' onClick={() => matchWith(g)}>Match with: {g.groupName}</Button>
                                     <Button id="btnID" variant='contained' onClick={() => deleteRequest(g)}>Delete request</Button>
