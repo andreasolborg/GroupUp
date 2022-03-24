@@ -1,5 +1,24 @@
 .matches{
     align-items: center;
+    text-align: center;
+    background-color: #FCFDFD;
+    margin: 2% 15% 2%;
+    border-radius: 15px;
+    padding-bottom: 50px;
+    box-shadow: 1px 3px 5px rgba(0,0,0,0.2);
+}
+
+.t{
+    background-color: #DDEEF5;
+    height: 100px;
+    margin-top: 0;
+    padding-top: 30px;
+    text-align: center;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.container{
+    margin-top: 50px;
 }
 
 .title{

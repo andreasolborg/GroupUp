@@ -91,9 +91,12 @@ export default function Matches() {
   const classes = useStyles();
   return (
     <><div className="matches">
-      <h1 className="title">Your Matches</h1>
-      <CardList groups={groups} />
-      {/*
+      <div className="t">
+        <h1 className="title">Your Matches</h1>
+      </div>
+      <div className="container">
+        <CardList groups={groups} />
+        {/*
     <Grid container spacing = {5} className={classes.gridContainer}>
       {groups.map((card, i) => {
             return (
@@ -104,6 +107,7 @@ export default function Matches() {
           })}
     </Grid>
         */}
+      </div>
     </div></>
 
   );
