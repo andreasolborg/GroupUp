@@ -108,6 +108,16 @@ export const MatchCard = (props) => {
 
     const classes = useStyles();
 
+    const [dateString, setDateString] = useState("");
+
+    useEffect(() => {
+        const getTime = async () => {
+            var secs = await props.group.datetime.seconds*1000;
+            setDateString(new Date(secs).toUTCString());
+        }
+        getTime();
+    });
+
     return (
         <div>
             <Card className={classes.root}>
@@ -124,7 +134,7 @@ export const MatchCard = (props) => {
                             {props.group.location}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
-                        Insert Date Here
+                        {dateString}
                         </Typography>
                     </CardContent>
                 </CardActionArea>
