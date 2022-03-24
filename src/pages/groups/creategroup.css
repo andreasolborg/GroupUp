@@ -1,9 +1,16 @@
-
+.top{
+    background-color: #DDEEF5;
+    height: 100px;
+    margin-top: 0;
+    padding-top: 30px;
+    text-align: center;
+    border-radius: 5px 5px 0px 0px;
+}
 
 #des {
     font-family: 'Archivo', sans-serif;
     overflow: hidden;
-    box-shadow:0px 0px 15px -5px;
+    box-shadow:0px 0px 10px -5px;
     transition: 0.3s;
     animation: ease-in;
     border-radius: 15px;
@@ -13,10 +20,13 @@
 }
 
 .groupForm{
-    margin: 5% 10%;
-    display: block;
-    background-color:whitesmoke;
-    padding: 3%;
+    align-items: center;
+    text-align: center;
+    background-color: #FCFDFD;
+    margin: 2% 15% 2%;
+    border-radius: 15px;
+    padding-bottom: 50px;
+    box-shadow: 1px 3px 5px rgba(0,0,0,0.2);
 }
 
 .backBtn{
