@@ -3,9 +3,10 @@
     text-align: center;
     background-color: #FCFDFD;
     margin: 2% 15% 2%;
-    border-radius: 15px;
-    padding-bottom: 50px;
+    border-radius: 5px;
+    padding-bottom: 25px;
     box-shadow: 1px 3px 5px rgba(0,0,0,0.2);
+    font-family: 'Archivo', sans-serif;
 }
 
 
