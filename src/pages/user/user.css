@@ -5,7 +5,8 @@ body{
 .user{
     background-color: #FCFDFD;
     box-shadow: 1px 3px 5px rgba(0,0,0,0.2);
-    margin: 0% 15% 2%;
+    margin: 2% 15% 2%;
+    border-radius: 5px;
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -57,15 +58,15 @@ h1{
     display: inline;
 }
 #btnSend{
-    background-color: #DDEEF5;
+    background-color: #c6d7dd;;
     padding: 1%;
-margin: 3%;
-height: 3%;
-color: black;
+    margin: 3%;
+    height: 3%;
+    color: black;
 
 }
 #btnLogOut{
-    background-color: #DDEEF5;
+    background-color: #c6d7dd;;
     margin: 3%;
     color: black;
 }
