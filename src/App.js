@@ -31,8 +31,8 @@ function App() {
       {loggedIn && <Navbar />}
 
       <Routes>
-        <Route exact path="/" element={loggedIn ? <Navigate to="/home" replace /> : <Login />} />
-        <Route path="/signUp" element={loggedIn ? <Navigate to="/home" replace /> : <SignUp />} />
+        <Route exact path="/" element={loggedIn ? <Navigate to="/myGroups" replace /> : <Login />} />
+        <Route path="/signUp" element={loggedIn ? <Navigate to="/myGroups" replace /> : <SignUp />} />
 
         <Route path="/user" element={loggedIn ? <User /> : <Navigate to="/" replace />} />
         <Route path="/matches" element={loggedIn ? <Matches /> : <Navigate to="/" replace />} />
