@@ -38,19 +38,32 @@ export default function User() {
 
     function addInterest() {
         if (!interests.includes(interest) && interest.trim().length != 0) {
-            setInterests(interests => [...interests, interest]);
+            const newInterests = [...interests, interest]
+            setInterests(newInterests);
+            updateFirebaseInterests(newInterests);
         }
     }
 
+
     function removeInterest() {
-        let tempList = [...interests];
-        const index = tempList.indexOf(interest);
+        let newInterests = [...interests];
+        const index = newInterests.indexOf(interest);
         if (index < 0) {
             return;
         }
-        tempList.splice(index, 1);
-        setInterests(tempList);
+        newInterests.splice(index, 1);
+        setInterests(newInterests);
+        updateFirebaseInterests(newInterests);
     }
+
+    const updateFirebaseInterests = async (interests) => {
+        const userRef = doc(db, "profile", user.email);
+
+        await updateDoc(userRef, {
+            interest: interests
+        });
+    }
+
 
     useEffect(() => {
         onAuthStateChanged(auth, (currentUser) => {
