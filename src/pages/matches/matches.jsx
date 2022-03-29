@@ -1,115 +1,111 @@
 import React from "react";
-import Navbar from "../../components/navbar";
-import Grid from '@mui/material/Grid';
-import Card from "../../components/groupCard";
-import { makeStyles } from "@material-ui/core";
+import { FormControl, makeStyles, Select } from "@material-ui/core";
 import { useState, useEffect } from "react";
 import { db } from "../../firestore";
 import { auth } from "../../firebase-config";
-import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion, documentId } from 'firebase/firestore'
-import { useNavigate } from "react-router-dom";
-import { getBottomNavigationUtilityClass, TextField } from "@mui/material";
-import Button from '@material-ui/core/Button';
-import DateTimePicker from 'react-datetime-picker';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import { onAuthStateChanged } from "firebase/auth";
+import { collection, getDocs, query, where, documentId, getDoc, doc } from 'firebase/firestore';
 import CardList from "../groups/cardlist";
 import "./matches.css";
-
-const useStyles = makeStyles({
-  gridContainer: {
-    paddingTop: "20px",
-    direction: "column",
-    alignItems: "stretch",
-    display: "flex",
-    justifyContent: "center",
-    xs: 12,
-    md: 6,
-    lg: 4
-  }
-})
-
-const mediaCards = [
-  {
-    title: 'Fotball',
-    image: 'https://www.britsoc.co.uk/media/23986/adobestock_4437974.jpg',
-    description:
-      'Fotball er en ballidrett mellom to lag, hvert bestående av elleve spillere, hvor formålet er å få ballen flest ganger inn i motstanderlagets mål. Idretten utøves på en rektangulær bane med ett mål i hver kortende, og det laget som har fått flest mål når spilletiden er ute, vinner kampen.',
-  },
-  {
-    title: 'Klatring',
-    image: 'https://eu-assets.simpleview-europe.com/lillehammer/imageresizer/?image=%2Fdbimgs%2FLIL-Gallery-TyriliKlatring.jpg&action=WhatsOnFP',
-    description:
-      'Klatring er en aktivitet som innebærer kroppslig bevegelse i bratt terreng, vanligvis i fjell eller i innendørs klatrehaller.',
-  },
-  {
-    title: 'Basketball',
-    image: 'https://cdn.vox-cdn.com/thumbor/ZSH9c_8OQdZXvb25AFmE0G1FTXs=/0x0:4398x2931/920x613/filters:focal(1590x317:2292x1019):format(webp)/cdn.vox-cdn.com/uploads/chorus_image/image/69330596/1316120947.0.jpg',
-    description:
-      'Basketball eller basket er en lagsport der to lag, bestående av fem spillere, prøver å score poeng mot hverandre ved å kaste en ball gjennom en ring. Dette må skje i tråd med reglene som er forhåndsbestemt før spillet starter.',
-  },
-  {
-    title: 'Langrenn',
-    image: 'https://g.acdn.no/obscura/API/dynamic/r1/nadp/tr_2000_2000_s_f/0000/2020/03/03/3423931554/1/original/17039220.jpg?chk=199993',
-    description:
-      'Langrenn er en konkurranseidrett utviklet fra skigåing. Langrenn utøves på to hovedmåter, klassisk stil og fristil. Når en løper går klassisk, følger skiene et spor, og som regel legges det festesmurning under skiene for at de ikke så lett skal gli når de skyves bakover for fremdrift.',
-  },
-];
-
+import { Box, InputLabel, MenuItem, NativeSelect, Typography } from "@mui/material";
 
 export default function Matches() {
 
+  const [matches, setMatches] = useState([]);
   const [groups, setGroups] = useState([]);
+  const [group, setGroup] = useState("");
 
   const groupsCollectionReference = collection(db, "groups");
-  var arr = [];
+
+  const handleDropdownChange = (event) => {
+    setGroup(event.target.value);
+
+    updateMatches(event.target.value);
+  };
 
   useEffect(() => {
-    const getGroups = async () => {
-      const dd = await getDocs(groupsCollectionReference);
-      dd.docs.map((d) => {
-        if ((d.data().members.includes(auth.currentUser.email)) || (d.data().owner == auth.currentUser.email)) {
-          arr.push(d);
-        }
-      });
-
-      var tempArr = [];
-      arr.map((g) => {
-        g.data().mutualmatches.map((m) => {
-          tempArr.push(m);
-        });
-      });
-
-      const querySnap = await getDocs(query(collection(db, "groups"), where(documentId(), "in", tempArr)));
-      setGroups(querySnap.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    }
-    getGroups();
+    onAuthStateChanged(auth, (currentUser) => {
+      updateGroups();
+    });
   }, []);
 
 
+  const updateMatches = async (groupId) => {
+    if (groupId == null) {
+      return;
+    }
 
-  const classes = useStyles();
+    try {
+      const snap = await getDoc(doc(db, "groups", groupId));
+
+      const tempArr = snap.data().mutualmatches;
+  
+      const querySnap = await getDocs(query(collection(db, "groups"), where(documentId(), "in", tempArr)));
+      setMatches(querySnap.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  
+    } catch (error) {
+      setMatches([]);
+    }
+  }
+
+
+  const updateGroups = async () => {
+    const ownedGroups = query(groupsCollectionReference, where("owner", "==", auth.currentUser.email));
+    const ownedSnapshot = await getDocs(ownedGroups);
+
+    const joinedGroups = query(groupsCollectionReference, where("members", "array-contains", auth.currentUser.email));
+    const joinedSnapshot = await getDocs(joinedGroups);
+
+    const tempGroups = [];
+
+    ownedSnapshot.forEach((doc) => {
+      tempGroups.push({ ...doc.data(), id: doc.id });
+    })
+
+    joinedSnapshot.forEach((doc) => {
+      tempGroups.push({ ...doc.data(), id: doc.id });
+    })
+
+    setGroups(tempGroups);
+  }
+
+
   return (
-    <><div className="matches">
-      <div className="t">
-        <h1 className="title">YOUR MATCHES</h1>
-      </div>
-      <div className="container">
-        <CardList groups={groups} />
-        {/*
-    <Grid container spacing = {5} className={classes.gridContainer}>
-      {groups.map((card, i) => {
-            return (
-              <Grid key={i} item>
-                <Card {...card} />
-              </Grid>
-            );
-          })}
-    </Grid>
-        */}
-      </div>
-    </div></>
+    <>
+      <div className="matches">
+        <div className="t">
+          <h1 className="title">Your Matches</h1>
+        </div>
 
+        <Box sx={{minWidth: 120}} >
+          <FormControl xs={6}>
+            <InputLabel variant="standard" htmlFor="dropdown">
+              Group
+            </InputLabel>
+            <NativeSelect
+              defaultValue={30}
+              inputProps={{
+                name: 'age',
+                id: 'dropdown',
+              }}
+              value={group}
+              onChange={handleDropdownChange}
+            >
+              <option id= {"Dropdown: none"}value = {""}>None</option>
+              {groups.map((doc) => (
+                <option id={`Dropdown: ${doc.groupName}`} value={doc.id}>{doc.groupName}</option>
+              ))}
+            </NativeSelect>
+          </FormControl>
+        </Box>
+
+        <div className="container">
+          {
+            matches.length < 1 && <Typography>No matches found.</Typography>
+          }
+          <CardList groups={matches} />
+        </div>
+      </div>
+    </>
   );
 }
-
