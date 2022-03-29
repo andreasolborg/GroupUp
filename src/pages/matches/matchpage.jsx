@@ -192,8 +192,8 @@ export default function Matchpage() {
                     </Grid>
                 </Grid>
                 <div >
-                    <h2 id="regMatch">{displayedGroup.regMatch ? "Already matched" : ""}</h2>
-                    <h2 id="goldMatch"> {displayedGroup.goldMatch ? "Already matched with gold" : ""} </h2>
+                    <h2 id="regMatch">{displayedGroup.regMatch ? "Match request sent" : ""}</h2>
+                    <h2 id="goldMatch"> {displayedGroup.goldMatch ? "Gold match request sent" : ""} </h2>
                 </div>
                 <div id="matchcard">
                     <Button style={{ size: 'large' }} id="muibutton" variant="contained" onClick={nextGroup}>Next group</Button>

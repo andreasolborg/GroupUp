@@ -159,23 +159,23 @@ export default function User() {
     const [url, setUrl] = useState("");
 
     useEffect(() => {
-        const getStandardImage = () => {
-            console.log("standardImageLoader invoked");
-            const pathRef = ref(storage, "/profile/groupPic.jpeg");
-            getDownloadURL(pathRef).then((url) => {
-                setUrl(url);
-                setImageFlag((c) => (c++));
-            });
-        }
-        getStandardImage();
+        onAuthStateChanged(auth, (currentUser) => {
+            try {
+                regularImageLoader();
+            } catch (error) {
+                getStandardImage();
+            }
+        });
     }, []);
 
-    useEffect(() => {
-        onAuthStateChanged(auth, (currentUser) => {
-            regularImageLoader();
+    const getStandardImage = () => {
+        console.log("standardImageLoader invoked");
+        const pathRef = ref(storage, "/profile/groupPic.jpeg");
+        getDownloadURL(pathRef).then((url) => {
+            setUrl(url);
+            setImageFlag((c) => (c++));
         });
-    }, [imageFlag]);
-
+    }
 
     const regularImageLoader = () => {
         console.log("regularImageLoader invoked");
