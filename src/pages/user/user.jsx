@@ -2,17 +2,14 @@ import { useState, useEffect } from "react";
 import React from "react";
 import "./user.css";
 import Button from "@mui/material/Button";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { auth, storage } from "../../firebase-config";
 import { db } from "../../firestore";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs, updateDoc, doc, deleteDoc, arrayRemove, where, query } from 'firebase/firestore'
 import { useNavigate } from "react-router-dom";
 import TextField from '@material-ui/core/TextField';
-import Navbar from "../../components/navbar";
 import Avatar from '@mui/material/Avatar'
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-
 
 export default function User() {
 
@@ -24,45 +21,6 @@ export default function User() {
     const [interests, setInterests] = useState([]);
     const [interest, setInterest] = useState("");
 
-    const [open, setOpen] = useState(false);
-
-    const handleClick = () => {
-        setOpen(true);
-    };
-
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        setOpen(false);
-    };
-
-
-    /**
-     * Hook for loading the list of profiles from firebase.
-     * Currently not in use?
-     */
-
-    /*
-    useEffect(() => {
-        const getProfiles = async () => {
-          const data = await getDocs(profileCollectionReference);
-          setProfiles(data.docs.map((doc) => ({...doc.data(), id: doc.id})))
-        };
-        getProfiles();
-      }, []); 
-      */
-
-    /*
-    const getProfiles = async () => {
-        const data = await getDocs(profileCollectionReference);
-        setProfiles(data.docs.map((doc) => ({...doc.data(), id: doc.id})))
-        data.forEach((t) => {
-            console.log(t.id);
-            console.log(t.data());
-            console.log(t.data().testAge);
-        })
-      }; */
 
     const getUserInfo = async (currentUser) => {
         const data = await getDocs(profileCollectionReference);
@@ -80,29 +38,36 @@ export default function User() {
 
     function addInterest() {
         if (!interests.includes(interest) && interest.trim().length != 0) {
-            setInterests(interests => [...interests, interest]);
+            const newInterests = [...interests, interest]
+            setInterests(newInterests);
+            updateFirebaseInterests(newInterests);
         }
     }
 
+
     function removeInterest() {
-        let tempList = [...interests];
-        const index = tempList.indexOf(interest);
+        let newInterests = [...interests];
+        const index = newInterests.indexOf(interest);
         if (index < 0) {
             return;
         }
-        tempList.splice(index, 1);
-        setInterests(tempList);
+        newInterests.splice(index, 1);
+        setInterests(newInterests);
+        updateFirebaseInterests(newInterests);
     }
+
+    const updateFirebaseInterests = async (interests) => {
+        const userRef = doc(db, "profile", user.email);
+
+        await updateDoc(userRef, {
+            interest: interests
+        });
+    }
+
 
     useEffect(() => {
         onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
-
-            if (!currentUser) {
-                console.log(auth.currentUser);
-                nav("/");
-            }
-
             getUserInfo(currentUser);
         });
     }, []);
@@ -188,84 +153,81 @@ export default function User() {
     }
 
 
+    //IMAGE START HERE
+    const [imageFlag, setImageFlag] = useState(0);
     const [image, setImage] = useState(null);
-    const [url, setUrl] = useState(null);
-    const [imageName, setImageName] = useState("");
-    
-
+    const [url, setUrl] = useState("");
 
     useEffect(() => {
-        const getPicture = async () => {
-            const imageRef = ref(storage, imageName);
-            getDownloadURL(imageRef).then((url) => {
-                setUrl(url);
-            });
-        }
-        getPicture();
-        setImageName("/profile/" + user.email + "ProfileImage");
-    }); 
+        onAuthStateChanged(auth, (currentUser) => {
+            try {
+                regularImageLoader();
+            } catch (error) {
+                getStandardImage();
+            }
+        });
+    }, []);
 
+    const getStandardImage = () => {
+        console.log("standardImageLoader invoked");
+        const pathRef = ref(storage, "/profile/groupPic.jpeg");
+        getDownloadURL(pathRef).then((url) => {
+            setUrl(url);
+            setImageFlag((c) => (c++));
+        });
+    }
 
-    const handleImageChange = (e) => {
-        if (e.target.files[0]) {
-            setImage(e.target.files[0]);    
-        }
-    };
+    const regularImageLoader = () => {
+        console.log("regularImageLoader invoked");
+        const pathReference = ref(storage, "/profile/" + auth.currentUser.email);
+        getDownloadURL(pathReference).then((url) => {
+            //insert url into img tag in html
+            setUrl(url);
+        }).catch((error) => {
+            switch (error.code) {
+                case 'storage/object-not-found':
+                    break;
+                case 'storage/unauthorized':
+                    break;
+                case 'storage/canceled':
+                    break;
+                case 'storage/unknown':
+                    break;
+            }
+        });
+    }
 
-    const handleSubmit = () => {
-        const imageRef = ref(storage, imageName);
-
-        uploadBytes(imageRef, image)
-            .then(() => {
-                getDownloadURL(imageRef)
-                    .then((url) => {
-                        setUrl(url);
-                    })
-                    .catch((error) => {
-                        console.log(error.message, "error getting the image url");
-                    });
-                setImage(null);
-            })
-            .catch((error) => {
-                console.log(error.message);
-            });
-        console.log(url);
-        console.log(setUrl);
-    };
-
-
+    //////
     const uploadProfileImage = () => {
         var input = document.createElement('input');
         input.type = 'file';
         input.click();
         input.onchange = e => {
-            handleImageChange(e);
+            if (e.target.files[0]) {
+                setImage(e.target.files[0]);
+                const metadata = {
+                    contentType: 'image/jpeg',
+                };
+                const storageRef = ref(storage, "/profile/" + auth.currentUser.email);
+                uploadBytes(storageRef, e.target.files[0], metadata);
+            }
         }
 
     }
 
+    //IMAGE ENDS HERE
 
 
     return (
-        <><Navbar className="navbar"></Navbar>
+        <>
             <div className="user">
-                <div className="top-part">
-                    <h1 className="username">{name}</h1>
+
+                <h1 className="username"> {name} </h1>
+                <div id="av">
+                    <Avatar id="ava" onClick={uploadProfileImage} src={url} sx={{ width: 150, height: 150 }} />
                 </div>
 
 
-
-
-                <Avatar onClick={uploadProfileImage} src={url} sx={{ width: 150, height: 150 }} />
-                {/*<input type="file" onChange={handleImageChange} />*/}
-                <button onClick={handleSubmit}>Upload Image</button>
-
-
-                {/*                 <AccountCircleIcon
-                    className="avatar"
-                    sx={{ width: 86, height: 86 }}
-                ></AccountCircleIcon>
- */}
                 <div>
                     <Button variant="contained" id="btnLogOut" onClick={goToGroups}>
                         All groups
@@ -280,18 +242,18 @@ export default function User() {
                         Create group
                     </Button>
                 </div>
+
                 <div className="interests">
                     <h3>My Interests:</h3>
                     <div className="myInterests">
                         {interests.map((item) => (
-                            <p>{item}</p>
+                            <p key={`Interest: ${item}`}>{item}</p>
                         ))}
                     </div>
                     <h3>Change interest:</h3>
                     <div className="newInterest">
                         <div>
-                            <p>Interest:</p>
-                            <TextField i
+                            <TextField
                                 d="filled-basic"
                                 label="f.eks. fotball"
                                 variant="filled"
@@ -309,13 +271,18 @@ export default function User() {
                     </Button>
                 </div>
 
+
                 <Button variant="contained" id="btnLogOut" onClick={logout}>
                     Log out
                 </Button>
+
+
                 <Button variant="contained" id="btnLogOut" onClick={deleteUser}>
                     Delete User
                 </Button>
 
-            </div></>
+            </div>
+
+        </>
     );
 };

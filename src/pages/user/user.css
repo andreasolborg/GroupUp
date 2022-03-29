@@ -1,16 +1,18 @@
 body{
     background-color:#EDEDED;
+    margin: 0%;
 }
 
 .user{
     background-color: #FCFDFD;
-    margin: 0% 15%;
+    box-shadow: 1px 3px 5px rgba(0,0,0,0.2);
+    margin: 2% 15% 2%;
+    border-radius: 5px;
     align-items: center;
     justify-content: center;
     text-align: center;
     font-family: 'Archivo', sans-serif;
     color: black;
-    
 }
 
 h1{
@@ -19,22 +21,24 @@ h1{
     
 }
 
-.top-part{
-    border-radius: 10%;
-    background-color: #FCFDFD;
-}
-
 .username{
-    border-radius: 10%;
-    text-align: center;
     padding:2% 0% 0% 0%;
 }
 
 .avatar{
     padding: 0% 0%;
     display:block;
+    text-align: center;
+}
+
+#ava{
     align-items: center;
     justify-content: center;
+    text-align: center;
+    margin: 0 auto;
+}
+#av {
+    align-items: center;
     text-align: center;
 }
 
@@ -55,15 +59,15 @@ h1{
     display: inline;
 }
 #btnSend{
-    background-color: #DDEEF5;
+    background-color: #c6d7dd;;
     padding: 1%;
-margin: 3%;
-height: 3%;
-color: black;
+    margin: 3%;
+    height: 3%;
+    color: black;
 
 }
 #btnLogOut{
-    background-color: #DDEEF5;
+    background-color: #c6d7dd;;
     margin: 3%;
     color: black;
 }

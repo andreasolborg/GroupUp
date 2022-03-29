@@ -6,9 +6,9 @@ export default function Gender() {
             <FormControl>
                 <FormLabel>Gender</FormLabel>
                 <RadioGroup name="gender" required row autoComplete="sex">
-                    <FormControlLabel value="Male" control={<Radio required={ true }/>} label="Male" />
-                    <FormControlLabel value="Female" control={<Radio required={ true }/>} label="Female" />
-                    <FormControlLabel value="Other" control={<Radio required={ true }/>} label="Other" />
+                    <FormControlLabel value="Male" control={<Radio required={true} />} label="Male" />
+                    <FormControlLabel value="Female" control={<Radio required={true} />} label="Female" />
+                    <FormControlLabel value="Other" control={<Radio required={true} />} label="Other" />
                 </RadioGroup>
             </FormControl>
         </Grid>

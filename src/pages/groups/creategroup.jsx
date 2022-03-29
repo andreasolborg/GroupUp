@@ -9,6 +9,7 @@ import { signOut, onAuthStateChanged, deleteUser } from "firebase/auth";
 import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, arrayRemove, arrayUnion, where } from 'firebase/firestore'
 import { useNavigate } from "react-router-dom";
 import TextField from '@material-ui/core/TextField';
+import TextareaAutosize from '@mui/material/TextareaAutosize';
 import "./creategroup.css";
 import PopUp from "../../components/popup";
 import Navbar from "../../components/navbar";
@@ -16,12 +17,12 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
 
-import DateTimePicker from 'react-datetime-picker';
+import DateTimePicker from '@mui/lab/DateTimePicker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
 export default function CreateGroup() {
-    
+
     const [user, setUser] = useState({});
     const navi = useNavigate();
     const [open, setOpen] = useState(false);
@@ -29,13 +30,13 @@ export default function CreateGroup() {
     const handleClick = () => {
         setOpen(true);
     };
-    
+
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
             return;
-          }
+        }
         setOpen(false);
-      };
+    };
 
     const [errorGroupName, setErrorGroupName] = useState(false);
     const [errorInterest, setErrorInterest] = useState(false);
@@ -69,7 +70,7 @@ export default function CreateGroup() {
         const membersArray = document.getElementById("enterFriendInput").value.split(", ");
 
         if (!checkInputsForValidation()) {
-     
+
             setOpen(true);
             return;
         }
@@ -111,12 +112,12 @@ export default function CreateGroup() {
         }
     }
 
-  
+
     const checkGroupName = () => {
         if (document.getElementById("groupNameInput").value === "") {
             setErrorGroupName(true);
             return false;
-        } 
+        }
         setErrorGroupName(false);
         return true;
     }
@@ -142,21 +143,18 @@ export default function CreateGroup() {
 
     return (
         <div>
-            <Navbar></Navbar>
-            <Button onClick={goBackButton} variant="outlined" className="backBtn">Go Back</Button>
-
             <div className="groupForm">
-                <div><h1>CREATE GROUP</h1></div>
+                <div className="top"><h1>CREATE GROUP</h1></div>
                 <div className="allInputs">
 
                     <TextField error={errorGroupName} placeholder="enter group name*" variant="standard" id="groupNameInput" />
                     <TextField error={errorInterest} placeholder="enter interest*" variant="standard" id="groupInterest" />
                     <TextField placeholder="enter email of friend" variant="standard" id="enterFriendInput" />
                     <TextField error={errorLocation} placeholder="enter a location*" variant="standard" id="locationInput" />
+                    <p style={{ fontFamily: 'Archivo' }}>Meeting time: </p>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DateTimePicker
                             renderInput={(props) => <TextField {...props} />}
-                            label="DateTimePicker"
                             value={dateTime}
                             onChange={(newValue) => {
                                 setDateTime(newValue);
@@ -164,9 +162,11 @@ export default function CreateGroup() {
                             }}
                         />
                     </LocalizationProvider>
-                    <textarea id="des" rows="5" placeholder="Enter a description of your group"/>
-                    <Button onClick={createGroupButton} variant="outlined">Create group</Button>
-                    <PopUp open={open} severity = {"error"} feedbackMessage = {"Missing fields"} handleClose = {handleClose}>
+                    <TextareaAutosize id="des" minRows="5" placeholder="Enter a description of your group" />
+                    <br />
+                    <br />
+                    <Button onClick={createGroupButton} variant="outlined" style={{ backgroundColor: '#c6d7dd', color: 'black' }}>Create group</Button>
+                    <PopUp open={open} severity={"error"} feedbackMessage={"Missing fields"} handleClose={handleClose}>
                     </PopUp>
                 </div>
             </div>

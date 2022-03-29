@@ -3,20 +3,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { auth } from "../../firebase-config";
 import { db } from "../../firestore";
-import { getBottomNavigationUtilityClass } from "@mui/material";
-import Card from "./card";
-import { CardList } from "./cardlist";
 import Button from '@material-ui/core/Button';
-
-import { collection, arrayRemove, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion } from 'firebase/firestore'
-import { ClassNames } from "@emotion/react";
+import { collection, arrayRemove, getDocs, updateDoc, doc, deleteDoc, getDoc, query, where, arrayUnion, documentId } from 'firebase/firestore'
 import "./group.css";
 import Navbar from "../../components/navbar";
-import DateTimePicker from 'react-datetime-picker';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import TextField from '@material-ui/core/TextField';
 import GroupOwnerPanel from "./groupOwnerPanel";
+import { Grid } from "@mui/material";
+import { storage } from "../../firebase-config";
+import { ref, getDownloadURL } from "firebase/storage";
+import GroupRating from "./groupRating";
+import { onAuthStateChanged } from "firebase/auth";
 
 //This page holds information on a particular group. 
 
@@ -46,6 +42,7 @@ export default function Group() {
     const [requests, setRequests] = useState([]);
     const [dateTime, setDateTime] = useState(new Date());
     const [description, setDescription] = useState("");
+    const [golds, setGolds] = useState([]);
 
     const groupRef = doc(db, "groups", id);
 
@@ -57,9 +54,19 @@ export default function Group() {
         const getMembers = async () => {
             const groupDocsnap = await getDoc(groupRef);
 
+            var bool = false;
+            if (groupDocsnap.data().owner == auth.currentUser.email) {
+                bool = true;
+            }
             groupDocsnap.data().members.map((m) => {
                 setMembers((members) => [...members, m]);
+                if (m == auth.currentUser.email) {
+                    bool = true;
+                }
             });
+            if (bool) {
+                document.getElementById("leaveButton").style = "visibility: visible";
+            }
         }
         getMembers();
     }, []);
@@ -98,20 +105,63 @@ export default function Group() {
                 return;
             }
             const groupDocSnap = await getDoc(groupRef);
-            if (groupDocSnap.data().owner === auth.currentUser.email) {
-                setOwner("(You own this group)");
-            } else {
-                setOwner(groupDocSnap.data().owner);
-            }
+
+            setOwner(groupDocSnap.data().owner);
             setLocation(groupDocSnap.data().location);
             setInterest(groupDocSnap.data().interest);
             setGroupName(groupDocSnap.data().groupName);
             setDateTime(new Date(groupDocSnap.data().datetime.seconds * 1000));
             setDescription(groupDocSnap.data().description);
+
+            const queryOnGolds = query(collection(db, "groups"), where(documentId(), "in", groupDocSnap.data().goldmatches));
+            const qogSnapshot = await getDocs(queryOnGolds);
+            setGolds(qogSnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
         };
         getOwner();
     }, []);
 
+    //IMAGE STARTS HERE   
+
+    const [imageFlag, setImageFlag] = useState(0);
+    const [url, setUrl] = useState("");
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (currentUser) => {
+            imageLoader();
+        })
+    }, []);
+
+
+    const imageLoader = () => {
+        console.log("regularImageLoader invoked");
+        const pathReference = ref(storage, "/group/" + id);
+        var temp = "";
+        getDownloadURL(pathReference).then((url) => {
+            //insert url into img tag in html
+            setUrl(url);
+        }).catch((error) => {
+            getStandardImage();
+            switch (error.code) {
+                case 'storage/object-not-found':
+                    break;
+                case 'storage/unauthorized':
+                    break;
+                case 'storage/canceled':
+                    break;
+                case 'storage/unknown':
+                    break;
+            }
+        });
+    }
+
+    const getStandardImage = () => {
+        console.log("standardImageLoader invoked");
+        const pathRef = ref(storage, "/group/zlatan.jpeg");
+        getDownloadURL(pathRef).then((url) => {
+            setUrl(url);
+            setImageFlag((c) => (c++));
+        });
+    }
 
     /**
      * navigates back to the user-page with useNavigate()
@@ -264,90 +314,75 @@ export default function Group() {
         navi("/matchpage/" + id);
     }
 
+    const contactButton = () => {
+        window.confirm("E-Mail of owner: " + owner);
+    }
+
     // <Button onClick={getAdminElements} variant="contained">Admin</Button>
 
     return (
-        <div id="parent">
-            <div>
-                <Navbar></Navbar>
-                <div id="regular">
-                    <h1>{groupName}</h1>
-                    <h2>Owner: {owner}</h2>
-                    <div id="desc">
-                        <p>{description}</p>
+        <div id="outerDiv">
+            <div className="groupPage" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <div className="groupBox" >
+                    <img id="banner" src={url} />
+                    <div className="blueSplitBar">
+                        <Button id='contactButton' style={{ float: "right", marginRight: "2%" }} className="obsButton" variant="contained" onClick={() => contactButton()}>Contact</Button>
                     </div>
-                    <h2>Interest: {interest}</h2>
-                    <h2>Location: {location}</h2>
-                    <h2>Date and time: {dateTime.toUTCString()}</h2>
-                    <h2>Members:</h2>
-                    <div>
-                        {members.map((m) => (
-                            <div className="membersList">
-                                <p>{m}</p>
+                    <Grid container>
+                        <Grid item xs={6}>
+                            <div className="information" >
+                                <h1 style={{ marginTop: 0 }}>{groupName}</h1>
+                                <p style={{ fontSize: 20 }} >
+                                    <b style={{ textDecoration: 'underline' }}>Interest:</b> {interest}
+                                </p>
+                                <p style={{ fontSize: 20 }}><b style={{ textDecoration: 'underline' }}>Location:</b> {location}</p>
+                                <p style={{ fontSize: 20 }}><b style={{ textDecoration: 'underline' }}>Meeting time: </b> {dateTime.toUTCString()}</p>
+                                <GroupRating groupId={id} />
                             </div>
-                        ))}
-                    </div>
-                    <Button className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <div className="memberBox">
+                                <h2 style={{ fontFamily: 'Archivo', textDecoration: 'underline' }}><b>Members:</b></h2>
+                                <div>
+                                    {members.map((m) => (
+                                        <div className="membersList" key={`Member: ${m}`}>
+                                            <p>{m}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <div style={{ alignItems: 'center', justifyContent: 'center', fontFamily: 'Archivo', margin: 100 }}>
+                                <h2 style={{ fontFamily: 'Archivo', textDecoration: 'underline' }}>Description</h2>
+                                <p>{description}</p>
+                            </div>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Button id='leaveButton' className="obsButton" variant="contained" onClick={() => leaveGroup()}>Leave group</Button>
+                        </Grid>
+                    </Grid>
                 </div>
             </div>
             <div id="showAdmin">
-                <Button variant="contained" onClick={showAdminButton}>Show Admin Priviliges</Button>
+                <Button id='btnID' variant="contained" onClick={showAdminButton}>Show Admin Priviliges</Button>
             </div>
-            <div id="admin">
-                <div className="text">
-                    <Button variant="contained" onClick={hideAdminButton}>Hide Admin Priviliges</Button>
-                    <h2>Gruppeleder</h2>
-                    <p>These functions are hidden for regular members</p>
-                    <Button variant="contained" onClick={goToMatching}>Enter Matching</Button>
-
-                    <div className="update-details">
-                        <h3>Update Group Details</h3>
-                        <input placeholder="Enter a group name" id="groupNameInput" />
-                        <input placeholder="Enter a new interest" id="interestInput" />
-                        <input placeholder="Enter a new location" id="locationInput" />
-                    </div>
-                    <button onClick={updateGroupDetails}>Send</button>
-
-
-                </div>
-                <div className="remove-users">
-                    <h3>Remove users</h3>
-                    <input placeholder="Enter user-mail" id="removeUserInput" />
-                    <button onClick={removeUserButton}>Remove</button>
-                </div>
-                <div className="remove-users">
-                    <h3>Add users</h3>
-                    <input placeholder="Enter user-mail" id="addUserInput" />
-                    <button onClick={addUserButton}>Add</button>
-                </div>
-                <div>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <DateTimePicker
-                            renderInput={(props) => <TextField {...props} />}
-                            label="DateTimePicker"
-                            value={dateTime}
-                            onChange={(newValue) => {
-                                setDateTime(newValue);
-                            }}
-                        />
-                    </LocalizationProvider>
-                    <button onClick={setNewDate}>Send</button>
-                </div>
-
-                <GroupOwnerPanel
-                    hideAdminButton={hideAdminButton}
-                    updateGroupDetails={updateGroupDetails}
-                    removeUserButton={removeUserButton}
-                    setNewDate={setNewDate}
-                    sendNewDescription={sendNewDescription}
-                    requests={requests}
-                    leaveGroup={leaveGroup}
-                    addUserButton={addUserButton}
-                    setDateTime={setDateTime}
-                    dateTime={dateTime}
-                    acceptRequestButton={acceptRequestButton}
-                />
-            </div>
-        </div>
+            <GroupOwnerPanel
+                ownGroupId={id}
+                hideAdminButton={hideAdminButton}
+                enterMatchingButton={goToMatching}
+                updateGroupDetails={updateGroupDetails}
+                removeUserButton={removeUserButton}
+                setNewDate={setNewDate}
+                sendNewDescription={sendNewDescription}
+                goldmatches={golds}
+                requests={requests}
+                leaveGroup={leaveGroup}
+                addUserButton={addUserButton}
+                setDateTime={setDateTime}
+                dateTime={dateTime}
+                acceptRequestButton={acceptRequestButton}
+            />
+        </div >
     )
 }

@@ -18,10 +18,64 @@
 #admin {
     display: none;
     font-family: 'Archivo', sans-serif;
-    border-radius: 15px;
+    border-radius: 5px;
     background-color: #DDEEF5;
     margin: 15px;
     padding-top: 15px;
+    align-items: center;
+}
+
+#outerDiv{
+    align-items: center;
+    text-align: center;
+}
+
+.blueSplitBar{
+    padding-bottom: 3%;
+    background-color: #DDEEF5;
+    height: 20px;
+    max-width: 100%;
+}
+
+#banner {
+    border-radius: 5px 5px 0px 0px;
+    height: 400px;
+    display: flex;
+    overflow:'hidden';
+    width: 100%;
+    padding-bottom: 0%;
+ /*dette fiksa at bildet fløyt utenfor*/
+}
+
+.groupPage{
+    align-items: center;
+    margin: 0% 15% 2%; 
+}
+
+.groupBox{
+    background-color: white;
+    margin-top: 2%;
+    border-radius: 5px;
+    width: 100%;
+    justify-content: center;
+    box-shadow: 1px 3px 5px rgba(0,0,0,0.2);
+    
+}
+
+.information{
+    font-family: 'Archivo';
+    padding-top: 10%;
+    
+}
+
+.memberBox{
+    background-color: #DDEEF5;
+    border-radius: 5px;
+    margin-top: 10%;
+    margin-left: 4%;
+    margin-right: 4%;
+    padding: 2%;
+    box-shadow: 1px 3px 5px rgba(0,0,0,0.2);
 }
 
 #des-container {
@@ -29,6 +83,8 @@
     margin-right: 10px;
     margin-left: 10px;
 }
+
+
 
 #des {
     font-family: 'Archivo', sans-serif;
@@ -69,15 +125,35 @@
 }
 
 .obsButton {
-    margin: 20px;
 }
 
 .remove-users {
     margin: 25px;
 }
 
+
 #btnID {
     background-color: #c6d7dd;
     color: black;
    margin: 10px;
+}
+
+#leaveButton{
+    background-color: #c6d7dd;
+    color: black;
+    margin: 10px;
+    visibility: hidden;
+    top: 60%;
+    left: 34%;
+}
+
+#contactButton {
+    background-color: #c6d7dd;
+    color: black;
+   margin: 10px;
+}
+
+#goldmatchElement{
+    display: inline;
+
 }

@@ -3,8 +3,8 @@ import { useState } from "react";
 import { isStrongPassword } from "./signupValidation";
 
 
-export default function Passwords( {error, setError, confirmError, setConfirmError} ) {
-    
+export default function Passwords({ error, setError, confirmError, setConfirmError }) {
+
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -13,7 +13,7 @@ export default function Passwords( {error, setError, confirmError, setConfirmErr
         setPassword(pass);
         setError(!isStrongPassword(pass));
 
-        setConfirmError(! (pass == confirmPassword));
+        setConfirmError(!(pass == confirmPassword));
     }
 
     const updateConfirmPassword = (e) => {
@@ -33,10 +33,10 @@ export default function Passwords( {error, setError, confirmError, setConfirmErr
                     type="password"
                     id="password"
                     autoComplete="new-password"
-                    value={ password }
-                    onChange={ updatePassword }
-                    error = { error }
-                    helperText={ error ? "Password must have at least 3 numbers and 3 letters" : "" }
+                    value={password}
+                    onChange={updatePassword}
+                    error={error}
+                    helperText={error ? "Password must have at least 3 numbers and 3 letters" : ""}
                 />
             </Grid>
             <Grid item xs={12}>
@@ -48,10 +48,10 @@ export default function Passwords( {error, setError, confirmError, setConfirmErr
                     type="password"
                     id="confirmPassword"
                     autoComplete="new-password"
-                    value = { confirmPassword }
-                    onChange={ updateConfirmPassword }
-                    error = { confirmError }
-                    helperText={ confirmError ? "Confirmation password must be same as password" : ""}
+                    value={confirmPassword}
+                    onChange={updateConfirmPassword}
+                    error={confirmError}
+                    helperText={confirmError ? "Confirmation password must be same as password" : ""}
                 />
             </Grid>
         </>

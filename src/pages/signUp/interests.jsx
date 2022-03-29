@@ -8,7 +8,7 @@ import InterestList from './interestList';
 
 
 export default function Interests({ interests, setInterests, error, setError }) {
-    
+
     const [interest, setInterest] = useState("");
 
     function handleInterestTextChange(e) {
@@ -32,17 +32,17 @@ export default function Interests({ interests, setInterests, error, setError }) 
                 id="interest"
                 InputProps={{
                     endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton edge="end" color="primary" onClick={addInterest}>
-                            <AddIcon/>
-                        </IconButton>
-                      </InputAdornment>
+                        <InputAdornment position="end">
+                            <IconButton edge="end" color="primary" onClick={addInterest}>
+                                <AddIcon />
+                            </IconButton>
+                        </InputAdornment>
                     ),
-                  }}
+                }}
                 value={interest}
                 onChange={handleInterestTextChange}
-                error = { error }
-                helperText = { error ? "You need at least one interest" : "" }
+                error={error}
+                helperText={error ? "You need at least one interest" : ""}
             />
 
             <List
@@ -55,8 +55,8 @@ export default function Interests({ interests, setInterests, error, setError }) 
                     maxHeight: 300,
                     '& ul': { padding: 0 },
                 }}
-                subheader={<li/>}
-                >
+                subheader={<li />}
+            >
                 <InterestList interests={interests}></InterestList>
             </List>
         </Grid>
