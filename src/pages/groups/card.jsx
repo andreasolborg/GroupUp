@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { auth } from "../../firebase-config";
 import { db } from "../../firestore";
 import { collection, arrayRemove, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, getDocFromServer, query, where, arrayUnion } from 'firebase/firestore'
-import { getBottomNavigationUtilityClass } from "@mui/material";
+import { CircularProgress, getBottomNavigationUtilityClass } from "@mui/material";
 import { CardList } from "./cardlist";
 import Button from '@material-ui/core/Button';
 import "./card.css";
@@ -139,27 +139,29 @@ export const MediaCard = (props) => {
                         // Unknown error occurred, inspect the server response
                         break;
                 }
-            
-            });
-}
 
-loadImage();
+            });
+        }
+
+        loadImage();
     }, []);
 
-const getStandardImage = () => {
-    const pathRef = ref(storage, "/group/zlatan.jpeg");
-    getDownloadURL(pathRef).then((url) => {
-        setUrl(url);
-    });
-}
+    const getStandardImage = () => {
+        const pathRef = ref(storage, "/group/zlatan.jpeg");
+        getDownloadURL(pathRef).then((url) => {
+            setUrl(url);
+        });
+    }
 
 
 
-return (
-    <div>
-        <Card className={classes.root}>
-            <CardActionArea>
-                <CardMedia className={classes.media} image={url} />
+    return (
+        <div>
+            <Card className={classes.root}>
+                <CardActionArea>
+                    {
+                        url ? <CardMedia className={classes.media} image={url} /> : <CircularProgress />
+                    }
                     <CardContent className={classes.content}>
                         <Typography gutterBottom variant="h5" component="h2">
                             {props.group.groupName}
@@ -171,7 +173,7 @@ return (
                             {props.group.location}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
-                            {new Date(props.group.datetime.seconds*1000).toUTCString()}
+                            {new Date(props.group.datetime.seconds * 1000).toUTCString()}
                         </Typography>
                     </CardContent>
                 </CardActionArea>

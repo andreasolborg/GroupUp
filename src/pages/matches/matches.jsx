@@ -67,32 +67,30 @@ export default function Matches() {
 
   return (
     <>
-      <Box sx={{ minWidth: 120 }}>
-        <FormControl>
-          <InputLabel id="dropdownLabel">Group</InputLabel>
-          <Select
-            labelId="dropdownLabel"
-            id="dropdown"
-            value={group}
-            label="Group"
-            onChange={handleDropdownChange}
-          >
-            {groups.map((doc) => (
-                <MenuItem value={doc.id}>{doc.groupName}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Box>
       <div className="matches">
         <div className="t">
           <h1 className="title">Your Matches</h1>
         </div>
         <div className="container">
-
+          <Box sx={{ minWidth: 120 }}>
+            <FormControl>
+              <InputLabel id="dropdownLabel">Group</InputLabel>
+              <Select
+                labelId="dropdownLabel"
+                id="dropdown"
+                value={group}
+                label="Group"
+                onChange={handleDropdownChange}
+              >
+                {groups.map((doc) => (
+                  <MenuItem value={doc.id}>{doc.groupName}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
           <CardList groups={matches} />
         </div>
       </div>
     </>
   );
 }
-
