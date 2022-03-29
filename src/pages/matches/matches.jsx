@@ -74,7 +74,7 @@ export default function Matches() {
     <>
       <div className="matches">
         <div className="t">
-          <h1 className="title">Your Matches</h1>
+          <h1 className="title">YOUR MATCHES</h1>
         </div>
 
         <Box sx={{minWidth: 120}} >
