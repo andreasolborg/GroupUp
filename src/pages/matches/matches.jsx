@@ -7,7 +7,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs, query, where, documentId, getDoc, doc } from 'firebase/firestore';
 import CardList from "../groups/cardlist";
 import "./matches.css";
-import { Box, InputLabel, MenuItem } from "@mui/material";
+import { Box, InputLabel, MenuItem, NativeSelect, Typography } from "@mui/material";
 
 export default function Matches() {
 
@@ -35,12 +35,17 @@ export default function Matches() {
       return;
     }
 
-    const snap = await getDoc(doc(db, "groups", groupId));
+    try {
+      const snap = await getDoc(doc(db, "groups", groupId));
 
-    const tempArr = snap.data().mutualmatches;
-
-    const querySnap = await getDocs(query(collection(db, "groups"), where(documentId(), "in", tempArr)));
-    setMatches(querySnap.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      const tempArr = snap.data().mutualmatches;
+  
+      const querySnap = await getDocs(query(collection(db, "groups"), where(documentId(), "in", tempArr)));
+      setMatches(querySnap.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  
+    } catch (error) {
+      setMatches([]);
+    }
   }
 
 
@@ -71,23 +76,33 @@ export default function Matches() {
         <div className="t">
           <h1 className="title">Your Matches</h1>
         </div>
+
+        <Box sx={{minWidth: 120}} >
+          <FormControl xs={6}>
+            <InputLabel variant="standard" htmlFor="dropdown">
+              Group
+            </InputLabel>
+            <NativeSelect
+              defaultValue={30}
+              inputProps={{
+                name: 'age',
+                id: 'dropdown',
+              }}
+              value={group}
+              onChange={handleDropdownChange}
+            >
+              <option id= {"Dropdown: none"}value = {""}>None</option>
+              {groups.map((doc) => (
+                <option id={`Dropdown: ${doc.groupName}`} value={doc.id}>{doc.groupName}</option>
+              ))}
+            </NativeSelect>
+          </FormControl>
+        </Box>
+
         <div className="container">
-          <Box sx={{ minWidth: 120 }}>
-            <FormControl>
-              <InputLabel id="dropdownLabel">Group</InputLabel>
-              <Select
-                labelId="dropdownLabel"
-                id="dropdown"
-                value={group}
-                label="Group"
-                onChange={handleDropdownChange}
-              >
-                {groups.map((doc) => (
-                  <MenuItem value={doc.id}>{doc.groupName}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Box>
+          {
+            matches.length < 1 && <Typography>No matches found.</Typography>
+          }
           <CardList groups={matches} />
         </div>
       </div>

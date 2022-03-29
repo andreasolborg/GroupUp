@@ -7,7 +7,7 @@ import { updateDoc, doc, arrayUnion } from 'firebase/firestore'
 import { CircularProgress } from "@mui/material";
 import Button from '@material-ui/core/Button';
 import "./card.css";
-import { makeStyles } from "@material-ui/core";
+import { CardActionArea, makeStyles } from "@material-ui/core";
 import PopUp from "../../components/popup";
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -133,23 +133,25 @@ export const MediaCard = (props) => {
 
     return (
         <Card className={classes.root}>
-            {
-                url ? <CardMedia className={classes.media} image={url} /> : <CircularProgress />
-            }
-            <CardContent >
-                <Typography gutterBottom variant="h5" component="h2">
-                    {props.group.groupName}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                    {props.group.interest}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                    {props.group.location}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                    {new Date(props.group.datetime.seconds * 1000).toUTCString()}
-                </Typography>
-            </CardContent>
+            <CardActionArea>
+                {
+                    url ? <CardMedia className={classes.media} image={url} /> : <CircularProgress />
+                }
+                <CardContent >
+                    <Typography gutterBottom variant="h5" component="h2">
+                        {props.group.groupName}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p">
+                        {props.group.interest}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p">
+                        {props.group.location}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p">
+                        {new Date(props.group.datetime.seconds * 1000).toUTCString()}
+                    </Typography>
+                </CardContent>
+            </CardActionArea>
             <CardActions>
                 <Button id="visitGroupButton" onClick={() => { enterGroup(props.group.id) }} variant="outlined">Visit group</Button>
                 <Button id="requestButton" onClick={() => { requestToJoin() }} variant="outlined">Request to join group</Button>
