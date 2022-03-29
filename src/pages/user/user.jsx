@@ -194,9 +194,7 @@ export default function User() {
                 case 'storage/unknown':
                     break;
             }
-
         });
-
     }
 
     //////

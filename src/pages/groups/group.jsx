@@ -12,6 +12,7 @@ import { Grid } from "@mui/material";
 import { storage } from "../../firebase-config";
 import { ref, getDownloadURL } from "firebase/storage";
 import GroupRating from "./groupRating";
+import { onAuthStateChanged } from "firebase/auth";
 
 //This page holds information on a particular group. 
 
@@ -119,49 +120,51 @@ export default function Group() {
         getOwner();
     }, []);
 
-   //IMAGE STARTS HERE   
- 
-   const [imageFlag, setImageFlag] = useState(0);
+    //IMAGE STARTS HERE   
+
+    const [imageFlag, setImageFlag] = useState(0);
     const [url, setUrl] = useState("");
 
-   useEffect(() => {
-       const getStandardImage = () => {
-           console.log("standardImageLoader invoked");
-           const pathRef = ref(storage, "/group/zlatan.jpeg");
-           getDownloadURL(pathRef).then((url) => {
-               setUrl(url);
-               setImageFlag((c) => (c++));
-           });
-       } 
-       getStandardImage();
-   }, []); 
-   
-       useEffect(() => {
-           const regularImageLoader = () => { 
-               console.log("regularImageLoader invoked");
-               const pathReference = ref(storage, "/group/" + id);
-               var temp = "";
-               getDownloadURL(pathReference).then((url) => {
-                   //insert url into img tag in html
-                   setUrl(url);
-               }).catch((error) => {
-                   switch (error.code) {
-                       case 'storage/object-not-found':
-                           break;
-                       case 'storage/unauthorized':
-                           break;
-                       case 'storage/canceled':
-                           break;
-                       case 'storage/unknown':
-                           break;
-                   }
-   
-               });
-   
-           }
-           regularImageLoader();
-       }, [imageFlag]);
-   
+    useEffect(() => {
+        onAuthStateChanged(auth, (currentUser) => {
+            try {
+                regularImageLoader();    
+            } catch (error) {
+                getStandardImage();
+            }
+        })
+    }, []);
+
+
+    const regularImageLoader = () => {
+        console.log("regularImageLoader invoked");
+        const pathReference = ref(storage, "/group/" + id);
+        var temp = "";
+        getDownloadURL(pathReference).then((url) => {
+            //insert url into img tag in html
+            setUrl(url);
+        }).catch((error) => {
+            switch (error.code) {
+                case 'storage/object-not-found':
+                    break;
+                case 'storage/unauthorized':
+                    break;
+                case 'storage/canceled':
+                    break;
+                case 'storage/unknown':
+                    break;
+            }
+        });
+    }
+
+    const getStandardImage = () => {
+        console.log("standardImageLoader invoked");
+        const pathRef = ref(storage, "/group/zlatan.jpeg");
+        getDownloadURL(pathRef).then((url) => {
+            setUrl(url);
+            setImageFlag((c) => (c++));
+        });
+    }
 
     /**
      * navigates back to the user-page with useNavigate()
@@ -326,7 +329,7 @@ export default function Group() {
                 <div className="groupBox" >
                     <img id="banner" src={url} />
                     <div className="blueSplitBar">
-                    <Button id='contactButton' style={{float: "right", marginRight: "2%"}} className="obsButton" variant="contained" onClick={() => contactButton()}>Contact</Button>
+                        <Button id='contactButton' style={{ float: "right", marginRight: "2%" }} className="obsButton" variant="contained" onClick={() => contactButton()}>Contact</Button>
                     </div>
                     <Grid container>
                         <Grid item xs={6}>
