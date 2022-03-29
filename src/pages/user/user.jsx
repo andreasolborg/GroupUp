@@ -153,68 +153,71 @@ export default function User() {
     }
 
 
-   //IMAGE START HERE
-   const [imageFlag, setImageFlag] = useState(0);
-   const [image, setImage] = useState(null);
-   const [url, setUrl] = useState("");
+    //IMAGE START HERE
+    const [imageFlag, setImageFlag] = useState(0);
+    const [image, setImage] = useState(null);
+    const [url, setUrl] = useState("");
 
-   useEffect(() => {
-   const getStandardImage = () => {
-       console.log("standardImageLoader invoked");
-       const pathRef = ref(storage, "/profile/groupPic.jpeg");
-       getDownloadURL(pathRef).then((url) => {
-           setUrl(url);
-           setImageFlag((c) => (c++));
-       });
-   }
-   getStandardImage();
-}, []);
+    useEffect(() => {
+        const getStandardImage = () => {
+            console.log("standardImageLoader invoked");
+            const pathRef = ref(storage, "/profile/groupPic.jpeg");
+            getDownloadURL(pathRef).then((url) => {
+                setUrl(url);
+                setImageFlag((c) => (c++));
+            });
+        }
+        getStandardImage();
+    }, []);
 
-   useEffect(() => {
-       const regularImageLoader = () => { 
-           console.log("regularImageLoader invoked");
-           const pathReference = ref(storage, "/profile/" + auth.currentUser.email);
-           getDownloadURL(pathReference).then((url) => {
-               //insert url into img tag in html
-               setUrl(url);
-           }).catch((error) => {
-               switch (error.code) {
-                   case 'storage/object-not-found':
-                       break;
-                   case 'storage/unauthorized':
-                       break;
-                   case 'storage/canceled':
-                       break;
-                   case 'storage/unknown':
-                       break;
-               }
+    useEffect(() => {
+        onAuthStateChanged(auth, (currentUser) => {
+            regularImageLoader();
+        });
+    }, [imageFlag]);
 
-           });
 
-       }
-       regularImageLoader();
-   }, [imageFlag]);
+    const regularImageLoader = () => {
+        console.log("regularImageLoader invoked");
+        const pathReference = ref(storage, "/profile/" + auth.currentUser.email);
+        getDownloadURL(pathReference).then((url) => {
+            //insert url into img tag in html
+            setUrl(url);
+        }).catch((error) => {
+            switch (error.code) {
+                case 'storage/object-not-found':
+                    break;
+                case 'storage/unauthorized':
+                    break;
+                case 'storage/canceled':
+                    break;
+                case 'storage/unknown':
+                    break;
+            }
 
-   //////
+        });
 
-   const uploadProfileImage = () => {
-       var input = document.createElement('input');
-       input.type = 'file';
-       input.click();
-       input.onchange = e => {
-           if (e.target.files[0]) {
-               setImage(e.target.files[0]);
-               const metadata = {
-                   contentType: 'image/jpeg',
-                 };
-               const storageRef = ref(storage, "/profile/"+auth.currentUser.email);
-               uploadBytes(storageRef, e.target.files[0], metadata);
-           }
-       }
-      
-   }
+    }
 
-   //IMAGE ENDS HERE
+    //////
+    const uploadProfileImage = () => {
+        var input = document.createElement('input');
+        input.type = 'file';
+        input.click();
+        input.onchange = e => {
+            if (e.target.files[0]) {
+                setImage(e.target.files[0]);
+                const metadata = {
+                    contentType: 'image/jpeg',
+                };
+                const storageRef = ref(storage, "/profile/" + auth.currentUser.email);
+                uploadBytes(storageRef, e.target.files[0], metadata);
+            }
+        }
+
+    }
+
+    //IMAGE ENDS HERE
 
 
     return (
@@ -281,7 +284,7 @@ export default function User() {
                 </Button>
 
             </div>
-            
+
         </>
     );
 };
