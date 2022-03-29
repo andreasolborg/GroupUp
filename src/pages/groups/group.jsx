@@ -127,16 +127,12 @@ export default function Group() {
 
     useEffect(() => {
         onAuthStateChanged(auth, (currentUser) => {
-            try {
-                regularImageLoader();    
-            } catch (error) {
-                getStandardImage();
-            }
+            imageLoader();
         })
     }, []);
 
 
-    const regularImageLoader = () => {
+    const imageLoader = () => {
         console.log("regularImageLoader invoked");
         const pathReference = ref(storage, "/group/" + id);
         var temp = "";
@@ -144,6 +140,7 @@ export default function Group() {
             //insert url into img tag in html
             setUrl(url);
         }).catch((error) => {
+            getStandardImage();
             switch (error.code) {
                 case 'storage/object-not-found':
                     break;
