@@ -25,19 +25,21 @@ export default function MyGroups() {
     }
 
     useEffect(() => {
-        const getGroups = async () => {
-            const queryJoinedGroups = query(groupsCollectionReference, where("members", "array-contains", auth.currentUser.email));
-            const snapshotJoinedGroups = await getDocs(queryJoinedGroups);
-
-            const queryOwnedGroups = query(groupsCollectionReference, where("owner", "==", auth.currentUser.email));
-            const snapshotOwnedGroups = await getDocs(queryOwnedGroups);
-
-            setJoinedGroups(snapshotJoinedGroups.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-            setOwnedGroups(snapshotOwnedGroups.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-        };
-        getGroups();
+        onAuthStateChanged(auth, (currentUser) => {
+            getGroups();
+        })
     }, []);
 
+    const getGroups = async () => {
+        const queryJoinedGroups = query(groupsCollectionReference, where("members", "array-contains", auth.currentUser.email));
+        const snapshotJoinedGroups = await getDocs(queryJoinedGroups);
+
+        const queryOwnedGroups = query(groupsCollectionReference, where("owner", "==", auth.currentUser.email));
+        const snapshotOwnedGroups = await getDocs(queryOwnedGroups);
+
+        setJoinedGroups(snapshotJoinedGroups.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+        setOwnedGroups(snapshotOwnedGroups.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
 
     return (
         <div>

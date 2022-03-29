@@ -133,7 +133,7 @@ export const MediaCard = (props) => {
 
     return (
         <Card className={classes.root}>
-            <CardActionArea>
+            <CardActionArea onClick={() => { enterGroup(props.group.id) }}>
                 {
                     url ? <CardMedia className={classes.media} image={url} /> : <CircularProgress />
                 }
