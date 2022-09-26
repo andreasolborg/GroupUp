@@ -1,1 +1,1 @@
-# The firebase back-end service has unfortunately expired, so the functionality is very limited
+# The firebase back-end service has unfortunately expired, therefore the functionality is very limited
